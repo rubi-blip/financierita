@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Plataforma de Analisis Financiero - FCM Financierita</title>
+    <style>
+        :root {
+            --azul-carcasa: #162d4e;
+            --dorado-mate: #f1b233;
+            --beige-pantalla: #e7e6d4;
+            --fondo-oscuro: #121824;
+            --tarjeta-gris: #1e2640;
+            --texto-claro: #f4f6fa;
+        }
+
+        body {
+            background-color: var(--fondo-oscuro);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--texto-claro);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Encabezado Corporativo de la Plataforma */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--tarjeta-gris);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 26px;
+            letter-spacing: 1px;
+            color: var(--dorado-mate);
+        }
+
+        .status-badge {
+            background-color: #22c55e;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* Distribución del Dashboard Completo */
+        .dashboard-grid {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+            height: calc(100% - 80px);
+        }
+
+        /* Panel Izquierdo: Formularios de Entrada TVM */
+        .panel-lateral {
+            flex: 1;
+            background-color: var(--tarjeta-gris);
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .panel-lateral h2 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+            color: var(--dorado-mate);
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            color: #a0aec0;
+        }
+
+        .input-group input, .input-group select {
+            background-color: var(--fondo-oscuro);
+            border: 1px solid #4a5568;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--dorado-mate);
+        }
+
+        /* Contenedor Central: Tu modelo de calculadora física */
+        .modulo-central {
+            width: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .calculadora-hardware {
+            width: 340px;
+            height: 415px;
+            position: relative;
+            background-image: url('fondo.bmp');
+            background-size: 100% 100%;
+            border-radius: 14px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        #pantalla {
+            position: absolute;
+            left: 42px;
+            top: 64px;
+            width: 255px;
+            height: 35px;
+            background: transparent;
+            border: none;
+            text-align: right;
+            line-height: 32px;
+            font-size: 27px;
+            font-weight: bold;
+            color: #000;
+            padding-right: 5px;
+            box-sizing: border-box;
+        }
+
+        .boton-virtual {
+            position: absolute;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .boton-virtual:active {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+        }
+
+        /* Panel Derecho: Historial y Fórmulas del Profesor */
+        .panel-derecho {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sub-panel {
+            background-color: var(--tarjeta-gris);
+            border-radius: 12px;
+            padding: 15px;
+            flex: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            overflow-y: auto;
+        }
+
+        .historial-lista {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .historial-item {
+            background-color: var(--fondo-oscuro);
+            padding: 10px;
+            border-left: 4px solid var(--dorado-mate);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .formula-box {
+            background-color: var(--fondo-oscuro);
+            padding: 10px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #38bdf8;
+            margin-top: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>FCM FINANCIERITA v2.0</h1>
+        <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
+    </div>
+    <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
+</header>
+
+<div class="dashboard-grid">
+    
+    <!-- PANEL IZQUIERDO: HOJA DE TRABAJO TVM COMPLETA -->
+    <div class="panel-lateral">
+        <h2>Hoja de Trabajo TVM</h2>
+        <p style="font-size: 12px; color: #a0aec0; margin: 0;">Rellene los datos. Deje en 0 el campo que el sistema deba despejar.</p>
+        
+        <div class="input-group">
+            <label>Capital Inicial (PV)</label>
+            <input type="number" id="txtCapital" value="0">
+        </div>
+        <div class="input-group">
+            <label>Tasa de Interés Anual (I/Y %)</label>
+            <input type="number" id="txtTasa" value="0">
+        </div>
+        <div class="input-group">
+            <label>Frecuencia de Capitalización</label>
+            <select id="cboCapitalizacion">
+                <option value="1">Anual</option>
+                <option value="2">Semestral</option>
+                <option value="4">Trimestral</option>
+                <option value="12">Mensual</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Tiempo (Valor N)</label>
+            <input type="number" id="txtTiempo" value="0">
+        </div>
+        <div class="input-group">
+            <label>Unidad del Tiempo ingresado</label>
+            <select id="cboUnidadTiempo">
+                <option value="1">Años</option>
+                <option value="12">Meses</option>
+                <option value="52">Semanas</option>
+                <option value="360">Días</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Monto Final Acumulado (S)</label>
+            <input type="number" id="txtMonto" value="0">
+        </div>
+    </div>
+
+    <div class="modulo-central">
+        <h2 style="font-size: 14px; color: #a0aec0; margin-bottom: 10px; text-transform: uppercase;">CALCULADORA TRADICIONAL</h2>
+        <div class="calculadora-hardware">
+            <div id="pantalla">0</div>
+
+            <!-- Fila 1 -->
+            <button class="boton-virtual" style="left: 34px; top: 124px; width: 58px; height: 38px;" onclick="presionar('7')"></button>
+            <button class="boton-virtual" style="left: 106px; top: 124px; width: 58px; height: 38px;" onclick="presionar('8')"></button>
+            <button class="boton-virtual" style="left: 176px; top: 124px; width: 58px; height: 38px;" onclick="presionar('9')"></button>
+            <button class="boton-virtual" style="left: 248px; top: 124px; width: 58px; height: 38px;" onclick="presionar('/')"></button>
+            <!-- Fila 2 -->
+            <button class="boton-virtual" style="left: 34px; top: 176px; width: 58px; height: 38px;" onclick="presionar('4')"></button>
+            <button class="boton-virtual" style="left: 106px; top: 177px; width: 58px; height: 38px;" onclick="presionar('5')"></button>
+            <button class="boton-virtual" style="left: 176px; top: 177px; width: 58px; height: 38px;" onclick="presionar('6')"></button>
+            <button class="boton-virtual" style="left: 248px; top: 177px; width: 58px; height: 38px;" onclick="presionar('*')"></button>
+            <!-- Fila 3 -->
+            <button class="boton-virtual" style="left: 34px; top: 228px; width: 58px; height: 38px;" onclick="presionar('1')"></button>
+            <button class="boton-virtual" style="left: 106px; top: 228px; width: 58px; height: 38px;" onclick="presionar('2')"></button>
+            <button class="boton-virtual" style="left: 176px; top: 228px; width: 58px; height: 38px;" onclick="presionar('3')"></button>
+            <button class="boton-virtual" style="left: 248px; top: 228px; width: 58px; height: 38px;" onclick="presionar('-')"></button>
+            <!-- Fila 4 -->
+            <button class="boton-virtual" style="left: 34px; top: 281px; width: 58px; height: 38px;" onclick="presionar('C')"></button>
+            <button class="boton-virtual" style="left: 106px; top: 281px; width: 58px; height: 38px;" onclick="presionar('0')"></button>
+            <button class="boton-virtual" style="left: 176px; top: 281px; width: 40px; height: 38px;" onclick="presionar('.')"></button>
+            <button class="boton-virtual" style="left: 229px; top: 281px; width: 38px; height: 38px;" onclick="presionar('+')"></button>
+            <button class="boton-virtual" style="left: 270px; top: 281px; width: 38px; height: 38px;" onclick="ejecutarIgual()"></button>
+        </div>
+    </div>    
+    <div class="panel-derecho">
+        <div class="sub-panel">
+            <h2>Guia Teorica del Profesor</h2>
+            <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1;">
+                <strong>Interes Simple Linea Base:</strong>
+                <div class="formula-box">S = PV * (1 + i * n)</div>
+                <p style="margin: 5px 0 10px 0;">Calculo lineal sobre capital estatico.</p>
+                
+                <strong>Interes Compuesto Exponencial:</strong>
+                <div class="formula-box">S = PV * (1 + i)^n</div>
+                <p style="margin: 5px 0 0 0;">Capitalizacion fraccionada y reinversion de utilidades.</p>
+            </div>
+        </div>
+        <div class="sub-panel">
+            <h2>Historial de Auditoria Analitica</h2>
+            <ul class="historial-lista" id="historialLog">
+                <li class="historial-item" style="color: #a0aec0; border-color: #4a5568;">Esperando ejecuciones del operador...</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    let textoAcumulado = "";
+    let primerNumero = 0;
+    let operacion = "";
+    const pantalla = document.getElementById('pantalla');
+    const historialLog = document.getElementById('historialLog');
+    function presionar(tecla) {
+        if (!isNaN(tecla)) {
+            textoAcumulado += tecla;
+            pantalla.innerText = textoAcumulado;
+        }else if (tecla === '.') {
+            if (!textoAcumulado.includes('.')) {
+            textoAcumulado += textoAcumulado === "" ? "0." : ".";
+            pantalla.innerText = textoAcumulado;}
+        }else if (tecla === 'C') {
+            textoAcumulado = "";
+            pantalla.innerText = "0";
+        }else if (['+', '-', '*', '/'].includes(tecla)) {
+            primerNumero = parseFloat(textoAcumulado) || 0;
+            operacion = tecla;
+            textoAcumulado = "";
+            pantalla.innerText = "0";
+        }
+    }
+    function ejecutarIgual() {
+        if (operacion === "" || textoAcumulado === "") return;
+        let segundoNumero = parseFloat(textoAcumulado) || 0;
+        let resultado = 0;
+        if (operacion === '+') resultado = primerNumero + segundoNumero;
+        if (operacion === '-') resultado = primerNumero - segundoNumero;
+        if (operacion === '*') resultado = primerNumero * segundoNumero;
+        if (operacion === '/') {
+            if (segundoNumero === 0) {alert("Error matemático detectado.");}
+            resultado = primerNumero / segundoNumero;
+        }
+        textoAcumulado = String(Number(resultado.toFixed(6)));
+        pantalla.innerText = textoAcumulado;
+    }
+    function calcularEstrategia(tipo) {
+        ejecutarIgual();
+            
+        let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
+        let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
+        let m_tasa = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
+        let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
+        let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
+        let monto = parseFloat(document.getElementById('txtMonto').value) || 0;
+            
+        let i = (tasa / 100) / m_tasa;
+        let tiempoEnAnos = tiempo / k_tiempo;
+            
+        let n = tiempoEnAnos * m_tasa;
+        let incognita = "";
+        let valorCalculado = 0;
+            
+        if (tipo === 'simple') {
+            if (monto === 0) { 
+                monto = cap * (1 + (i * n)); 
+                incognita = "Monto (S)"; 
+                valorCalculado = monto; 
+            }else if (cap === 0) { 
+                cap = monto / (1 + (i * n)); 
+                incognita = "Capital (PV)"; 
+                valorCalculado = cap; 
+            }else if (tasa === 0) { 
+                tasa = (((monto / cap) - 1) / n) * m_tasa * 100; 
+                incognita = "Tasa (I/Y)"; 
+                valorCalculado = tasa; 
+            }else if (tiempo === 0) { 
+                tiempo = (((monto / cap) - 1) / i) / m_tasa * k_tiempo; 
+                incognita = "Tiempo (N)"; 
+                valorCalculado = tiempo; 
+            }
+        }else {
+            if (monto === 0) { 
+                monto = cap * Math.pow((1 + i), n); 
+                incognita = "Monto (S)"; 
+                valorCalculado = monto; 
+            }else if (cap === 0) { 
+                cap = monto / Math.pow((1 + i), n); 
+                incognita = "Capital (PV)"; 
+                valorCalculado = cap; 
+            }else if (tasa === 0) { 
+                tasa = (Math.pow((monto / cap), (1 / n)) - 1) * m_tasa * 100;
+                incognita = "Tasa (I/Y)"; 
+                valorCalculado = tasa; 
+            }else if (tiempo === 0) { 
+                tiempo = (Math.log(monto / cap) / Math.log(1 + i)) / m_tasa * k_tiempo;
+                incognita = "Tiempo (N)"; 
+                valorCalculado = tiempo; 
+            }
+        }
+        // Actualizar el valor en la pantalla beige de tu hardware
+        pantalla.innerText = Number(valorCalculado.toFixed(2));
+        // Sincronizar las casillas para que se llenen solas
+        document.getElementById('txtMonto').value = monto.toFixed(2);
+        document.getElementById('txtCapital').value = cap.toFixed(2);
+        document.getElementById('txtTasa').value = tasa.toFixed(2);
+        document.getElementById('txtTiempo').value = tiempo.toFixed(2);
+        // Agregar al registro de auditoría derecho
+        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+        let nuevoItem = document.createElement('li');
+        nuevoItem.className = "historial-item";
+        nuevoItem.innerHTML = `<strong>[${tipo.toUpperCase()}]</strong> Se resolvió <strong>${incognita}</strong> obteniendo un valor de <strong>${valorCalculado.toFixed(2)}</strong>.`;
+        historialLog.insertBefore(nuevoItem, historialLog.firstChild);
+    }
+</script>
+</body>
+</html>
