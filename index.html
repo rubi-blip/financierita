@@ -217,6 +217,37 @@
             50% { opacity: 0.3; } /* Baja la opacidad suavemente a la mitad */
             100% { opacity: 1; }  /* Vuelve a su brillo total */
         }
+        /* ==================================================================== */
+        /* ESTILOS PARA LA SUBVENTANITA FLOTANTE (MODAL OBSERVACIONES) */
+        /* ==================================================================== --> */
+        .modal-fondo-pantalla {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(18, 24, 36, 0.7); /* Oscurece el fondo */
+            backdrop-filter: blur(8px);               /* Efecto esmerilado premium */
+            display: none;                            /* Arranca oculta por defecto */
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;                            /* Se posiciona por encima de todo */
+            animation: fundidoSuave 0.3s ease-out;
+        }
+
+        .modal-caja-contenido {
+            width: 420px;
+            max-width: 90%;
+            background-color: rgba(30, 38, 64, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        @keyframes fundidoSuave {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
     </style>
 </head>
 <body>
@@ -231,19 +262,31 @@
 
 <div class="dashboard-grid">
     
-    <!-- ==================================================================== -->
-    <!-- PANEL IZQUIERDO: SUITE FINANCIERA TVM (CORREGIDA Y CERRADA) -->
+        <!-- ==================================================================== -->
+    <!-- PANEL IZQUIERDO: SUITE FINANCIERA CON DOS FORMULARIOS INDEPENDIENTES -->
     <!-- ==================================================================== -->
     <div class="panel-lateral">
         <h2>Hoja de Trabajo TVM</h2>
         <p id="lblEstadoCalculo" style="font-size: 14px; color: #f1b233; margin: -5px 0 5px 0; font-weight: bold; letter-spacing: 0.5px;">
-            Estado: Esperando entrada de variables...
+            Estado: Estado: Interés Compuesto Periódico Activo
         </p>
 
-        <p style="font-size: 12px; color: #a0aec0; margin: 0 0 10px 0;">Rellene los datos. Deje en 0 el campo que el sistema deba despejar.</p>
+        <!-- CONTROL DE PESTAÑAS (TABS) PARA CAMBIAR DE MODO -->
+        <div style="display: flex; gap: 5px; background-color: rgba(18, 24, 36, 0.6); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 5px;">
+            <button id="tabCompuesto" onclick="cambiarPestañaInteres('compuesto')" style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #f1b233; padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+                MODO COMPUESTO
+            </button>
+            <button id="tabSimple" onclick="cambiarPestañaInteres('simple')" style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
+                MODO SIMPLE
+            </button>
+        </div>
 
-        <!-- Contenedor con scroll para resguardar las variables adentro -->
-        <div class="scroll-variables">
+        <p style="font-size: 12px; color: #a0aec0; margin: 0 0 5px 0;">Rellene los datos. Deje en 0 el campo que el sistema deba despejar.</p>
+
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 1: ENTORNO EXCLUSIVO PARA INTERÉS COMPUESTO                 -->
+        <!-- ==================================================================== -->
+        <div id="formCompuesto" class="scroll-variables" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
             <div class="input-group">
                 <label>Capital Inicial (PV)</label>
                 <input type="number" id="txtCapital" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
@@ -282,40 +325,78 @@
             </div>
             <div class="input-group">
                 <label style="color: #38bdf8; font-weight: bold;">Períodos de Capitalización Totales (C/Y)</label>
-                <input type="text" id="txtPeriodosTotales" value="0" readonly 
-                       style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold;">
+                <input type="text" id="txtPeriodosTotales" value="0" readonly style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold;">
             </div>
             <div class="input-group">
-                <label>Interés (I monetario)</label>
-                <input type="number" id="txtInteresMonetario" value="0" onfocus="limpiarCeroInicial(this)" oninput="calcularPeriodosAutomatico()" onblur="restaurarCeroVacio(this)">
+                <label>Interés (I acumulado)</label>
+                <input type="number" id="txtInteresMonetario" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
-                <label>Monto Final Acumulado (S)</label>
-                <input type="number" id="txtMonto" value="0" onfocus="limpiarCeroInicial(this)" oninput="calcularPeriodosAutomatico()" onblur="restaurarCeroVacio(this)">
+                <label>Valor Futuro (FV)</label>
+                <input type="number" id="txtMonto" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
-        </div> <!-- Cierre de la zona de scroll de variables -->
+        </div>
 
-        <!-- Contenedor Horizontal de Botones con tamaño optimizado anti-desborde -->
-        <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 5px;">
-            <div style="display: flex; gap: 6px; width: 100%;">
-                <button onclick="calcularEstrategia('simple')" 
-                        style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #4a5568; padding: 10px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;"
-                        onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
-                    CALCULAR SIMPLE
-                </button>
-                <button onclick="calcularEstrategia('compuesto')" 
-                        style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #4a5568; padding: 10px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;"
-                        onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
-                    CALCULAR COMPUESTO
-                </button>
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 2: ENTORNO NUEVO EXCLUSIVO PARA INTERÉS SIMPLE             -->
+        <!-- ==================================================================== -->
+        <div id="formSimple" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
+            <div class="input-group">
+                <label>Capital Inicial (PV)</label>
+                <input type="number" id="txtCapitalSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
-            <button onclick="limpiarFormularioTVM()" 
-                    style="width: 100%; background-color: #282828; color: #e7e6d4; border: 1px solid #4a5568; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s;"
-                    onmouseover="this.style.borderColor='#e7e6d4'" onmouseout="this.style.borderColor='#4a5568'">
+            <div class="input-group">
+                <label>Tasa de Interés (r %)</label>
+                <input type="number" id="txtTasaSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+          <div class="input-group">
+                <label>Unidad de la Tasa de Interés</label>
+                <select id="cboUnidadTasaSimple">
+                    <option value="1">Anual</option>
+                    <option value="2">Semestral</option>
+                    <option value="4">Trimestral</option>
+                    <option value="6">Bimestral</option>
+                    <option value="12">Mensual</option>
+                    <option value="52">Semanal</option>
+                    <option value="360">Diaria</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Tiempo (t)</label>
+                <input type="number" id="txtTiempoSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+            <div class="input-group">
+                <label>Unidad del Tiempo ingresado</label>
+                <select id="cboUnidadTiempoSimple">
+                    <option value="1">Años</option>
+                    <option value="2">Semestres</option>
+                    <option value="4">Trimestres</option>
+                    <option value="6">Bimestres</option>
+                    <option value="12">Meses</option>
+                    <option value="52">Semanas</option>
+                    <option value="360">Días</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Interés Ganado (I)</label>
+                <input type="number" id="txtInteresSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+            <div class="input-group">
+                <label>Valor Futuro (FV)</label>
+                <input type="number" id="txtMontoSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+        </div>
+
+        <!-- EN LA BASE: BOTONES DE ACCIÓN FIJOS -->
+        <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 5px;">
+            <button onclick="ejecutarCalculoUniversal()" style="width: 100%; background-color: #2c2214; color: #f1b233; border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
+                EJECUTAR CÁLCULO FINANCIERO 
+            </button>
+            <button onclick="limpiarFormularioTVM()" style="width: 100%; background-color: #282828; color: #e7e6d4; border: 1px solid #4a5568; padding: 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#e7e6d4'" onmouseout="this.style.borderColor='#4a5568'">
                 LIMPIAR CAMPOS TVM
             </button>
         </div>
-    </div> <!-- Cierre del panel-lateral -->
+    </div>
 
     <!-- ==================================================================== -->
     <!-- MODULO CENTRAL: TU CALCULADORA FÍSICA Y HERRAMIENTAS DBD/ICONV -->
@@ -350,20 +431,20 @@
         </div>
 
         <!-- ==================================================================== -->
-        <!-- MÓDULOS AVANZADOS FINANCIEROS (DEBAJO DE LA CALCULADORA TRADICIONAL) -->
+        <!-- MÓDULOS AVANZADOS FINANCIEROS (DEBAJO DE LA CALCULADORA)             -->
         <!-- ==================================================================== -->
         <div class="panel-adicional" style="width: 340px; background-color: var(--tarjeta-gris); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-top: 20px; box-sizing: border-box; box-shadow: 0 8px 32px rgba(0,0,0,0.3); display: block; clear: both;">
             <h3 style="margin: 0 0 10px 0; font-size: 15px; color: var(--dorado-mate); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">
                 Módulos Avanzados Financieros
             </h3>
             
-            <!-- Selector Inteligente de Herramienta -->
+            <!-- Selector Inteligente de Módulos -->
             <div class="input-group" style="margin-bottom: 10px;">
                 <label style="font-size: 11px; color: #a0aec0;">Herramienta Activa</label>
                 <select id="selectorModoAvanzado" onchange="conmutarModosAvanzados()" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 13px; width: 100%;">
                     <option value="dbd">Días Entre Fechas (DBD)</option>
                     <option value="iconv">Conversión de Tasas Equivalentes (ICONV)</option>
-                    <option value="tiempomixto">Conversor de Tiempo Mixto (UMMTC)</option> <!-- NUEVA OPCIÓN -->
+                    <option value="tiempomixto">Conversor de Tiempo Mixto Universal</option>
                 </select>
             </div>
 
@@ -380,7 +461,7 @@
                     </div>
                 </div>
                 <button onclick="calcularDiasEntreFechas()" style="width: 100%; background-color: #2c2214; color: var(--dorado-mate); border: 1px solid #4a5568; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;" onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
-                    CALCULAR DÍAS CON VALOR t
+                    CALCULAR DÍAS CON VALOR N / t
                 </button>
             </div>
 
@@ -389,7 +470,7 @@
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Tasa Nominal (J %)</label>
-                        <input type="number" id="txtTasaNominal" value="0" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box;">
+                        <input type="number" id="txtTasaNominal" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Capitalizaciones al Año (m)</label>
@@ -399,12 +480,17 @@
                             <option value="6">Bimestral</option>
                             <option value="12">Mensual</option>
                             <option value="52">Semanal</option>
-                            <option value="360">Diario</option>
+                            <option value="360">Diaria</option>
+                        </select>
+                    </div>
+                </div>
+                <button onclick="calcularTasaEfectivaICONV()" style="width: 100%; background-color: #2c2214; color: #38bdf8; border: 1px solid #4a5568; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;" onmouseover="this.style.borderColor='#38bdf8'" onmouseout="this.style.borderColor='#4a5568'">
+                    CONVERTIR A TASA EFECTIVA (i)
                 </button>
             </div>
+
             <!-- BLOQUE 3: CONVERSOR DE TIEMPO MIXTO UNIVERSAL MULTI-UNIDAD -->
             <div id="bloqueTiempoMixto" style="display: none;">
-                
                 <!-- Primera Unidad Mixta -->
                 <div style="display: flex; gap: 10px; margin-bottom: 8px;">
                     <div class="input-group" style="flex: 1;">
@@ -414,6 +500,7 @@
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Unidad 1</label>
                         <select id="cboUnidadMixta1" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; height: 28px;">
+                            <option value="360">Años</option>
                             <option value="180">Semestres</option>
                             <option value="90">Trimestres</option>
                             <option value="60">Bimestres</option>
@@ -439,9 +526,11 @@
                             <option value="60">Bimestres</option>
                             <option value="90">Trimestres</option>
                             <option value="180">Semestres</option>
+                            <option value="360">Años</option>
                         </select>
                     </div>
                 </div>
+
                 <button onclick="calcularTiempoMixtoAvanzado()" style="width: 100%; background-color: #2c2214; color: #38bdf8; border: 1px solid #4a5568; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;" onmouseover="this.style.borderColor='#38bdf8'" onmouseout="this.style.borderColor='#4a5568'">
                     HOMOGENEIZAR E INYECTAR EN TIEMPO (t)
                 </button>
@@ -449,53 +538,88 @@
         </div>
     </div>
         <!-- ==================================================================== -->
-    <!-- PANEL DERECHO: GUÍA TEÓRICA DE AUDITORÍA Y OBSERVACIONES TÉCNICAS -->
+    <!-- PANEL DERECHO: SUITE DE AUDITORÍA EN ESPEJO CON BOTÓN DE CRITERIOS   -->
     <!-- ==================================================================== -->
     <div class="panel-derecho">
+        
+        <!-- BLOQUE SUPERIOR: GUÍA TEÓRICA DINÁMICA (CAMALEÓN EN ESPEJO) -->
         <div class="sub-panel">
             <h2>Guía Teórica de Auditoría</h2>
-            <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1; display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1;">
                 
-                <div>
-                    <strong style="color: var(--dorado-mate);">Interés Simple Línea Base:</strong>
-                    <div class="formula-box">S = PV * (1 + i * t)</div>
-                    <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Cálculo sobre capital estático (sin reinversión).</p>
-                </div>
-                
-                <div>
-                    <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
-                    <div class="formula-box">S = PV * (1 + i)^ N</div>
-                    <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Capitalización fraccionada y reinversión.</p>
+                <!--  SUB-BLOQUE COMPUESTO: Se muestra por defecto -->
+                <div id="teoriaCompuesto" style="display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
+                        <div class="formula-box">S = PV * (1 + i)^n</div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>n</strong> es el número total de períodos capitalizables fraccionados.</p>
+                    </div>
+                    <div>
+                        <strong style="color: #38bdf8;">Tasa Periódica Fraccionada:</strong>
+                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">i = (I/Y % / 100) / m</div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Calcula el rendimiento exacto por cada ciclo de capitalización.</p>
+                    </div>
                 </div>
 
-                <!-- FÓRMULA OMISA ADICIONAL: TASA FRACCIONADA PERIÓDICA -->
-                <div>
-                    <strong style="color: #38bdf8;">Cálculo de períodos Totales:</strong>
-                    <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">i = (I/Y % / 100) / m</div>
-                    <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Divide la tasa anual entre la frecuencia de capitalización C/Y.</p>
-                </div>
-
-                <!-- SECCIÓN DE OBSERVACIONES TÉCNICAS REQUERIDA -->
-                <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 5px;">
-                    <h3 style="margin: 0 0 8px 0; font-size: 14px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px;">
-                        Observaciones Técnicas
-                    </h3>
-                    <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 5px;">
-                        <li><strong>Base de Financierita:</strong> El sistema opera bajo el estándar de <strong>Año Comercial (Base 360 días)</strong> y meses de 30 días exactos (Método Alemán).</li>
-                        <li><strong>Sincronización Modular:</strong> Los módulos avanzados (DBD, ICONV y Tiempo Mixto) inyectan sus valores de forma directa y automática en la Hoja TVM.</li>
-                        <li><strong>Descomposición Temporal:</strong> Al despejar el Tiempo (t), la pantalla beige ejecuta un algoritmo de residuo fraccionado para desglosar años, meses y días de forma exacta.</li>
-                    </ul>
+                <!-- SUB-BLOQUE SIMPLE: Oculto al inicio, se activa en Modo Simple -->
+                <div id="teoriaSimple" style="display: none; flex-direction: column; gap: 10px;">
+                    <div>
+                        <strong style="color: var(--dorado-mate);">Interés Simple Línea Base:</strong>
+                        <div class="formula-box">S = PV * (1 + i * n)</div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Cálculo proporcional y estático donde el interés no genera utilidades crecientes.</p>
+                    </div>
+                    <div>
+                        <strong style="color: #38bdf8;">Homogeneización Lineal Universal:</strong>
+                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">I = PV * R% * t</div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">El sistema unifica la tasa (r) y el tiempo (t) a base anual antes de operar.</p>
+                    </div>
                 </div>
 
             </div>
         </div>
 
+        <!-- ==================================================================== -->
+        <!-- EL BOTÓN DE EN MEDIO: FILTRO DE OBSERVACIONES FIJAS                -->
+        <!-- ==================================================================== -->
+        <button onclick="abrirModalObservaciones()" 
+                style="width: 100%; background-color: #2c2214; color: var(--dorado-mate); border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"
+                onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
+            VER CRITERIOS DE BASE DE CÓMPUTO
+        </button>
+
+        <!-- BLOQUE INFERIOR: HISTORIAL CRONOLÓGICO DE AUDITORÍA -->
         <div class="sub-panel">
             <h2>Historial de Auditoría Analítica</h2>
             <ul class="historial-lista" id="historialLog">
                 <li class="historial-item" style="color: #cbd5e1; border-color: #4a5568;">Esperando ejecuciones del operador...</li>
             </ul>
         </div>
+    </div>
+</div>
+<!-- ==================================================================== -->
+<!-- INTERFAZ VISUAL DE LA SUBVENTANITA FLOTANTE DE OBSERVACIONES          -->
+<!-- ==================================================================== -->
+<div id="ventanaObservaciones" class="modal-fondo-pantalla">
+    <div class="modal-caja-contenido">
+            
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            Criterios de Base de Cómputo Bancario
+        </h3>
+
+        <ul style="margin: 0 0 20px 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
+            <li><strong>Base Comercial Estándar:</strong> El núcleo matemático de la plataforma computa bajo el estándar de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán).</li>
+            <li><strong>Sincronización Perimetral:</strong> Las herramientas avanzadas (DBD, ICONV y Tiempo Mixto) inyectan sus resoluciones de forma directa sobre las casillas visibles en el panel izquierdo.</li>
+            <li><strong>Descomposición Temporal Automática:</strong> Al despejar plazos fraccionados en el Modo Compuesto, el sistema activa un algoritmo analítico de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> sobre el visor.</li>
+            <li><strong>Portabilidad Absoluta:</strong> La suite está compilada en entorno web nativo (HTML5/JS), garantizando la auditoría de estados financieros desde cualquier monitor o dispositivo móvil.</li>
+        </ul>
+
+        <!-- Botón estético en blanco crema para cerrar la ventana flotante -->
+        <button onclick="cerrarModalObservaciones()" 
+                style="width: 100%; background-color: #282828; color: #e7e6d4; border: 1px solid #4a5568; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 12px;"
+                onmouseover="this.style.borderColor='#e7e6d4'" onmouseout="this.style.borderColor='#4a5568'">
+            CERRAR CRITERIOS ×
+        </button>
+            
     </div>
 </div>
 
@@ -531,7 +655,7 @@
             pantalla.innerText = "0";
         }
     }
-    function ejecutarIgual() {
+    function ejecutarIgual() { //Se mantiene calculadora
         if (operacion === "" || textoAcumulado === "") return;
         let segundoNumero = parseFloat(textoAcumulado) || 0;
         let resultado = 0;
@@ -545,121 +669,148 @@
         textoAcumulado = String(Number(resultado.toFixed(6)));
         pantalla.innerText = textoAcumulado;
     }
-    function limpiarFormularioTVM() {
-        // Devuelve todas las casillas numéricas a su valor base cero
+    function limpiarFormularioTVM() { //Areglado
+        // 1. Resetea a cero todas las casillas del Formulario Compuesto
         document.getElementById('txtCapital').value = "0";
         document.getElementById('txtTasa').value = "0";
         document.getElementById('txtTiempo').value = "0";
         document.getElementById('txtMonto').value = "0";
-        document.getElementById('txtInteresMonetario').value = "0";
-        
-        // Resetea los menús desplegables a la primera opción
+        document.getElementById('txtPeriodosTotales').value = "0";
         document.getElementById('cboCapitalizacion').selectedIndex = 0;
         document.getElementById('cboUnidadTiempo').selectedIndex = 0;
         
-        // Limpia la memoria interna y el visor beige de tu calculadora azul
+        // 2. Resetea a cero todas las casillas del Formulario Simple (¡NUEVO!)
+        document.getElementById('txtCapitalSimple').value = "0";
+        document.getElementById('txtTasaSimple').value = "0";
+        document.getElementById('txtTiempoSimple').value = "0";
+        document.getElementById('txtInteresSimple').value = "0";
+        document.getElementById('txtMontoSimple').value = "0";
+        document.getElementById('cboUnidadTasaSimple').selectedIndex = 0;
+        document.getElementById('cboUnidadTiempoSimple').selectedIndex = 0;
+        
+        // 3. Resetea la memoria de la calculadora tradicional azul
         textoAcumulado = "";
         pantalla.innerText = "0";
         
-        // Genera un pitido sutil de confirmación
-        alert("Hoja de Trabajo TVM restablecida correctamente.");
+        // 4. Restaura el subtítulo dinámico de la izquierda según el modo activo
+        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
+        if (modoInteresActivo === "simple") {
+            etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
+        } else {
+            etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
+        }
     }
-    function limpiarCeroInicial(elemento) {
+    function limpiarCeroInicial(elemento) { //Se mantiene
         // Si el usuario hace clic y la casilla tiene un "0" puro, lo borra al instante
         if (elemento.value === "0") {
             elemento.value = "";
         }
         calcularPeriodosAutomatico(); 
     }
-
-    function restaurarCeroVacio(elemento) {
+    function restaurarCeroVacio(elemento) { //Arreglado
         // Si el usuario hace clic afuera y no escribió nada, le regresa el "0" por seguridad
         if (elemento.value.trim() === "") {
             elemento.value = "0";
         }
-        calcularPeriodosAutomatico();
+        if (modoInteresActivo === "compuesto") {
+            calcularPeriodosAutomatico(); 
+        }
     }
     function calcularDiasEntreFechas() {
         let f1 = document.getElementById('fechaInicial').value;
         let f2 = document.getElementById('fechaFinal').value;
 
-        // Validación de seguridad por si el usuario olvida marcar una fecha
-        if (!f1 || !f2) {
-            alert("Por favor, seleccione ambas fechas para realizar el conteo DBD.");
-            return;
-        }
+        if (!f1 || !f2) { alert("Por favor, seleccione ambas fechas."); return; }
 
-        // Convertimos los textos en objetos de fecha reales en JavaScript
         let date1 = new Date(f1);
         let date2 = new Date(f2);
+        let diasResultado = (date2 - date1) / (1000 * 60 * 60 * 24);
 
-        // Restamos las fechas (obtenemos el resultado en milisegundos absolutos)
-        let diferenciaMilisegundos = date2 - date1;
+        if (diasResultado < 0) { alert("La Fecha Final no puede ser menor."); return; }
 
-        // Convertimos los milisegundos a días netos (1 día = 24h * 60m * 60s * 1000ms)
-        let diasResultado = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+        if (modoInteresActivo === "simple") {
+            document.getElementById('txtTiempoSimple').value = diasResultado;
+            document.getElementById('cboUnidadTiempoSimple').value = "360";
+        } else {
+            document.getElementById('txtTiempo').value = diasResultado;
+            document.getElementById('cboUnidadTiempo').value = "360";
+            calcularPeriodosAutomatico();
+        }
 
-        if (diasResultado < 0) {
-            alert("Aviso: La Fecha Final no puede ser menor a la Fecha Inicial.");
+        pantalla.innerText = diasResultado;
+
+        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+        let nuevoLog = document.createElement('li');
+        nuevoLog.className = "historial-item";
+        nuevoLog.innerHTML = `<strong>[DBD]</strong> Se hallaron <strong>${diasResultado} días calendario</strong>. Sincronizado con la variable de tiempo.`;
+        historialLog.insertBefore(nuevoLog, historialLog.firstChild);
+    }
+   function conmutarModosAvanzados() {
+        let modo = document.getElementById('selectorModoAvanzado').value;
+        document.getElementById('bloqueDBD').style.display = (modo === 'dbd') ? 'block' : 'none';
+        document.getElementById('bloqueICONV').style.display = (modo === 'iconv') ? 'block' : 'none';
+        document.getElementById('bloqueTiempoMixto').style.display = (modo === 'tiempomixto') ? 'block' : 'none';
+    }
+
+    function calcularTiempoMixtoAvanzado() {
+        let cant1 = parseFloat(document.getElementById('txtCantidadMixta1').value) || 0;
+        let cant2 = parseFloat(document.getElementById('txtCantidadMixta2').value) || 0;
+        let factor1 = parseFloat(document.getElementById('cboUnidadMixta1').value) || 1;
+        let factor2 = parseFloat(document.getElementById('cboUnidadMixta2').value) || 1;
+
+        if (cant1 === 0 && cant2 === 0) {
+            alert("Por favor, ingrese un valor válido en las casillas temporales.");
             return;
         }
 
-        // Inyecta el conteo de días en la casilla de tiempo
-        document.getElementById('txtTiempo').value = diasResultado;
-        
-        // Cambia la unidad del tiempo automáticamente a "Días" (cuyo valor interno es 360)
-        document.getElementById('cboUnidadTiempo').value = "360";
+        let diasTotalesCalculados = (cant1 * factor1) + (cant2 * factor2);
 
-        // Ejecuta el refresco automático de períodos totales que ya programamos
-        calcularPeriodosAutomatico();
+        // 🌟 ENRUTADOR DE TIEMPO INTELIGENTE SEGÚN MODO ACTIVO
+        if (modoInteresActivo === "simple") {
+            document.getElementById('txtTiempoSimple').value = diasTotalesCalculados;
+            document.getElementById('cboUnidadTiempoSimple').value = "360"; // Selecciona Días
+        } else {
+            document.getElementById('txtTiempo').value = diasTotalesCalculados;
+            document.getElementById('cboUnidadTiempo').value = "360"; // Selecciona Días
+            calcularPeriodosAutomatico();
+        }
 
-        // Imprime en el visor de tu calculadora el conteo para que brille en grande
-        pantalla.innerText = diasResultado;
+        pantalla.innerText = diasTotalesCalculados;
 
-        // Añadir reporte detallado al historial de auditoría analítica de la derecha
+        let sel1 = document.getElementById('cboUnidadMixta1');
+        let txt1 = sel1.options[sel1.selectedIndex].text;
+        let sel2 = document.getElementById('cboUnidadMixta2');
+        let txt2 = sel2.options[sel2.selectedIndex].text;
+
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoLog = document.createElement('li');
-        nuevoItem.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[DBD]</strong> Conteo de días calendario finalizado: Se hallaron <strong>${diasResultado} días</strong>. Sincronizado con la variable N.`;
+        nuevoLog.className = "historial-item";
+        nuevoLog.innerHTML = `<strong>[TIEMPO MIXTO]</strong> Homogeneización: ${cant1} ${txt1} y ${cant2} ${txt2} equivalen a <strong>${diasTotalesCalculados} días comerciales</strong>. Sincronizado con el TVM.`;
         historialLog.insertBefore(nuevoLog, historialLog.firstChild);
-    }
-    function conmutarModosAvanzados() {
-        let modo = document.getElementById('selectorModoAvanzado').value;
-        if (modo === 'dbd') {
-            document.getElementById('bloqueDBD').style.display = 'block';
-            document.getElementById('bloqueICONV').style.display = 'none';
-        } else {
-            document.getElementById('bloqueDBD').style.display = 'none';
-            document.getElementById('bloqueICONV').style.display = 'block';
-        }
     }
     function calcularTasaEfectivaICONV() {
         let J = parseFloat(document.getElementById('txtTasaNominal').value) || 0;
         let m = parseFloat(document.getElementById('cboCapitalizacionesICONV').value) || 1;
+        if (J === 0) { alert("Ingrese una Tasa Nominal mayor a 0."); return; }
 
-        if (J === 0) {
-            alert("Por favor, ingrese una Tasa Nominal mayor a 0.");
-            return;
+        let porcentajeEfectivo = (Math.pow((1 + ((J / 100) / m)), m) - 1) * 100;
+
+        if (modoInteresActivo === "simple") {
+            document.getElementById('txtTasaSimple').value = porcentajeEfectivo.toFixed(2);
+            document.getElementById('cboUnidadTasaSimple').value = "1"; // Selecciona Anual
+        } else {
+            document.getElementById('txtTasa').value = porcentajeEfectivo.toFixed(2);
         }
 
-        // Aplicación estricta de la fórmula teórica exponencial de tasas equivalentes
-        let tasaFraccionada = (J / 100) / m;
-        let tasaEfectivaAnual = Math.pow((1 + tasaFraccionada), m) - 1;
-        let porcentajeEfectivo = tasaEfectivaAnual * 100;
-
-        document.getElementById('txtTasa').value = porcentajeEfectivo.toFixed(2);
-
-        // Muestra el resultado en letras grandes sobre tu pantalla beige central
         pantalla.innerText = porcentajeEfectivo.toFixed(2) + "%";
 
-        // Reporte para la Auditoría de la derecha
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoLog = document.createElement('li');
         nuevoLog.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[ICONV]</strong> Tasa Nominal del ${J}% capitalizable m=${m} convertida a Tasa Efectiva Anual Equivalente: <strong>${porcentajeEfectivo.toFixed(4)}%</strong>. Sincronizada con el TVM.`;
+        nuevoLog.innerHTML = `<strong>[ICONV]</strong> Tasa Nominal ${J}% m=${m} convertida a Efectiva: <strong>${porcentajeEfectivo.toFixed(4)}%</strong>. Sincronizada.`;
         historialLog.insertBefore(nuevoLog, historialLog.firstChild);
     }
-    function calcularPeriodosAutomatico() {
+    function calcularPeriodosAutomatico() { //
         // 1. Capturamos los valores actuales ingresados por el usuario
         let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
         let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
@@ -670,7 +821,7 @@
         // 3. Imprimimos el resultado formateado en la nueva casilla celeste
         document.getElementById('txtPeriodosTotales').value = Number(periodosTotales.toFixed(2))
     }
-    function calcularTiempoMixtoAvanzado() {
+    function calcularTiempoMixtoAvanzado() { //Se mantiene
         let cant1 = parseFloat(document.getElementById('txtCantidadMixta1').value) || 0;
         let cant2 = parseFloat(document.getElementById('txtCantidadMixta2').value) || 0;
         let factor1 = parseFloat(document.getElementById('cboUnidadMixta1').value) || 1;
@@ -716,94 +867,210 @@
             document.getElementById('bloqueTiempoMixto').style.display = 'block';
         }
     }
-    function calcularEstrategia(tipo) {
-        calcularPeriodosAutomatico(); 
-        ejecutarIgual();
+    function cambiarPestañaInteres(modo) {
+        modoInteresActivo = modo;
         
-        let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
-        let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
-        let m_tasa = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
-        let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
-        let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
-        let intMonetario = parseFloat(document.getElementById('txtInteresMonetario').value) || 0;
-        let monto = parseFloat(document.getElementById('txtMonto').value) || 0;
+        // Elementos del panel izquierdo (Formularios)
+        const tabCompuesto = document.getElementById('tabCompuesto');
+        const tabSimple = document.getElementById('tabSimple');
+        const formCompuesto = document.getElementById('formCompuesto');
+        const formSimple = document.getElementById('formSimple');
+        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
 
-        let i = (tasa / 100) / m_tasa;
-        let tiempoEnAnos = tiempo / k_tiempo;
-        let n = tiempoEnAnos * m_tasa;
+        const teoriaCompuesto = document.getElementById('teoriaCompuesto');
+        const teoriaSimple = document.getElementById('teoriaSimple');
+
+        if (modo === 'simple') {
+            formCompuesto.style.display = 'none';
+            formSimple.style.display = 'flex';
+
+            teoriaCompuesto.style.display = 'none';
+            teoriaSimple.style.display = 'flex';
+
+            // Estilos estéticos de pestañas activas
+            tabSimple.style.backgroundColor = '#2c2214';
+            tabSimple.style.color = '#f1b233';
+            tabSimple.style.borderColor = '#f1b233';
+            tabCompuesto.style.backgroundColor = 'transparent';
+            tabCompuesto.style.color = '#cbd5e1';
+            tabCompuesto.style.borderColor = 'transparent';
+
+            etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
+        } else {
+            formSimple.style.display = 'none';
+            formCompuesto.style.display = 'flex';
+
+            teoriaSimple.style.display = 'none';
+            teoriaCompuesto.style.display = 'flex';
+
+            // Estilos estéticos de pestañas activas
+            tabCompuesto.style.backgroundColor = '#2c2214';
+            tabCompuesto.style.color = '#f1b233';
+            tabCompuesto.style.borderColor = '#f1b233';
+            tabSimple.style.backgroundColor = 'transparent';
+            tabSimple.style.color = '#cbd5e1';
+            tabSimple.style.borderColor = 'transparent';
+
+            etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
+            calcularPeriodosAutomatico();
+        }
+    }
+    // ====================================================================
+    // CONTROLES DE ACTIVACIÓN DE LA SUBVENTANITA FLOTANTE (MODAL)
+    // ====================================================================
+    function abrirModalObservaciones() {
+        // Enciende la ventana flotante y la distribuye de forma centrada
+        document.getElementById('ventanaObservaciones').style.display = 'flex';
+    }
+
+    function cerrarModalObservaciones() {
+        // Apaga la ventana flotante y devuelve el foco completo al Dashboard
+        document.getElementById('ventanaObservaciones').style.display = 'none';
+    }
+
+
+    // ====================================================================
+    // MOTOR DE ENRUTAMIENTO Y CÁLCULO UNIVERSAL (COMPUESTO Y SIMPLE AL 100%)
+    // ====================================================================
+    function ejecutarCalculoUniversal() {
+        ejecutarIgual();
 
         let incognita = "";
         let valorCalculado = 0;
+        const tipo = modoInteresActivo; // 'compuesto' o 'simple'
 
-        if (intMonetario === 0 && monto !== 0 && cap !== 0) {
-            valorCalculado = monto - cap;
-            intMonetario = valorCalculado;
-            incognita = "Interés Monetario (I)";
-        } 
-        // Lógica tradicional si el interés ya existe o se buscan otras variables
-        else if (tipo === 'simple') {
-            if (monto === 0) { monto = cap * (1 + (i * n)); incognita = "Valor Futuro (FV)"; valorCalculado = monto; }
-            else if (cap === 0) { cap = monto / (1 + (i * n)); incognita = "Capital (PV)"; valorCalculado = cap; }
-            else if (tasa === 0) { tasa = (((monto / cap) - 1) / n) * m_tasa * 100; incognita = "Tasa (I/Y)"; valorCalculado = tasa; }
-            else if (tiempo === 0) { tiempo = (((monto / cap) - 1) / i) / m_tasa * k_tiempo; incognita = "Tiempo (t)"; valorCalculado = tiempo; }
+        if (tipo === 'compuesto') {
+            // --- 📦 CAPTURA DE VARIABLES MODO COMPUESTO ---
+            let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
+            let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
+            let m_tasa = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
+            let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
+            let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
+            let intMonetario = parseFloat(document.getElementById('txtInteresMonetario').value) || 0;
+            let monto = parseFloat(document.getElementById('txtMonto').value) || 0;
+
+            let i = (tasa / 100) / m_tasa;
+            let tiempoEnAnos = tiempo / k_tiempo;
+            let n = tiempoEnAnos * m_tasa;
+
+            if (intMonetario === 0 && monto !== 0 && cap !== 0) {
+                valorCalculado = monto - cap; intMonetario = valorCalculado; incognita = "Interés Monetario (I)";
+            } else if (monto === 0) {
+                monto = cap * Math.pow((1 + i), n); incognita = "Valor Futuro (FV)"; valorCalculado = monto;
+            } else if (cap === 0) {
+                cap = monto / Math.pow((1 + i), n); incognita = "Capital (PV)"; valorCalculado = cap;
+            } else if (tasa === 0) {
+                tasa = (Math.pow((monto / cap), (1 / n)) - 1) * m_tasa * 100; incognita = "Tasa (I/Y)"; valorCalculado = tasa;
+            } else if (tiempo === 0) {
+                tiempo = (Math.log(monto / cap) / Math.log(1 + i)) / m_tasa * k_tiempo; incognita = "Tiempo (t)"; valorCalculado = tiempo;
+            }
+
+            if (incognita !== "Interés Monetario (I)") intMonetario = monto - cap;
+
+            document.getElementById('txtMonto').value = monto.toFixed(2);
+            document.getElementById('txtCapital').value = cap.toFixed(2);
+            document.getElementById('txtTasa').value = tasa.toFixed(2);
+            document.getElementById('txtTiempo').value = tiempo.toFixed(2);
+            document.getElementById('txtInteresMonetario').value = intMonetario.toFixed(2);
+
+            if (incognita.includes("Tiempo")) {
+                let tiempoEnAnosBase = valorCalculado / k_tiempo; 
+                let anosEnteros = Math.floor(tiempoEnAnosBase);
+                let residuoAnos = tiempoEnAnosBase - anosEnteros;
+                let mesesExactos = residuoAnos * 12;
+                let mesesEnteros = Math.floor(mesesExactos);
+                let residuoMeses = mesesExactos - mesesEnteros;
+                let diasEnteros = Math.round(residuoMeses * 30); 
+
+                if (diasEnteros >= 30) { diasEnteros = 0; mesesEnteros += 1; }
+                if (mesesEnteros >= 12) { mesesEnteros = 0; anosEnteros += 1; }
+
+                pantalla.innerText = `${anosEnteros}a, ${mesesEnteros}m, ${diasEnteros}d`;
+            } else {
+                pantalla.innerText = Number(valorCalculado.toFixed(2));
+            }
+
         } else {
-            if (monto === 0) { monto = cap * Math.pow((1 + i), n); incognita = "Valor Futuro (FV)"; valorCalculado = monto; }
-            else if (cap === 0) { cap = monto / Math.pow((1 + i), n); incognita = "Capital (PV)"; valorCalculado = cap; }
-            else if (tasa === 0) { tasa = (Math.pow((monto / cap), (1 / n)) - 1) * m_tasa * 100; incognita = "Tasa (I/Y)"; valorCalculado = tasa; }
-            else if (tiempo === 0) { tiempo = (Math.log(monto / cap) / Math.log(1 + i)) / m_tasa * k_tiempo; incognita = "Tiempo (t)"; valorCalculado = tiempo; }
-        }
-        // Si se calculó otra cosa, actualiza el interés monetario real de la operación por consistencia
-        if (incognita !== "Interés Monetario (I)") {
-            intMonetario = monto - cap;
-        }
-        let esTiempo = incognita.toLowerCase().includes("tiempo") || incognita.toLowerCase().includes("(t)") || incognita.toLowerCase().includes("(n)");
+            // --- 📦 CAPTURA DE VARIABLES MODO SIMPLE LINEAL (¡AHORA 100% OPERATIVO!) ---
+            let capS = parseFloat(document.getElementById('txtCapitalSimple').value) || 0;
+            let tasaS = parseFloat(document.getElementById('txtTasaSimple').value) || 0;
+            let m_tasaS = parseFloat(document.getElementById('cboUnidadTasaSimple').value) || 1; // 1=Anual, 2=Semestral, 4=Trimestral, 6=Bimestral, 12=Mensual, 360=Diaria
+            let tiempoS = parseFloat(document.getElementById('txtTiempoSimple').value) || 0;
+            let k_tiempoS = parseFloat(document.getElementById('cboUnidadTiempoSimple').value) || 1; // 1=Anos, 2=Semestres, 4=Trimestres, 6=Bimestres, 12=Meses, 52=Semanas, 360=Dias
+            let intS = parseFloat(document.getElementById('txtInteresSimple').value) || 0;
+            let montoS = parseFloat(document.getElementById('txtMontoSimple').value) || 0;
 
-        if (esTiempo) {
-            let tiempoEnAnosBase = valorCalculado / k_tiempo; 
-            let anosEnteros = Math.floor(tiempoEnAnosBase);
+            // 🎯 PASO 1: Homogeneización Lineal Universal (Pasamos Tasa y Tiempo a Base Anual Comercial)
+            // Si la tasa es mensual (m=12), se multiplica por 12 para hacerla anual.
+            let iS = (tasaS / 100) * m_tasaS; 
+            // El tiempo ingresado se divide entre su divisor correspondiente para pasarlo a años.
+            let nS = tiempoS / k_tiempoS;     
+
+            // 🎯 PASO 2: Despeje Automático de Incógnitas (Si dejas una casilla en 0, el sistema la calcula)
             
-            // Extraemos los meses del residuo decimal
-            let residuoAnos = tiempoEnAnosBase - anosEnteros;
-            let mesesExactos = residuoAnos * 12;
-            let mesesEnteros = Math.floor(mesesExactos);
-            // Extraemos los días comerciales del residuo decimal de meses
-            let residuoMeses = mesesExactos - mesesEnteros;
-            let diasEnteros = Math.round(residuoMeses * 30); // Base comercial de 30 días
-            // Ajuste por si el redondeo de días completa un mes entero
-            if (diasEnteros === 30) {
-                diasEnteros = 0;
-                mesesEnteros += 1;
+            // Caso Especial: Si el Interés Monetario (I) es 0 y tienes Monto y Capital, se halla por simple resta
+            if (intS === 0 && montoS !== 0 && capS !== 0) {
+                valorCalculado = montoS - capS;
+                intS = valorCalculado;
+                incognita = "Interés Ganado (I)";
+            } 
+            // Despejar Monto Final (S = PV * (1 + i * n))
+            else if (montoS === 0) {
+                montoS = capS * (1 + (iS * nS));
+                incognita = "Valor Futuro (FV)";
+                valorCalculado = montoS;
+            } 
+            // Despejar Capital Inicial (PV = S / (1 + i * n))
+            else if (capS === 0) {
+                capS = montoS / (1 + (iS * nS));
+                incognita = "Capital (PV)";
+                valorCalculado = capS;
+            } 
+            // Despejar Tasa de Interés (R % = (((S / PV) - 1) / n) convertido a su unidad original)
+            else if (tasaS === 0) {
+                let tasaAnualCalculada = ((montoS / capS) - 1) / nS;
+                tasaS = (tasaAnualCalculada / m_tasaS) * 100;
+                incognita = "Tasa (R %)";
+                valorCalculado = tasaS;
+            } 
+            // Despejar Tiempo (t = (((S / PV) - 1) / i) convertido a su unidad original)
+            else if (tiempoS === 0) {
+                let tiempoAnualCalculado = ((montoS / capS) - 1) / iS;
+                tiempoS = tiempoAnualCalculado * k_tiempoS;
+                incognita = "Tiempo (t)";
+                valorCalculado = tiempoS;
             }
-            if (mesesEnteros === 12) {
-                mesesEnteros = 0;
-                anosEnteros += 1;
+
+            // Sincronización de consistencia: El interés monetario es siempre Monto menos Capital
+            if (incognita !== "Interés Ganado (I)") {
+                intS = montoS - capS;
             }
-            pantalla.innerText = `${anosEnteros}A - ${mesesEnteros}M - ${diasEnteros}D`;
-            document.getElementById('txtTiempo').value = valorCalculado.toFixed(2);
-        } else {
+
+            // 🎯 PASO 3: Sincronizar y formatear los resultados en el formulario izquierdo
+            document.getElementById('txtMontoSimple').value = montoS.toFixed(2);
+            document.getElementById('txtCapitalSimple').value = capS.toFixed(2);
+            document.getElementById('txtTasaSimple').value = tasaS.toFixed(2);
+            document.getElementById('txtTiempoSimple').value = tiempoS.toFixed(2);
+            document.getElementById('txtInteresSimple').value = intS.toFixed(2);
+
+            // En interés simple el visor beige muestra el número financiero limpio con 2 decimales
             pantalla.innerText = Number(valorCalculado.toFixed(2));
         }
-        
-        // Rellenar automáticamente los campos
-        document.getElementById('txtMonto').value = monto.toFixed(2);
-        document.getElementById('txtCapital').value = cap.toFixed(2);
-        document.getElementById('txtTasa').value = tasa.toFixed(2);
-        document.getElementById('txtTiempo').value = tiempo.toFixed(2);
-        document.getElementById('txtInteresMonetario').value = intMonetario.toFixed(2);
 
-        // Parpadeo del subtítulo dinámico
+        // --- 📊 ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA (COMÚN PARA AMBOS MODOS) ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
         etiquetaEstado.innerText = `Calculando: ${incognita} [Interés ${tipo.toUpperCase()}]`;
         etiquetaEstado.classList.remove('parpadeo-efecto');
         void etiquetaEstado.offsetWidth;
         etiquetaEstado.classList.add('parpadeo-efecto');
 
-        // Registro de Historial
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoItem = document.createElement('li');
         nuevoItem.className = "historial-item";
         nuevoItem.innerHTML = `<strong>[${tipo.toUpperCase()}]</strong> Se resolvió <strong>${incognita}</strong> obteniendo un valor de <strong>${valorCalculado.toFixed(2)}</strong>.`;
         historialLog.insertBefore(nuevoItem, historialLog.firstChild);
+        
+        if (tipo === 'compuesto') calcularPeriodosAutomatico();
     }
 </script>
 </body>
