@@ -254,7 +254,7 @@
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA v2.1</h1>
+        <h1>FCM FINANCIERITA v2.3</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -296,7 +296,7 @@
                 <input type="number" id="txtTasa" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
-                <label>Frecuencia de Capitalización (C/Y)</label>
+                <label>Frecuencia de Capitalización (N)</label>
                 <select id="cboCapitalizacion" onchange="calcularPeriodosAutomatico()">
                     <option value="1">Anual</option>
                     <option value="2">Semestral</option>
@@ -430,7 +430,7 @@
             <button class="boton-virtual" style="left: 254px; top: 291px; width: 44px; height: 40px;" onclick="ejecutarIgual()"></button>
         </div>
 
-        <!-- ==================================================================== -->
+                <!-- ==================================================================== -->
         <!-- MÓDULOS AVANZADOS FINANCIEROS (DEBAJO DE LA CALCULADORA)             -->
         <!-- ==================================================================== -->
         <div class="panel-adicional" style="width: 340px; background-color: var(--tarjeta-gris); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-top: 20px; box-sizing: border-box; box-shadow: 0 8px 32px rgba(0,0,0,0.3); display: block; clear: both;">
@@ -438,7 +438,6 @@
                 Módulos Avanzados Financieros
             </h3>
             
-            <!-- Selector Inteligente de Módulos -->
             <div class="input-group" style="margin-bottom: 10px;">
                 <label style="font-size: 11px; color: #a0aec0;">Herramienta Activa</label>
                 <select id="selectorModoAvanzado" onchange="conmutarModosAvanzados()" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 13px; width: 100%;">
@@ -448,7 +447,7 @@
                 </select>
             </div>
 
-            <!-- BLOQUE 1: HERRAMIENTA DBD (Días entre fechas) -->
+            <!-- BLOQUE 1: DBD -->
             <div id="bloqueDBD">
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <div class="input-group" style="flex: 1;">
@@ -465,33 +464,37 @@
                 </button>
             </div>
 
-            <!-- BLOQUE 2: HERRAMIENTA ICONV (Conversión de Tasas) -->
+            <!-- BLOQUE 2: ICONV BI-DIRECCIONAL -->
             <div id="bloqueICONV" style="display: none;">
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <div class="input-group" style="flex: 1;">
-                        <label style="font-size: 11px; color: #a0aec0;">Tasa Nominal (J %)</label>
-                        <input type="number" id="txtTasaNominal" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box;">
+                        <label style="font-size: 11px; color: #a0aec0;">Tasa de Interés (%)</label>
+                        <input type="number" id="txtTasaMóduloAvanzado" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box;">
                     </div>
                     <div class="input-group" style="flex: 1;">
-                        <label style="font-size: 11px; color: #a0aec0;">Capitalizaciones al Año (m)</label>
+                        <label style="font-size: 11px; color: #a0aec0;">Frecuencia (m / C/Y)</label>
                         <select id="cboCapitalizacionesICONV" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; height: 28px;">
                             <option value="2">Semestral</option>
                             <option value="4">Trimestral</option>
-                            <option value="6">Bimestral</option>
+                            <option value="6">Bimestal</option>
                             <option value="12">Mensual</option>
                             <option value="52">Semanal</option>
                             <option value="360">Diaria</option>
                         </select>
                     </div>
                 </div>
-                <button onclick="calcularTasaEfectivaICONV()" style="width: 100%; background-color: #2c2214; color: #38bdf8; border: 1px solid #4a5568; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;" onmouseover="this.style.borderColor='#38bdf8'" onmouseout="this.style.borderColor='#4a5568'">
-                    CONVERTIR A TASA EFECTIVA (i)
-                </button>
+                <div style="display: flex; gap: 6px; width: 100%;">
+                    <button onclick="calcularTasaEfectivaICONV()" style="flex: 1; background-color: #2c2214; color: #38bdf8; border: 1px solid #4a5568; padding: 8px 4px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 11px;" onmouseover="this.style.borderColor='#38bdf8'" onmouseout="this.style.borderColor='#4a5568'">
+                        NOMINAL - EFECTIVA
+                    </button>
+                    <button onclick="calcularProcesoInversoICONV()" style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #4a5568; padding: 8px 4px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 11px;" onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
+                        EFECTIVA - NOMINAL
+                    </button>
+                </div>
             </div>
 
-            <!-- BLOQUE 3: CONVERSOR DE TIEMPO MIXTO UNIVERSAL MULTI-UNIDAD -->
+            <!-- BLOQUE 3: TIEMPO MIXTO -->
             <div id="bloqueTiempoMixto" style="display: none;">
-                <!-- Primera Unidad Mixta -->
                 <div style="display: flex; gap: 10px; margin-bottom: 8px;">
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Cantidad 1</label>
@@ -500,7 +503,6 @@
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Unidad 1</label>
                         <select id="cboUnidadMixta1" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 5px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; height: 28px;">
-                            <option value="360">Años</option>
                             <option value="180">Semestres</option>
                             <option value="90">Trimestres</option>
                             <option value="60">Bimestres</option>
@@ -510,8 +512,6 @@
                         </select>
                     </div>
                 </div>
-
-                <!-- Segunda Unidad Mixta -->
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <div class="input-group" style="flex: 1;">
                         <label style="font-size: 11px; color: #a0aec0;">Cantidad 2</label>
@@ -526,11 +526,9 @@
                             <option value="60">Bimestres</option>
                             <option value="90">Trimestres</option>
                             <option value="180">Semestres</option>
-                            <option value="360">Años</option>
                         </select>
                     </div>
                 </div>
-
                 <button onclick="calcularTiempoMixtoAvanzado()" style="width: 100%; background-color: #2c2214; color: #38bdf8; border: 1px solid #4a5568; padding: 8px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 13px;" onmouseover="this.style.borderColor='#38bdf8'" onmouseout="this.style.borderColor='#4a5568'">
                     HOMOGENEIZAR E INYECTAR EN TIEMPO (t)
                 </button>
@@ -551,12 +549,12 @@
                 <div id="teoriaCompuesto" style="display: flex; flex-direction: column; gap: 10px;">
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
-                        <div class="formula-box">S = PV * (1 + i)^n</div>
+                        <div class="formula-box">S = PV * (1 + i) ^ C/Y</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>n</strong> es el número total de períodos capitalizables fraccionados.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Tasa Periódica Fraccionada:</strong>
-                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">i = (I/Y % / 100) / m</div>
+                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">i = [ (FV / PV) ^ 1/N ]</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Calcula el rendimiento exacto por cada ciclo de capitalización.</p>
                     </div>
                 </div>
@@ -624,38 +622,47 @@
 </div>
 
 <script>
-    let textoAcumulado = "";
+        let textoAcumulado = "";
     let primerNumero = 0;
     let operacion = "";
+    let modoInteresActivo = "compuesto"; // Estado global inicial de la suite
+
     const pantalla = document.getElementById('pantalla');
     const historialLog = document.getElementById('historialLog');
+
+    // ====================================================================
+    // 🕹️ HARDWARE DE CALCULADORA TRADICIONAL AZUL (INTACTO)
+    // ====================================================================
     function presionar(tecla) {
         let valorActualEnPantalla = pantalla.innerText;
         if (!isNaN(tecla)) {
-        if (valorActualEnPantalla === "0" || textoAcumulado === "" || textoAcumulado === "0") {
-            textoAcumulado = tecla;
-        }else {
-            textoAcumulado += tecla;}
-        pantalla.innerText = textoAcumulado;
-        }else if (tecla === '.') {
-        if (!textoAcumulado.includes('.')) {
-            if (valorActualEnPantalla === "0" || textoAcumulado === "") {
-                textoAcumulado = "0.";
-            }else {
-                textoAcumulado += ".";}
+            if (valorActualEnPantalla === "0" || textoAcumulado === "" || textoAcumulado === "0") {
+                textoAcumulado = tecla;
+            } else {
+                textoAcumulado += tecla;
+            }
             pantalla.innerText = textoAcumulado;
-        }
-        }else if (tecla === 'C') {
+        } else if (tecla === '.') {
+            if (!textoAcumulado.includes('.')) {
+                if (valorActualEnPantalla === "0" || textoAcumulado === "") {
+                    textoAcumulado = "0.";
+                } else {
+                    textoAcumulado += ".";
+                }
+                pantalla.innerText = textoAcumulado;
+            }
+        } else if (tecla === 'C') {
             textoAcumulado = "";
             pantalla.innerText = "0";
-        }else if (['+', '-', '*', '/'].includes(tecla)) {
-            primerNumero = parseFloat(textoAcumulado) || 0;
+        } else if (['+', '-', '*', '/'].includes(tecla)) {
+            primerNumero = parseFloat(valorActualEnPantalla) || 0;
             operacion = tecla;
             textoAcumulado = "";
             pantalla.innerText = "0";
         }
     }
-    function ejecutarIgual() { //Se mantiene calculadora
+
+    function ejecutarIgual() {
         if (operacion === "" || textoAcumulado === "") return;
         let segundoNumero = parseFloat(textoAcumulado) || 0;
         let resultado = 0;
@@ -663,95 +670,159 @@
         if (operacion === '-') resultado = primerNumero - segundoNumero;
         if (operacion === '*') resultado = primerNumero * segundoNumero;
         if (operacion === '/') {
-            if (segundoNumero === 0) {alert("Error matemático detectado.");}
+            if (segundoNumero === 0) { alert("Error matemático detectado."); return; }
             resultado = primerNumero / segundoNumero;
         }
         textoAcumulado = String(Number(resultado.toFixed(6)));
         pantalla.innerText = textoAcumulado;
+        operacion = "";
     }
-    function limpiarFormularioTVM() { //Areglado
-        // 1. Resetea a cero todas las casillas del Formulario Compuesto
-        document.getElementById('txtCapital').value = "0";
-        document.getElementById('txtTasa').value = "0";
-        document.getElementById('txtTiempo').value = "0";
-        document.getElementById('txtMonto').value = "0";
-        document.getElementById('txtPeriodosTotales').value = "0";
-        document.getElementById('cboCapitalizacion').selectedIndex = 0;
-        document.getElementById('cboUnidadTiempo').selectedIndex = 0;
-        
-        // 2. Resetea a cero todas las casillas del Formulario Simple (¡NUEVO!)
-        document.getElementById('txtCapitalSimple').value = "0";
-        document.getElementById('txtTasaSimple').value = "0";
-        document.getElementById('txtTiempoSimple').value = "0";
-        document.getElementById('txtInteresSimple').value = "0";
-        document.getElementById('txtMontoSimple').value = "0";
-        document.getElementById('cboUnidadTasaSimple').selectedIndex = 0;
-        document.getElementById('cboUnidadTiempoSimple').selectedIndex = 0;
-        
-        // 3. Resetea la memoria de la calculadora tradicional azul
-        textoAcumulado = "";
-        pantalla.innerText = "0";
-        
-        // 4. Restaura el subtítulo dinámico de la izquierda según el modo activo
+
+    // ====================================================================
+    // 🛠️ CONTROL DE INTERFAZ CAMALEÓN (PESTAÑAS IZQUIERDA Y ESPEJO DERECHA)
+    // ====================================================================
+    function cambiarPestañaInteres(modo) {
+        modoInteresActivo = modo;
+        const tabCompuesto = document.getElementById('tabCompuesto');
+        const tabSimple = document.getElementById('tabSimple');
+        const formCompuesto = document.getElementById('formCompuesto');
+        const formSimple = document.getElementById('formSimple');
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
-        if (modoInteresActivo === "simple") {
+        const teoriaCompuesto = document.getElementById('teoriaCompuesto');
+        const teoriaSimple = document.getElementById('teoriaSimple');
+
+        if (modo === 'simple') {
+            // Muestra formulario y teoría de Interés Simple
+            formCompuesto.style.display = 'none';
+            formSimple.style.display = 'flex';
+            teoriaCompuesto.style.display = 'none';
+            teoriaSimple.style.display = 'flex';
+
+            // Iluminación activa de la pestaña Simple
+            tabSimple.style.backgroundColor = '#2c2214';
+            tabSimple.style.color = '#f1b233';
+            tabSimple.style.borderColor = '#f1b233';
+            tabCompuesto.style.backgroundColor = 'transparent';
+            tabCompuesto.style.color = '#cbd5e1';
+            tabCompuesto.style.borderColor = 'transparent';
+            
             etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
         } else {
+            // Muestra formulario y teoría de Interés Compuesto
+            formSimple.style.display = 'none';
+            formCompuesto.style.display = 'flex';
+            teoriaSimple.style.display = 'none';
+            teoriaCompuesto.style.display = 'flex';
+
+            // Iluminación activa de la pestaña Compuesto
+            tabCompuesto.style.backgroundColor = '#2c2214';
+            tabCompuesto.style.color = '#f1b233';
+            tabCompuesto.style.borderColor = '#f1b233';
+            tabSimple.style.backgroundColor = 'transparent';
+            tabSimple.style.color = '#cbd5e1';
+            tabSimple.style.borderColor = 'transparent';
+            
             etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
-        }
-    }
-    function limpiarCeroInicial(elemento) { //Se mantiene
-        // Si el usuario hace clic y la casilla tiene un "0" puro, lo borra al instante
-        if (elemento.value === "0") {
-            elemento.value = "";
-        }
-        calcularPeriodosAutomatico(); 
-    }
-    function restaurarCeroVacio(elemento) { //Arreglado
-        // Si el usuario hace clic afuera y no escribió nada, le regresa el "0" por seguridad
-        if (elemento.value.trim() === "") {
-            elemento.value = "0";
-        }
-        if (modoInteresActivo === "compuesto") {
-            calcularPeriodosAutomatico(); 
-        }
-    }
-    function calcularDiasEntreFechas() {
-        let f1 = document.getElementById('fechaInicial').value;
-        let f2 = document.getElementById('fechaFinal').value;
-
-        if (!f1 || !f2) { alert("Por favor, seleccione ambas fechas."); return; }
-
-        let date1 = new Date(f1);
-        let date2 = new Date(f2);
-        let diasResultado = (date2 - date1) / (1000 * 60 * 60 * 24);
-
-        if (diasResultado < 0) { alert("La Fecha Final no puede ser menor."); return; }
-
-        if (modoInteresActivo === "simple") {
-            document.getElementById('txtTiempoSimple').value = diasResultado;
-            document.getElementById('cboUnidadTiempoSimple').value = "360";
-        } else {
-            document.getElementById('txtTiempo').value = diasResultado;
-            document.getElementById('cboUnidadTiempo').value = "360";
             calcularPeriodosAutomatico();
         }
+    }
 
-        pantalla.innerText = diasResultado;
+        // ====================================================================
+    // 🎯 CONTROLADOR MAESTRO DE LA PANTALLA INFERIOR (DBD / ICONV / MIXTO)
+    // ====================================================================
+    function conmutarModosAvanzados() {
+        let modo = document.getElementById('selectorModoAvanzado').value;
+        
+        // Muestra u oculta los bloques correspondientes de forma limpia
+        if(document.getElementById('bloqueDBD')) document.getElementById('bloqueDBD').style.display = (modo === 'dbd') ? 'block' : 'none';
+        if(document.getElementById('bloqueICONV')) document.getElementById('bloqueICONV').style.display = (modo === 'iconv') ? 'block' : 'none';
+        if(document.getElementById('bloqueTiempoMixto')) document.getElementById('bloqueTiempoMixto').style.display = (modo === 'tiempomixto') ? 'block' : 'none';
+    }
+
+    // ====================================================================
+    // 🎯 MOTOR ICONV: PROCESO DIRECTO (DE NOMINAL A EFECTIVA BLINDADO)
+    // ====================================================================
+    function calcularTasaEfectivaICONV() {
+        // 🛡️ DETECTOR UNIVERSAL: Lee la casilla avanzada se llame como se llame (con o sin tilde)
+        let campoTasa = document.getElementById('txtTasaMóduloAvanzado') || 
+                        document.getElementById('txtTasaModuloAvanzado') || 
+                        document.getElementById('txtTasaNominal') ||
+                        document.getElementById('txtTasaSimple') ||
+                        document.getElementById('txtTasa');
+        
+        let J = parseFloat(campoTasa.value) || 0;
+        let m = parseFloat(document.getElementById('cboCapitalizacionesICONV').value) || 1;
+
+        if (J === 0) {
+            alert("Por favor, ingrese un valor de tasa mayor a 0.");
+            return;
+        }
+
+        // Fórmula exponencial directa de capitalización real
+        let porcentajeEfectivo = (Math.pow((1 + ((J / 100) / m)), m) - 1) * 100;
+
+        // Inyecta el resultado de forma inteligente en el formulario que esté visible
+        if (modoInteresActivo === "simple") {
+            if(document.getElementById('txtTasaSimple')) document.getElementById('txtTasaSimple').value = porcentajeEfectivo.toFixed(2);
+        } else {
+            if(document.getElementById('txtTasa')) document.getElementById('txtTasa').value = porcentajeEfectivo.toFixed(2);
+        }
+        
+        // Sincroniza la propia casilla del módulo avanzado para que veas el cambio en vivo
+        campoTasa.value = porcentajeEfectivo.toFixed(2);
+        pantalla.innerText = porcentajeEfectivo.toFixed(2) + "%";
 
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoLog = document.createElement('li');
         nuevoLog.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[DBD]</strong> Se hallaron <strong>${diasResultado} días calendario</strong>. Sincronizado con la variable de tiempo.`;
+        nuevoLog.innerHTML = `<strong>[ICONV DIRECTO]</strong> Tasa Nominal ${J}% m=${m} convertida a Efectiva: <strong>${porcentajeEfectivo.toFixed(4)}%</strong>.`;
         historialLog.insertBefore(nuevoLog, historialLog.firstChild);
     }
-   function conmutarModosAvanzados() {
-        let modo = document.getElementById('selectorModoAvanzado').value;
-        document.getElementById('bloqueDBD').style.display = (modo === 'dbd') ? 'block' : 'none';
-        document.getElementById('bloqueICONV').style.display = (modo === 'iconv') ? 'block' : 'none';
-        document.getElementById('bloqueTiempoMixto').style.display = (modo === 'tiempomixto') ? 'block' : 'none';
+
+    // ====================================================================
+    // 🎯 MOTOR ICONV: PROCESO INVERSO (DE EFECTIVA A NOMINAL EQUIVALENTE BLINDADO)
+    // ====================================================================
+    function calcularProcesoInversoICONV() {
+        // 🛡️ DETECTOR UNIVERSAL: Evita que el botón se congele por choques de tildes
+        let campoTasa = document.getElementById('txtTasaMóduloAvanzado') || 
+                        document.getElementById('txtTasaModuloAvanzado') || 
+                        document.getElementById('txtTasaNominal') ||
+                        document.getElementById('txtTasaSimple') ||
+                        document.getElementById('txtTasa');
+                        
+        let TEA = parseFloat(campoTasa.value) || 0;
+        let m = parseFloat(document.getElementById('cboCapitalizacionesICONV').value) || 1;
+
+        if (TEA === 0) {
+            alert("Por favor, ingrese un valor de tasa mayor a 0.");
+            return;
+        }
+
+        // Fórmula exponencial inversa analítica requerida por el profesor
+        let tasaEfectivaDecimal = TEA / 100;
+        let tasaNominalEquivalente = m * (Math.pow((1 + tasaEfectivaDecimal), (1 / m)) - 1);
+        let porcentajeNominal = tasaNominalEquivalente * 100;
+
+        // Inyecta el resultado en el formulario activo de la izquierda
+        if (modoInteresActivo === "simple") {
+            if(document.getElementById('txtTasaSimple')) document.getElementById('txtTasaSimple').value = porcentajeNominal.toFixed(2);
+        } else {
+            if(document.getElementById('txtTasa')) document.getElementById('txtTasa').value = porcentajeNominal.toFixed(2);
+        }
+        
+        campoTasa.value = porcentajeNominal.toFixed(2);
+        pantalla.innerText = porcentajeNominal.toFixed(2) + "%";
+
+        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+        let nuevoLog = document.createElement('li');
+        nuevoLog.className = "historial-item";
+        nuevoLog.innerHTML = `<strong>[ICONV INVERSO]</strong> Tasa Efectiva ${TEA}% convertida a Nominal Equivalente: <strong>${porcentajeNominal.toFixed(4)}%</strong> m=${m}.`;
+        historialLog.insertBefore(nuevoLog, historialLog.firstChild);
     }
 
+    // ====================================================================
+    // 🎯 MOTOR DE HOMOGENEIZACIÓN DE TIEMPO MIXTO UNIVERSAL SMART
+    // ====================================================================
     function calcularTiempoMixtoAvanzado() {
         let cant1 = parseFloat(document.getElementById('txtCantidadMixta1').value) || 0;
         let cant2 = parseFloat(document.getElementById('txtCantidadMixta2').value) || 0;
@@ -765,174 +836,107 @@
 
         let diasTotalesCalculados = (cant1 * factor1) + (cant2 * factor2);
 
-        // 🌟 ENRUTADOR DE TIEMPO INTELIGENTE SEGÚN MODO ACTIVO
         if (modoInteresActivo === "simple") {
-            document.getElementById('txtTiempoSimple').value = diasTotalesCalculados;
-            document.getElementById('cboUnidadTiempoSimple').value = "360"; // Selecciona Días
+            if(document.getElementById('txtTiempoSimple')) document.getElementById('txtTiempoSimple').value = diasTotalesCalculados;
+            if(document.getElementById('cboUnidadTiempoSimple')) document.getElementById('cboUnidadTiempoSimple').value = "360";
         } else {
-            document.getElementById('txtTiempo').value = diasTotalesCalculados;
-            document.getElementById('cboUnidadTiempo').value = "360"; // Selecciona Días
+            if(document.getElementById('txtTiempo')) document.getElementById('txtTiempo').value = diasTotalesCalculados;
+            if(document.getElementById('cboUnidadTiempo')) document.getElementById('cboUnidadTiempo').value = "360";
             calcularPeriodosAutomatico();
         }
-
         pantalla.innerText = diasTotalesCalculados;
-
-        let sel1 = document.getElementById('cboUnidadMixta1');
-        let txt1 = sel1.options[sel1.selectedIndex].text;
-        let sel2 = document.getElementById('cboUnidadMixta2');
-        let txt2 = sel2.options[sel2.selectedIndex].text;
-
-        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
-        let nuevoLog = document.createElement('li');
-        nuevoLog.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[TIEMPO MIXTO]</strong> Homogeneización: ${cant1} ${txt1} y ${cant2} ${txt2} equivalen a <strong>${diasTotalesCalculados} días comerciales</strong>. Sincronizado con el TVM.`;
-        historialLog.insertBefore(nuevoLog, historialLog.firstChild);
     }
-    function calcularTasaEfectivaICONV() {
-        let J = parseFloat(document.getElementById('txtTasaNominal').value) || 0;
-        let m = parseFloat(document.getElementById('cboCapitalizacionesICONV').value) || 1;
-        if (J === 0) { alert("Ingrese una Tasa Nominal mayor a 0."); return; }
 
-        let porcentajeEfectivo = (Math.pow((1 + ((J / 100) / m)), m) - 1) * 100;
+    // ====================================================================
+    // 🎯 MOTOR FINANCIERO DBD (DAYS BETWEEN DATES)
+    // ====================================================================
+    function calcularDiasEntreFechas() {
+        let f1 = document.getElementById('fechaInicial').value;
+        let f2 = document.getElementById('fechaFinal').value;
+        if (!f1 || !f2) { alert("Por favor, seleccione ambas fechas."); return; }
+
+        let diasResultado = (new Date(f2) - new Date(f1)) / (1000 * 60 * 60 * 24);
+        if (diasResultado < 0) { alert("La fecha final no puede ser menor."); return; }
 
         if (modoInteresActivo === "simple") {
-            document.getElementById('txtTasaSimple').value = porcentajeEfectivo.toFixed(2);
-            document.getElementById('cboUnidadTasaSimple').value = "1"; // Selecciona Anual
+            if(document.getElementById('txtTiempoSimple')) document.getElementById('txtTiempoSimple').value = diasResultado;
+            if(document.getElementById('cboUnidadTiempoSimple')) document.getElementById('cboUnidadTiempoSimple').value = "360";
         } else {
-            document.getElementById('txtTasa').value = porcentajeEfectivo.toFixed(2);
+            if(document.getElementById('txtTiempo')) document.getElementById('txtTiempo').value = diasResultado;
+            if(document.getElementById('cboUnidadTiempo')) document.getElementById('cboUnidadTiempo').value = "360";
+            calcularPeriodosAutomatico();
         }
-
-        pantalla.innerText = porcentajeEfectivo.toFixed(2) + "%";
-
-        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
-        let nuevoLog = document.createElement('li');
-        nuevoLog.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[ICONV]</strong> Tasa Nominal ${J}% m=${m} convertida a Efectiva: <strong>${porcentajeEfectivo.toFixed(4)}%</strong>. Sincronizada.`;
-        historialLog.insertBefore(nuevoLog, historialLog.firstChild);
+        pantalla.innerText = diasResultado;
     }
-    function calcularPeriodosAutomatico() { //
-        // 1. Capturamos los valores actuales ingresados por el usuario
+
+    // ====================================================================
+    // 🗔 CONTROLES DE LA SUBVENTANITA MODAL (CRITERIOS BANCARIOS)
+    // ====================================================================
+    function abrirModalObservaciones() {
+        if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'flex';
+    }
+    function cerrarModalObservaciones() {
+        if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'none';
+    }
+
+
+    // ====================================================================
+    // 🎚️ CONTROLADORES INTERACTIVOS DE LIMPIEZA DE CASILLAS
+    // ====================================================================
+    function limpiarCeroInicial(elemento) {
+        if (elemento.value === "0" || elemento.value === 0) elemento.value = "";
+    }
+
+    function restaurarCeroVacio(elemento) {
+        if (elemento.value.trim() === "") elemento.value = "0";
+        if (modoInteresActivo === "compuesto") calcularPeriodosAutomatico();
+    }
+
+    function calcularPeriodosAutomatico() {
         let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
         let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
         let m_capitalizacion = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
-        // 2. Convertimos el tiempo a años y lo multiplicamos por la frecuencia de capitalización
-        let tiempoEnAnos = tiempo / k_tiempo;
-        let periodosTotales = tiempoEnAnos * m_capitalizacion;
-        // 3. Imprimimos el resultado formateado en la nueva casilla celeste
-        document.getElementById('txtPeriodosTotales').value = Number(periodosTotales.toFixed(2))
+        let periodosTotales = (tiempo / k_tiempo) * m_capitalizacion;
+        document.getElementById('txtPeriodosTotales').value = Number(periodosTotales.toFixed(2));
     }
-    function calcularTiempoMixtoAvanzado() { //Se mantiene
-        let cant1 = parseFloat(document.getElementById('txtCantidadMixta1').value) || 0;
-        let cant2 = parseFloat(document.getElementById('txtCantidadMixta2').value) || 0;
-        let factor1 = parseFloat(document.getElementById('cboUnidadMixta1').value) || 1;
-        let factor2 = parseFloat(document.getElementById('cboUnidadMixta2').value) || 1;
 
-        if (cant1 === 0 && cant2 === 0) {
-            alert("Por favor, ingrese un valor válido en las casillas temporales.");
-            return;
-        }
+    // ====================================================================
+    // 🧼 MOTOR DE LIMPIEZA COMPLETO Y UNIFICADO
+    // ====================================================================
+    function limpiarFormularioTVM() {
+        // Reseteo Completo de Casillas de Modo Compuesto
+        document.getElementById('txtCapital').value = "0";
+        document.getElementById('txtTasa').value = "0";
+        document.getElementById('txtTiempo').value = "0";
+        document.getElementById('txtMonto').value = "0";
+        document.getElementById('txtPeriodosTotales').value = "0";
+        document.getElementById('txtInteresMonetario').value = "0";
+        document.getElementById('cboCapitalizacion').selectedIndex = 0;
+        document.getElementById('cboUnidadTiempo').selectedIndex = 0;
 
-        let diasTotalesCalculados = (cant1 * factor1) + (cant2 * factor2);
+        // Reseteo Completo de Casillas de Modo Simple
+        document.getElementById('txtCapitalSimple').value = "0";
+        document.getElementById('txtTasaSimple').value = "0";
+        document.getElementById('txtTiempoSimple').value = "0";
+        document.getElementById('txtInteresSimple').value = "0";
+        document.getElementById('txtMontoSimple').value = "0";
+        document.getElementById('cboUnidadTasaSimple').selectedIndex = 0;
+        document.getElementById('cboUnidadTiempoSimple').selectedIndex = 0;
 
-        document.getElementById('txtTiempo').value = diasTotalesCalculados;
-        document.getElementById('cboUnidadTiempo').value = "360";
-        calcularPeriodosAutomatico();
-        pantalla.innerText = diasTotalesCalculados;
+        // Reseteo de Pantalla de Hardware Central
+        textoAcumulado = "";
+        pantalla.innerText = "0";
 
-        let sel1 = document.getElementById('cboUnidadMixta1');
-        let txt1 = sel1.options[sel1.selectedIndex].text;
-        let sel2 = document.getElementById('cboUnidadMixta2');
-        let txt2 = sel2.options[sel2.selectedIndex].text;
-
-        if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
-        let nuevoLog = document.createElement('li');
-        nuevoLog.className = "historial-item";
-        nuevoLog.innerHTML = `<strong>[TIEMPO MIXTO]</strong> Homogeneización finalizada: ${cant1} ${txt1} y ${cant2} ${txt2} equivalen a <strong>${diasTotalesCalculados} días</strong>. Sincronizado con la variable t.`;
-        historialLog.insertBefore(nuevoLog, historialLog.firstChild);
-    }
-    function conmutarModosAvanzados() {
-        let modo = document.getElementById('selectorModoAvanzado').value;
-        if (modo === 'dbd') {
-            document.getElementById('bloqueDBD').style.display = 'block';
-            document.getElementById('bloqueICONV').style.display = 'none';
-            document.getElementById('bloqueTiempoMixto').style.display = 'none';
-        } else if (modo === 'iconv') {
-            document.getElementById('bloqueDBD').style.display = 'none';
-            document.getElementById('bloqueICONV').style.display = 'block';
-            document.getElementById('bloqueTiempoMixto').style.display = 'none';
-        } else {
-            // Activa el nuevo módulo de tiempo fraccionado
-            document.getElementById('bloqueDBD').style.display = 'none';
-            document.getElementById('bloqueICONV').style.display = 'none';
-            document.getElementById('bloqueTiempoMixto').style.display = 'block';
-        }
-    }
-    function cambiarPestañaInteres(modo) {
-        modoInteresActivo = modo;
-        
-        // Elementos del panel izquierdo (Formularios)
-        const tabCompuesto = document.getElementById('tabCompuesto');
-        const tabSimple = document.getElementById('tabSimple');
-        const formCompuesto = document.getElementById('formCompuesto');
-        const formSimple = document.getElementById('formSimple');
+        // Mantenimiento de Consistencia de Estado de Texto
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
-
-        const teoriaCompuesto = document.getElementById('teoriaCompuesto');
-        const teoriaSimple = document.getElementById('teoriaSimple');
-
-        if (modo === 'simple') {
-            formCompuesto.style.display = 'none';
-            formSimple.style.display = 'flex';
-
-            teoriaCompuesto.style.display = 'none';
-            teoriaSimple.style.display = 'flex';
-
-            // Estilos estéticos de pestañas activas
-            tabSimple.style.backgroundColor = '#2c2214';
-            tabSimple.style.color = '#f1b233';
-            tabSimple.style.borderColor = '#f1b233';
-            tabCompuesto.style.backgroundColor = 'transparent';
-            tabCompuesto.style.color = '#cbd5e1';
-            tabCompuesto.style.borderColor = 'transparent';
-
-            etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
-        } else {
-            formSimple.style.display = 'none';
-            formCompuesto.style.display = 'flex';
-
-            teoriaSimple.style.display = 'none';
-            teoriaCompuesto.style.display = 'flex';
-
-            // Estilos estéticos de pestañas activas
-            tabCompuesto.style.backgroundColor = '#2c2214';
-            tabCompuesto.style.color = '#f1b233';
-            tabCompuesto.style.borderColor = '#f1b233';
-            tabSimple.style.backgroundColor = 'transparent';
-            tabSimple.style.color = '#cbd5e1';
-            tabSimple.style.borderColor = 'transparent';
-
-            etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
-            calcularPeriodosAutomatico();
-        }
-    }
-    // ====================================================================
-    // CONTROLES DE ACTIVACIÓN DE LA SUBVENTANITA FLOTANTE (MODAL)
-    // ====================================================================
-    function abrirModalObservaciones() {
-        // Enciende la ventana flotante y la distribuye de forma centrada
-        document.getElementById('ventanaObservaciones').style.display = 'flex';
+        etiquetaEstado.innerText = (modoInteresActivo === "simple") ? "Estado: Interés Simple Lineal Activo" : "Estado: Interés Compuesto Periódico Activo";
     }
 
-    function cerrarModalObservaciones() {
-        // Apaga la ventana flotante y devuelve el foco completo al Dashboard
-        document.getElementById('ventanaObservaciones').style.display = 'none';
-    }
-
-
-    // ====================================================================
-    // MOTOR DE ENRUTAMIENTO Y CÁLCULO UNIVERSAL (COMPUESTO Y SIMPLE AL 100%)
+        // ====================================================================
+    // 📊 MOTOR DE CÁLCULO UNIVERSAL TVM (COMPUESTO Y SIMPLE AL 100%)
     // ====================================================================
     function ejecutarCalculoUniversal() {
+        // Ejecuta la operación pendiente de la calculadora si la hubiera
         ejecutarIgual();
 
         let incognita = "";
@@ -953,27 +957,43 @@
             let tiempoEnAnos = tiempo / k_tiempo;
             let n = tiempoEnAnos * m_tasa;
 
+            // Despeje de incógnitas compuestas
             if (intMonetario === 0 && monto !== 0 && cap !== 0) {
-                valorCalculado = monto - cap; intMonetario = valorCalculado; incognita = "Interés Monetario (I)";
+                valorCalculado = monto - cap; 
+                intMonetario = valorCalculado; 
+                incognita = "Interés Monetario (I)";
             } else if (monto === 0) {
-                monto = cap * Math.pow((1 + i), n); incognita = "Valor Futuro (FV)"; valorCalculado = monto;
+                monto = cap * Math.pow((1 + i), n); 
+                incognita = "Valor Futuro (FV)"; 
+                valorCalculado = monto;
             } else if (cap === 0) {
-                cap = monto / Math.pow((1 + i), n); incognita = "Capital (PV)"; valorCalculado = cap;
+                cap = monto / Math.pow((1 + i), n); 
+                incognita = "Capital (PV)"; 
+                valorCalculado = cap;
             } else if (tasa === 0) {
-                tasa = (Math.pow((monto / cap), (1 / n)) - 1) * m_tasa * 100; incognita = "Tasa (I/Y)"; valorCalculado = tasa;
+                // Aplicación de las fórmulas de tu compañero para Tasa Periódica y Anual
+                let i_periodica = Math.pow((monto / cap), (1 / n)) - 1;
+                tasa = i_periodica * m_tasa * 100; 
+                incognita = "Tasa (I/Y)"; 
+                valorCalculado = tasa;
             } else if (tiempo === 0) {
-                tiempo = (Math.log(monto / cap) / Math.log(1 + i)) / m_tasa * k_tiempo; incognita = "Tiempo (t)"; valorCalculado = tiempo;
+                tiempo = (Math.log(monto / cap) / Math.log(1 + i)) / m_tasa * k_tiempo; 
+                incognita = "Tiempo (t)"; 
+                valorCalculado = tiempo;
             }
 
             if (incognita !== "Interés Monetario (I)") intMonetario = monto - cap;
 
+            // Sincronización de casillas compuestas
             document.getElementById('txtMonto').value = monto.toFixed(2);
             document.getElementById('txtCapital').value = cap.toFixed(2);
             document.getElementById('txtTasa').value = tasa.toFixed(2);
             document.getElementById('txtTiempo').value = tiempo.toFixed(2);
             document.getElementById('txtInteresMonetario').value = intMonetario.toFixed(2);
 
-            if (incognita.includes("Tiempo")) {
+            // Filtro desglosador analítico de tiempo compuesto (años, meses, días)
+            let esTiempo = incognita.toLowerCase().includes("tiempo") || incognita.toLowerCase().includes("(t)");
+            if (esTiempo) {
                 let tiempoEnAnosBase = valorCalculado / k_tiempo; 
                 let anosEnteros = Math.floor(tiempoEnAnosBase);
                 let residuoAnos = tiempoEnAnosBase - anosEnteros;
@@ -981,83 +1001,65 @@
                 let mesesEnteros = Math.floor(mesesExactos);
                 let residuoMeses = mesesExactos - mesesEnteros;
                 let diasEnteros = Math.round(residuoMeses * 30); 
-
+                
                 if (diasEnteros >= 30) { diasEnteros = 0; mesesEnteros += 1; }
                 if (mesesEnteros >= 12) { mesesEnteros = 0; anosEnteros += 1; }
-
+                
                 pantalla.innerText = `${anosEnteros}a, ${mesesEnteros}m, ${diasEnteros}d`;
             } else {
                 pantalla.innerText = Number(valorCalculado.toFixed(2));
             }
 
         } else {
-            // --- 📦 CAPTURA DE VARIABLES MODO SIMPLE LINEAL (¡AHORA 100% OPERATIVO!) ---
+            // --- 📦 CAPTURA DE VARIABLES MODO SIMPLE LINEAL ---
             let capS = parseFloat(document.getElementById('txtCapitalSimple').value) || 0;
             let tasaS = parseFloat(document.getElementById('txtTasaSimple').value) || 0;
-            let m_tasaS = parseFloat(document.getElementById('cboUnidadTasaSimple').value) || 1; // 1=Anual, 2=Semestral, 4=Trimestral, 6=Bimestral, 12=Mensual, 360=Diaria
+            let m_tasaS = parseFloat(document.getElementById('cboUnidadTasaSimple').value) || 1;
             let tiempoS = parseFloat(document.getElementById('txtTiempoSimple').value) || 0;
-            let k_tiempoS = parseFloat(document.getElementById('cboUnidadTiempoSimple').value) || 1; // 1=Anos, 2=Semestres, 4=Trimestres, 6=Bimestres, 12=Meses, 52=Semanas, 360=Dias
+            let k_tiempoS = parseFloat(document.getElementById('cboUnidadTiempoSimple').value) || 1;
             let intS = parseFloat(document.getElementById('txtInteresSimple').value) || 0;
             let montoS = parseFloat(document.getElementById('txtMontoSimple').value) || 0;
 
-            // 🎯 PASO 1: Homogeneización Lineal Universal (Pasamos Tasa y Tiempo a Base Anual Comercial)
-            // Si la tasa es mensual (m=12), se multiplica por 12 para hacerla anual.
+            // Homogeneización lineal proporcional (Pasamos Tasa y Tiempo a Base Anual)
             let iS = (tasaS / 100) * m_tasaS; 
-            // El tiempo ingresado se divide entre su divisor correspondiente para pasarlo a años.
             let nS = tiempoS / k_tiempoS;     
 
-            // 🎯 PASO 2: Despeje Automático de Incógnitas (Si dejas una casilla en 0, el sistema la calcula)
-            
-            // Caso Especial: Si el Interés Monetario (I) es 0 y tienes Monto y Capital, se halla por simple resta
+            // Despeje de incógnitas simples lineales
             if (intS === 0 && montoS !== 0 && capS !== 0) {
-                valorCalculado = montoS - capS;
-                intS = valorCalculado;
+                valorCalculado = montoS - capS; 
+                intS = valorCalculado; 
                 incognita = "Interés Ganado (I)";
-            } 
-            // Despejar Monto Final (S = PV * (1 + i * n))
-            else if (montoS === 0) {
-                montoS = capS * (1 + (iS * nS));
-                incognita = "Valor Futuro (FV)";
+            } else if (montoS === 0) {
+                montoS = capS * (1 + (iS * nS)); 
+                incognita = "Valor Futuro (FV)"; 
                 valorCalculado = montoS;
-            } 
-            // Despejar Capital Inicial (PV = S / (1 + i * n))
-            else if (capS === 0) {
-                capS = montoS / (1 + (iS * nS));
-                incognita = "Capital (PV)";
+            } else if (capS === 0) {
+                capS = montoS / (1 + (iS * nS)); 
+                incognita = "Capital (PV)"; 
                 valorCalculado = capS;
-            } 
-            // Despejar Tasa de Interés (R % = (((S / PV) - 1) / n) convertido a su unidad original)
-            else if (tasaS === 0) {
-                let tasaAnualCalculada = ((montoS / capS) - 1) / nS;
-                tasaS = (tasaAnualCalculada / m_tasaS) * 100;
-                incognita = "Tasa (R %)";
+            } else if (tasaS === 0) {
+                tasaS = (((montoS / capS) - 1) / nS) / m_tasaS * 100; 
+                incognita = "Tasa (R %)"; 
                 valorCalculado = tasaS;
-            } 
-            // Despejar Tiempo (t = (((S / PV) - 1) / i) convertido a su unidad original)
-            else if (tiempoS === 0) {
-                let tiempoAnualCalculado = ((montoS / capS) - 1) / iS;
-                tiempoS = tiempoAnualCalculado * k_tiempoS;
-                incognita = "Tiempo (t)";
+            } else if (tiempoS === 0) {
+                tiempoS = (((montoS / capS) - 1) / iS) * k_tiempoS; 
+                incognita = "Tiempo (t)"; 
                 valorCalculado = tiempoS;
             }
 
-            // Sincronización de consistencia: El interés monetario es siempre Monto menos Capital
-            if (incognita !== "Interés Ganado (I)") {
-                intS = montoS - capS;
-            }
+            if (incognita !== "Interés Ganado (I)") intS = montoS - capS;
 
-            // 🎯 PASO 3: Sincronizar y formatear los resultados en el formulario izquierdo
+            // Sincronización de casillas simples
             document.getElementById('txtMontoSimple').value = montoS.toFixed(2);
             document.getElementById('txtCapitalSimple').value = capS.toFixed(2);
             document.getElementById('txtTasaSimple').value = tasaS.toFixed(2);
             document.getElementById('txtTiempoSimple').value = tiempoS.toFixed(2);
             document.getElementById('txtInteresSimple').value = intS.toFixed(2);
 
-            // En interés simple el visor beige muestra el número financiero limpio con 2 decimales
             pantalla.innerText = Number(valorCalculado.toFixed(2));
         }
 
-        // --- 📊 ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA (COMÚN PARA AMBOS MODOS) ---
+        // --- 📊 ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
         etiquetaEstado.innerText = `Calculando: ${incognita} [Interés ${tipo.toUpperCase()}]`;
         etiquetaEstado.classList.remove('parpadeo-efecto');
@@ -1067,11 +1069,20 @@
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoItem = document.createElement('li');
         nuevoItem.className = "historial-item";
-        nuevoItem.innerHTML = `<strong>[${tipo.toUpperCase()}]</strong> Se resolvió <strong>${incognita}</strong> obteniendo un valor de <strong>${valorCalculado.toFixed(2)}</strong>.`;
-        historialLog.insertBefore(nuevoItem, historialLog.firstChild);
         
+        // Reporte desglosado si es la tasa compuesta solicitada por tu compañero
+        if (tipo === 'compuesto' && incognita === "Tasa (I/Y)") {
+            let m_val = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
+            let t_p = (valorCalculado / 100) / m_val;
+            nuevoItem.innerHTML = `<strong>[COMPUESTO]</strong> Se resolvió Tasa (I/Y).<br>• Tasa Periódica (i): <strong>${(t_p * 100).toFixed(4)}%</strong><br>• Tasa Anual (I/Y): <strong>${valorCalculado.toFixed(2)}%</strong>`;
+        } else {
+            nuevoItem.innerHTML = `<strong>[${tipo.toUpperCase()}]</strong> Se resolvió <strong>${incognita}</strong> obteniendo <strong>${valorCalculado.toFixed(2)}</strong>.`;
+        }
+        
+        historialLog.insertBefore(nuevoItem, historialLog.firstChild);
         if (tipo === 'compuesto') calcularPeriodosAutomatico();
     }
+
 </script>
 </body>
 </html>
