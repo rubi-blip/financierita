@@ -248,6 +248,46 @@
             to { opacity: 1; transform: scale(1); }
         }
 
+        /* ==================================================================== */
+        /* 🎨 PALETA INTEGRADA PARA EL SELECTOR DE FECHAS (MODULO DBD)          */
+        /* ==================================================================== */
+        input[type="date"] {
+            color-scheme: dark; /* Forza la interfaz oscura base */
+            
+            /* 🎯 EL TRUCO: Tiñe los días seleccionados, círculos y botones internos con tu dorado */
+            accent-color: #f1b233; 
+            
+            background-color: rgba(18, 24, 36, 0.8) !important; /* Mismo fondo azul oscuro de tus campos */
+            color: #e7e6d4 !important; /* Texto crema institucional */
+            border: 1px solid #4a5568 !important; /* Borde gris de la paleta */
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        /* Al pasar el mouse por encima de la casilla de fecha */
+        input[type="date"]:hover {
+            border-color: #f1b233 !important; /* El borde se ilumina en dorado mate */
+            box-shadow: 0 0 8px rgba(241, 178, 51, 0.2);
+        }
+
+        /* El icono del almanaque flotante a la derecha de la casilla */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background-color: transparent;
+            padding: 3px;
+            border-radius: 4px;
+            cursor: pointer;
+            /* Aplica un filtro de color exacto para teñir el vector nativo de dorado mate */
+            filter: invert(75%) sepia(50%) saturate(1000%) hue-rotate(360deg); 
+            transition: all 0.2s;
+        }
+
+        /* Al pasar el mouse sobre el icono del almanaque */
+        input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            filter: invert(85%) sepia(60%) saturate(2000%) hue-rotate(365deg); /* Dorado brillante */
+            transform: scale(1.1);
+        }
+
     </style>
 </head>
 <body>
@@ -296,7 +336,7 @@
                 <input type="number" id="txtTasa" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
-                <label>Frecuencia de Capitalización (N)</label>
+                <label>Frecuencia de Capitalización (C/Y)</label>
                 <select id="cboCapitalizacion" onchange="calcularPeriodosAutomatico()">
                     <option value="1">Anual</option>
                     <option value="2">Semestral</option>
@@ -324,7 +364,7 @@
                 </select>
             </div>
             <div class="input-group">
-                <label style="color: #38bdf8; font-weight: bold;">Períodos de Capitalización Totales (C/Y)</label>
+                <label style="color: #38bdf8; font-weight: bold;">Períodos de Capitalización Totales (N)</label>
                 <input type="text" id="txtPeriodosTotales" value="0" readonly style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold;">
             </div>
             <div class="input-group">
@@ -346,7 +386,7 @@
                 <input type="number" id="txtCapitalSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
-                <label>Tasa de Interés (r %)</label>
+                <label>Tasa de Interés (r%)</label>
                 <input type="number" id="txtTasaSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
           <div class="input-group">
@@ -552,7 +592,7 @@
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
                         <div class="formula-box">S = PV * (1 + i) ^ C/Y</div>
-                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>n</strong> es el número total de períodos capitalizables fraccionados.</p>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>C/Y</strong> es el número total de períodos capitalizables fraccionados.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Tasa Periódica Fraccionada:</strong>
@@ -584,7 +624,7 @@
         <button onclick="abrirModalObservaciones()" 
                 style="width: 100%; background-color: #2c2214; color: var(--dorado-mate); border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"
                 onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
-            VER CRITERIOS DE BASE DE CÓMPUTO
+            VER CRITERIOS DE BASE DE FINANCIERITA
         </button>
 
         <!-- BLOQUE INFERIOR: HISTORIAL CRONOLÓGICO DE AUDITORÍA -->
@@ -603,11 +643,11 @@
     <div class="modal-caja-contenido">
             
         <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Criterios de Base de Cómputo Bancario
+            Criterios de Base de FCM-Financierita V2.3
         </h3>
 
         <ul style="margin: 0 0 20px 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
-            <li><strong>Base Comercial Estándar:</strong> El núcleo matemático de la plataforma computa bajo el estándar de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán).</li>
+            <li><strong>Base Comercial Estándar:</strong> El núcleo matemático de la plataforma trabaja bajo el estándar de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán).</li>
             <li><strong>Sincronización Perimetral:</strong> Las herramientas avanzadas (DBD, ICONV y Tiempo Mixto) inyectan sus resoluciones de forma directa sobre las casillas visibles en el panel izquierdo.</li>
             <li><strong>Descomposición Temporal Automática:</strong> Al despejar plazos fraccionados en el Modo Compuesto, el sistema activa un algoritmo analítico de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> sobre el visor.</li>
             <li><strong>Portabilidad Absoluta:</strong> La suite está compilada en entorno web nativo (HTML5/JS), garantizando la auditoría de estados financieros desde cualquier monitor o dispositivo móvil.</li>
