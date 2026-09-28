@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <link href="https://googleapis.com" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Plataforma de Analisis Financiero - FCM Financierita</title>
     <style>
@@ -200,15 +201,27 @@
         }
 
         .formula-box {
-            background-color: var(--fondo-oscuro);
-            padding: 10px;
+            font-family: 'STIX Two Text', 'Times New Roman', serif;
+            font-size: 16px; 
+            font-style: italic; 
+            letter-spacing: 0.8px;
+            
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #38bdf8;
-            margin-top: 5px;
-            font-size: 14px;
+            padding: 10px;
+            margin: 8px 0;
             text-align: center;
+            color: #e7e6d4;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.2s;
         }
+        .formula-box:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
         .parpadeo-efecto {
             animation: parpadearSutil 0.6s ease-in-out;
         }
@@ -249,12 +262,12 @@
         }
 
         /* ==================================================================== */
-        /* 🎨 PALETA INTEGRADA PARA EL SELECTOR DE FECHAS (MODULO DBD)          */
+        /* PALETA INTEGRADA PARA EL SELECTOR DE FECHAS (MODULO DBD)          */
         /* ==================================================================== */
         input[type="date"] {
             color-scheme: dark; /* Forza la interfaz oscura base */
             
-            /* 🎯 EL TRUCO: Tiñe los días seleccionados, círculos y botones internos con tu dorado */
+            /* EL TRUCO: Tiñe los días seleccionados, círculos y botones internos con tu dorado */
             accent-color: #f1b233; 
             
             background-color: rgba(18, 24, 36, 0.8) !important; /* Mismo fondo azul oscuro de tus campos */
@@ -287,14 +300,125 @@
             filter: invert(85%) sepia(60%) saturate(2000%) hue-rotate(365deg); /* Dorado brillante */
             transform: scale(1.1);
         }
+        /* ==================================================================== */
+        /* PANTALLA DE INICIO (SPLASH SCREEN / BIENVENIDA CORPORATIVA)        */
+        /* ==================================================================== */
+        .splash-pantalla {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #0b0f19; /* Fondo azul noche profundo de tu paleta */
+            background-image: radial-gradient(circle at center, rgba(30, 38, 64, 0.8) 0%, #0b0f19 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000; /* Se posiciona por encima de toda la calculadora */
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .splash-tarjeta {
+            width: 460px;
+            max-width: 90%;
+            background-color: rgba(18, 24, 36, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+            animation: entradaSplash 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Pequeña etiqueta verde de versión tipo software real */
+        .badge-version {
+            background-color: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        @keyframes entradaSplash {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Clase que usará el Script para desvanecer la pantalla de forma fluida */
+        .splash-oculto {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        /* ==================================================================== */
+        /* 📐 FRACCIÓN VERTICAL EN HTML PURO (ESTILO LATEX)                     */
+        /* ==================================================================== */
+        .fraccion-vertical {
+            display: inline-flex;
+            flex-direction: column;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0 4px;
+            font-size: 14px; /* Un poquito más compacta para que calce bien */
+        }
+        .fraccion-numerador {
+            padding-bottom: 2px;
+        }
+        .fraccion-denominador {
+            border-top: 1px solid #cbd5e1; /* La línea real de la fracción */
+            padding-top: 2px;
+        }
+        /* Fuerza el encendido de la guía teórica en espejo */
+        .teoria-activa {
+            display: flex !important;
+        }
 
     </style>
 </head>
 <body>
+    <!-- ==================================================================== -->
+    <!-- INTERFAZ VISUAL DE LA PANTALLA DE BIENVENIDA (SISTEMA STARTUP)       -->
+    <!-- ==================================================================== -->
+    <div id="pantallaInicioSplash" class="splash-pantalla">
+        <div class="splash-tarjeta">
+            
+            <span class="badge-version">Suite Release v2.4</span>
+            
+            <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
+                FCM - Financierita
+            </h1>
+            <p style="margin: 0 0 22px 0; font-size: 13px; color: #a0aec0; text-transform: uppercase; letter-spacing: 1px;">
+                Plataforma Analítica de Auditoría Financiera
+            </p>
+
+            <!-- Sección de Novedades y Actualizaciones -->
+            <div style="background-color: rgba(30, 38, 64, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; text-align: left; margin-bottom: 25px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Últimas Actualizaciones del Sistema
+                </h4>
+                <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.4;">
+                    <li><strong>Segmentación Camaleón:</strong> Nuevos entornos independientes para modelar de forma aislada el Interés Simple Lineal y el Compuesto Periódico.</li>
+                    <li><strong>ICONV Bi-Direccional:</strong> Módulo avanzado adaptado a la guía del profesor para calcular tasas directas (Nominales) e inversas (Efectivas Equivalentes).</li>
+                    <li><strong>Homogeneizador Universal:</strong> Soporte multi-unidad para transformar plazos mixtos de semestres, meses o semanas a días comerciales de forma automática.</li>
+                </ul>
+            </div>
+
+            <!-- Botón premium de ingreso inmediato -->
+            <button onclick="ingresarAlDashboardFinanciero()" 
+                    style="width: 100%; background-color: #2c2214; color: var(--dorado-mate); border: 1px solid #f1b233; padding: 14px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 20px rgba(241, 178, 51, 0.15);"
+                    onmouseover="this.style.backgroundColor='#3e301c'; this.style.transform='translateY(-1px)';" onmouseout="this.style.backgroundColor='#2c2214'; this.style.transform='translateY(0)';">
+                INICIAR 
+            </button>
+            
+        </div>
+    </div>
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA V2.3</h1>
+        <h1>FCM FINANCIERITA V3.1</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -302,7 +426,7 @@
 
 <div class="dashboard-grid">
     
-        <!-- ==================================================================== -->
+    <!-- ==================================================================== -->
     <!-- PANEL IZQUIERDO: SUITE FINANCIERA CON DOS FORMULARIOS INDEPENDIENTES -->
     <!-- ==================================================================== -->
     <div class="panel-lateral">
@@ -311,15 +435,36 @@
             Estado: Estado: Interés Compuesto Periódico Activo
         </p>
 
-        <!-- CONTROL DE PESTAÑAS (TABS) PARA CAMBIAR DE MODO -->
-        <div style="display: flex; gap: 5px; background-color: rgba(18, 24, 36, 0.6); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 5px;">
-            <button id="tabCompuesto" onclick="cambiarPestañaInteres('compuesto')" style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #f1b233; padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-                MODO COMPUESTO
+        <!-- ==================================================================== -->
+        <!-- CONTROL DE PESTAÑAS (TABS) DE 4 VÍAS COMPLETAMENTE DESBLOQUEADO -->
+        <!-- ==================================================================== -->
+        <div style="display: flex; gap: 4px; background-color: rgba(18, 24, 36, 0.6); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; width: 100%; box-sizing: border-box;">
+            
+            <!-- Tab 1: Modo Compuesto -->
+            <button id="tabCompuesto" onclick="cambiarPestañaInteres('compuesto')" 
+                    style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #f1b233; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
+                MODO<br>COMPUESTO
             </button>
-            <button id="tabSimple" onclick="cambiarPestañaInteres('simple')" style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 4px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; transition: all 0.2s;">
-                MODO SIMPLE
+            
+            <!-- Tab 2: Modo Simple -->
+            <button id="tabSimple" onclick="cambiarPestañaInteres('simple')" 
+                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
+                MODO<br>SIMPLE
+            </button>
+            
+            <!-- Tab 3: Modo Anualidades -->
+            <button id="tabAnualidades" onclick="cambiarPestañaInteres('anualidades')" 
+                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
+                MODO<br>ANUALIDADES
+            </button>
+            
+            <!-- Tab 4: Modo Gradientes -->
+            <button id="tabGradientes" onclick="cambiarPestañaInteres('gradientes')" 
+                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
+                MODO<br>GRADIENTES
             </button>
         </div>
+
 
         <p style="font-size: 12px; color: #a0aec0; margin: 0 0 5px 0;">Rellene los datos. Deje en 0 el campo que el sistema deba despejar.</p>
 
@@ -340,6 +485,7 @@
                 <select id="cboCapitalizacion" onchange="calcularPeriodosAutomatico()">
                     <option value="1">Anual</option>
                     <option value="2">Semestral</option>
+                    <option value="3">Cuatrimestral</option>
                     <option value="4">Trimestral</option>
                     <option value="6">Bimestral</option>
                     <option value="12">Mensual</option>
@@ -356,6 +502,7 @@
                 <select id="cboUnidadTiempo" onchange="calcularPeriodosAutomatico()">
                     <option value="1">Años</option>
                     <option value="2">Semestres</option>
+                    <option value="3">Cuatrimestral</option>
                     <option value="4">Trimestres</option>
                     <option value="6">Bimestres</option>
                     <option value="12">Meses</option>
@@ -368,7 +515,7 @@
                 <input type="text" id="txtPeriodosTotales" value="0" readonly style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold;">
             </div>
             <div class="input-group">
-                <label>Interés (I acumulado)</label>
+                <label>Interés (I)</label>
                 <input type="number" id="txtInteresMonetario" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
@@ -378,7 +525,7 @@
         </div>
 
         <!-- ==================================================================== -->
-        <!-- FORMULARIO 2: ENTORNO NUEVO EXCLUSIVO PARA INTERÉS SIMPLE             -->
+        <!-- FORMULARIO 2: ENTORNO EXCLUSIVO PARA INTERÉS SIMPLE                  -->
         <!-- ==================================================================== -->
         <div id="formSimple" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
             <div class="input-group">
@@ -418,13 +565,162 @@
                 </select>
             </div>
             <div class="input-group">
-                <label>Interés Ganado (I)</label>
+                <label>Interés (I)</label>
                 <input type="number" id="txtInteresSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
             <div class="input-group">
                 <label>Valor Futuro (FV)</label>
                 <input type="number" id="txtMontoSimple" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
             </div>
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 3: ENTORNO EXCLUSIVO PARA ANUALIDADES                     -->
+        <!-- ==================================================================== -->
+        <div id="formAnualidades" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
+            
+            <!-- Selector de Variantes Académicas -->
+            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: -2px;">
+                <label style="color: #a855f7; font-weight: bold;">Variante de Anualidad Activa</label>
+                <select id="cboTipoAnualidad" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer; transition: all 0.2s;"
+                        onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#4a5568'">
+                    <option value="simple_ordinaria">Simple Ordinaria</option>
+                    <option value="general_ordinaria">General Ordinaria</option>
+                    <option value="simple_anticipada">Simple Anticipada</option>
+                    <option value="general_anticipada">General Anticipada</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Valor Inicial (IV)</label>
+                <input type="number" id="txtCapitalAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            </div>
+
+            <!-- MONTO DE PAGO PERIÓDICO (PMT) -->
+            <div class="input-group">
+                <label style="color: #a855f7; font-weight: bold;">Monto de pago periódico (PMT)</label>
+                <input type="number" id="txtRentaAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)" style="border-color: rgba(168,85,247,0.4);">
+            </div>
+
+            <div class="input-group">
+                <label>Tasa de Interés Anual (I/Y %)</label>
+                <input type="number" id="txtTasaAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            </div>
+
+            <!-- CARRIL DUAL 1: SELECTORES DE PLAZOS (P/Y y C/Y) -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <!-- Columna Izquierda: Periodo de Pagos (P/Y) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #a855f7; font-weight: bold;">Pagos al año (P/Y)</label>
+                    <select id="cboPagosAnoAnualidad" onchange="calcularPeriodosAnualidadAutomatico()" style="font-size: 11px; padding: 5px;">
+                        <option value="1">Anual</option>
+                        <option value="2">Semestral</option>
+                        <option value="3">Cuatrimestral</option>
+                        <option value="4">Trimestral</option>
+                        <option value="6">Bimestral</option>
+                        <option value="12">Mensual</option>
+                        <option value="52">Semanal</option>
+                        <option value="26">Quincenal</option>
+                        <option value="360">Diario</option>
+                    </select>
+                </div>
+
+                <!-- Columna Derecha: Periodo de Capitalización de la Tasa (C/Y) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #38bdf8; font-weight: bold;">Frec. de Capit. (C/Y)</label>
+                    <select id="cboCapitalizaTasaAnualidad" onchange="calcularPeriodosAnualidadAutomatico()" style="font-size: 11px; padding: 5px;">
+                        <option value="1">Anual</option>
+                        <option value="2">Semestral</option>
+                        <option value="3">Cuatrimestral</option>
+                        <option value="4">Trimestral</option>
+                        <option value="6">Bimestral</option>
+                        <option value="12">Mensual</option>
+                        <option value="52">Semanal</option>
+                        <option value="26">Quincenal</option>
+                        <option value="360">Diario</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Fila tradicional de Tiempo de Plazo -->
+            <div class="input-group">
+                <label>Tiempo de Plazo (t)</label>
+                <input type="number" id="txtTiempoAnualidad" value="0" onfocus="limpiarCeroInicial(this)" oninput="calcularPeriodosAnualidadAutomatico()" onblur="restaurarCeroVacioAnualidad(this)">
+            </div>
+
+            <div class="input-group">
+                <label>Unidad del Tiempo ingresado</label>
+                <select id="cboUnidadTiempoAnualidad" onchange="calcularPeriodosAnualidadAutomatico()">
+                    <option value="1">Años</option>
+                    <option value="2">Semestral</option>
+                    <option value="3">Cuatrimestral</option>
+                    <option value="4">Trimestral</option>
+                    <option value="6">Bimestral</option>
+                    <option value="12">Meses</option>
+                    <option value="26">Quincenas</option>
+                    <option value="52">Semanas</option>
+                    <option value="360">Días</option>
+                </select>
+            </div>
+
+            <!-- CARRIL DUAL 2: SALIDAS CELESTES EN PARALELO (N y n) -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <!-- Columna Izquierda: Número de pagos en el plazo (N) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #a855f7; font-weight: bold;">N° Pagos en el Plazo (N)</label>
+                    <input type="text" id="txtPeriodosTotalesAnualidad" value="0" readonly 
+                           style="background-color: #1a2035; border: 1px solid #a855f7; color: #a855f7; font-weight: bold; font-size: 12px; padding: 5px; text-align: center;">
+                </div>
+
+                <!-- Columna Derecha: Número de periodos de capitalización (n) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #38bdf8; font-weight: bold;">N° Capit. en el Plazo (n)</label>
+                    <input type="text" id="txtCapitalizacionesTotalesAnualidad" value="0" readonly 
+                           style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold; font-size: 12px; padding: 5px; text-align: center;">
+                </div>
+            </div>
+
+
+            <div class="input-group">
+                <label>Interés (I)</label>
+                <input type="number" id="txtInteresAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            </div>
+
+            <div class="input-group">
+                <label>Valor Futuro (VF)</label>
+                <input type="number" id="txtMontoAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            </div>
+
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 4: ENTORNO EXCLUSIVO PARA GRADIENTES                      -->
+        <!-- ==================================================================== -->
+        <div id="formGradientes" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
+            
+            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: -2px;">
+                <label style="color: #ec4899; font-weight: bold;">Tipo de Gradiente</label>
+                <select id="cboTipoGradiente" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer;">
+                    <option value="aritmetico">Gradiente Aritmético (Lineal)</option>
+                    <option value="geometrico">Gradiente Geométrico (Porcentual)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Primera Cuota o Base (A1)</label>
+                <input type="number" id="txtBaseGradiente" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+
+            <div class="input-group">
+                <label style="color: #ec4899; font-weight: bold;">Variación Constante (G)</label>
+                <input type="number" id="txtValorG" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(236,72,153,0.4);">
+            </div>
+
+            <div class="input-group">
+                <label>Plazo Total de Periodos (n)</label>
+                <input type="number" id="txtPeriodosGradiente" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+
         </div>
 
         <!-- EN LA BASE: BOTONES DE ACCIÓN FIJOS -->
@@ -470,7 +766,7 @@
             <button class="boton-virtual" style="left: 254px; top: 291px; width: 44px; height: 40px;" onclick="ejecutarIgual()"></button>
         </div>
 
-                <!-- ==================================================================== -->
+        <!-- ==================================================================== -->
         <!-- MÓDULOS AVANZADOS FINANCIEROS (DEBAJO DE LA CALCULADORA)             -->
         <!-- ==================================================================== -->
         <div class="panel-adicional" style="width: 340px; background-color: var(--tarjeta-gris); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; margin-top: 20px; box-sizing: border-box; box-shadow: 0 8px 32px rgba(0,0,0,0.3); display: block; clear: both;">
@@ -577,41 +873,75 @@
             </div>
         </div>
     </div>
-        <!-- ==================================================================== -->
+    <!-- ==================================================================== -->
     <!-- PANEL DERECHO: SUITE DE AUDITORÍA EN ESPEJO CON BOTÓN DE CRITERIOS   -->
     <!-- ==================================================================== -->
     <div class="panel-derecho">
-        
-        <!-- BLOQUE SUPERIOR: GUÍA TEÓRICA DINÁMICA (CAMALEÓN EN ESPEJO) -->
         <div class="sub-panel">
             <h2>Guía Teórica de Auditoría</h2>
             <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1;">
                 
-                <!--  SUB-BLOQUE COMPUESTO: Se muestra por defecto -->
+                <!--  SUB-BLOQUE COMPUESTO -->
                 <div id="teoriaCompuesto" style="display: flex; flex-direction: column; gap: 10px;">
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
-                        <div class="formula-box">S = PV * (1 + i) ^ C/Y</div>
+                        <div class="formula-box">FV = PV &middot; (1 + I/Y%)<sup>N</sup></div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>C/Y</strong> es el número total de períodos capitalizables fraccionados.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Tasa Periódica Fraccionada:</strong>
-                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">i = [ (FV / PV) ^ 1/N ]</div>
+                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">
+                            i = [
+                            <div class="fraccion-vertical">
+                                <span class="fraccion-numerador">VF</span>
+                                <span class="fraccion-denominador">PV</span>
+                            </div>
+                            ]<sup><div class="fraccion-vertical" style="font-size: 10px; padding:0;"><span class="fraccion-numerador">1</span><span class="fraccion-denominador">N</span></div></sup> 
+                            - 1
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Calcula el rendimiento exacto por cada ciclo de capitalización.</p>
                     </div>
                 </div>
 
-                <!-- SUB-BLOQUE SIMPLE: Oculto al inicio, se activa en Modo Simple -->
+                <!-- SUB-BLOQUE SIMPLE -->
                 <div id="teoriaSimple" style="display: none; flex-direction: column; gap: 10px;">
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Simple Línea Base:</strong>
-                        <div class="formula-box">S = PV * (1 + i * n)</div>
+                        <div class="formula-box">FV = PV &middot; (1 + r% &middot; t)</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Cálculo proporcional y estático donde el interés no genera utilidades crecientes.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Homogeneización Lineal Universal:</strong>
-                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">I = PV * R% * t</div>
+                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">I = PV &middot; r% &middot; t</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">El sistema unifica la tasa (r) y el tiempo (t) a base anual antes de operar.</p>
+                    </div>
+                </div>
+                <!-- SUB-BLOQUE ANUALIDADES -->
+                <div id="teoriaAnualidades" style="display: none; flex-direction: column; gap: 10px;">
+                    <div>
+                        <strong style="color: #a855f7;">Anualidades Ordinarias (Rentas):</strong>
+                        
+                        <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2);">
+                            VF = R &middot; [
+                            <div class="fraccion-vertical" style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 4px; font-size: 14px;">
+                                <!-- Exponente N arriba, el -1 va afuera en tamaño normal -->
+                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + I/Y) <sup>N</sup> - 1</span>
+                                <span class="fraccion-denominador" style="border-top: 1px solid #cbd5e1; padding-top: 2px;">I/Y</span>
+                            </div>
+                            ]
+                        </div>
+                        
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de pagos uniformes y periódicos en el tiempo.</p>
+                    </div>
+                </div>
+
+                <!-- SUB-BLOQUE GRADIENTES -->
+                <div id="teoriaGradientes" style="display: none; flex-direction: column; gap: 10px;">
+                    <div>
+                        <strong style="color: #ec4899;">Gradientes Lineales y Geométricos:</strong>
+                        <div class="formula-box" style="color: #ec4899; background-color: rgba(236,72,153,0.05); border-color: rgba(236,72,153,0.2);">
+                            A = A<sub>1</sub> &plusmn; G &middot; [ ... ]
+                        </div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de flujos de caja que aumentan o disminuyen de forma constante (G).</p>
                     </div>
                 </div>
 
@@ -664,7 +994,7 @@
 </div>
 
 <script>
-        let textoAcumulado = "";
+    let textoAcumulado = "";
     let primerNumero = 0;
     let operacion = "";
     let modoInteresActivo = "compuesto"; // Estado global inicial de la suite
@@ -673,7 +1003,7 @@
     const historialLog = document.getElementById('historialLog');
 
     // ====================================================================
-    // 🕹️ HARDWARE DE CALCULADORA TRADICIONAL AZUL (INTACTO)
+    // HARDWARE DE CALCULADORA TRADICIONAL AZUL (INTACTO)
     // ====================================================================
     function presionar(tecla) {
         let valorActualEnPantalla = pantalla.innerText;
@@ -721,56 +1051,85 @@
     }
 
     // ====================================================================
-    // 🛠️ CONTROL DE INTERFAZ CAMALEÓN (PESTAÑAS IZQUIERDA Y ESPEJO DERECHA)
+    // CONTROL DE INTERFAZ CAMALEÓN: SOLUCIÓN DE GUÍAS DE LÍNEA DIRECTA
     // ====================================================================
     function cambiarPestañaInteres(modo) {
         modoInteresActivo = modo;
-        const tabCompuesto = document.getElementById('tabCompuesto');
-        const tabSimple = document.getElementById('tabSimple');
+        
+        // Captura directa de los 4 botones de la izquierda
+        const btnCompuesto = document.getElementById('tabCompuesto');
+        const btnSimple = document.getElementById('tabSimple');
+        const btnAnualidades = document.getElementById('tabAnualidades');
+        const btnGradientes = document.getElementById('tabGradientes');
+
+        // Captura directa de las 4 guías teóricas de la derecha
+        const guiaCompuesto = document.getElementById('teoriaCompuesto');
+        const guiaSimple = document.getElementById('teoriaSimple');
+        const guiaAnualidades = document.getElementById('teoriaAnualidades');
+        const guiaGradientes = document.getElementById('teoriaGradientes');
+
+        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
+
+        // APAGA los colores de TODOS los botones
+        if (btnCompuesto) { btnCompuesto.style.backgroundColor = 'transparent'; btnCompuesto.style.color = '#cbd5e1'; btnCompuesto.style.borderColor = 'transparent'; }
+        if (btnSimple) { btnSimple.style.backgroundColor = 'transparent'; btnSimple.style.color = '#cbd5e1'; btnSimple.style.borderColor = 'transparent'; }
+        if (btnAnualidades) { btnAnualidades.style.backgroundColor = 'transparent'; btnAnualidades.style.color = '#cbd5e1'; btnAnualidades.style.borderColor = 'transparent'; }
+        if (btnGradientes) { btnGradientes.style.backgroundColor = 'transparent'; btnGradientes.style.color = '#cbd5e1'; btnGradientes.style.borderColor = 'transparent'; }
+
+        // REMOVE la clase de encendido de todas las guías de golpe
+        if (guiaCompuesto) guiaCompuesto.classList.remove('teoria-activa');
+        if (guiaSimple) guiaSimple.classList.remove('teoria-activa');
+        if (guiaAnualidades) guiaAnualidades.classList.remove('teoria-activa');
+        if (guiaGradientes) guiaGradientes.classList.remove('teoria-activa');
+
+        // ENCIENDE el botón y la guía del modo seleccionado
+        if (modo === 'compuesto') {
+            if (btnCompuesto) { btnCompuesto.style.backgroundColor = '#2c2214'; btnCompuesto.style.color = '#f1b233'; btnCompuesto.style.borderColor = '#f1b233'; }
+            if (guiaCompuesto) guiaCompuesto.classList.add('teoria-activa');
+        } 
+        else if (modo === 'simple') {
+            if (btnSimple) { btnSimple.style.backgroundColor = '#2c2214'; btnSimple.style.color = '#f1b233'; btnSimple.style.borderColor = '#f1b233'; }
+            if (guiaSimple) guiaSimple.classList.add('teoria-activa');
+        } 
+        else if (modo === 'anualidades') {
+            if (btnAnualidades) { btnAnualidades.style.backgroundColor = '#2c2214'; btnAnualidades.style.color = '#f1b233'; btnAnualidades.style.borderColor = '#f1b233'; }
+            if (guiaAnualidades) guiaAnualidades.classList.add('teoria-activa');
+        } 
+        else if (modo === 'gradientes') {
+            if (btnGradientes) { btnGradientes.style.backgroundColor = '#2c2214'; btnGradientes.style.color = '#f1b233'; btnGradientes.style.borderColor = '#f1b233'; }
+            if (guiaGradientes) guiaGradientes.classList.add('teoria-activa');
+        }
+
+        // ENRUTADOR DE FORMULARIOS DEL PANEL IZQUIERDO
         const formCompuesto = document.getElementById('formCompuesto');
         const formSimple = document.getElementById('formSimple');
-        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
-        const teoriaCompuesto = document.getElementById('teoriaCompuesto');
-        const teoriaSimple = document.getElementById('teoriaSimple');
+        const formAnualidades = document.getElementById('formAnualidades');
+        const formGradientes = document.getElementById('formGradientes');
 
-        if (modo === 'simple') {
-            // Muestra formulario y teoría de Interés Simple
-            formCompuesto.style.display = 'none';
+        if (formCompuesto) formCompuesto.style.display = 'none';
+        if (formSimple) formSimple.style.display = 'none';
+        if (formAnualidades) formAnualidades.style.display = 'none';
+        if (formGradientes) formGradientes.style.display = 'none';
+
+        if (modo === 'simple' && formSimple) {
             formSimple.style.display = 'flex';
-            teoriaCompuesto.style.display = 'none';
-            teoriaSimple.style.display = 'flex';
-
-            // Iluminación activa de la pestaña Simple
-            tabSimple.style.backgroundColor = '#2c2214';
-            tabSimple.style.color = '#f1b233';
-            tabSimple.style.borderColor = '#f1b233';
-            tabCompuesto.style.backgroundColor = 'transparent';
-            tabCompuesto.style.color = '#cbd5e1';
-            tabCompuesto.style.borderColor = 'transparent';
-            
-            etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
-        } else {
-            // Muestra formulario y teoría de Interés Compuesto
-            formSimple.style.display = 'none';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
+        } else if (modo === 'compuesto' && formCompuesto) {
             formCompuesto.style.display = 'flex';
-            teoriaSimple.style.display = 'none';
-            teoriaCompuesto.style.display = 'flex';
-
-            // Iluminación activa de la pestaña Compuesto
-            tabCompuesto.style.backgroundColor = '#2c2214';
-            tabCompuesto.style.color = '#f1b233';
-            tabCompuesto.style.borderColor = '#f1b233';
-            tabSimple.style.backgroundColor = 'transparent';
-            tabSimple.style.color = '#cbd5e1';
-            tabSimple.style.borderColor = 'transparent';
-            
-            etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
-            calcularPeriodosAutomatico();
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
+            if (typeof calcularPeriodosAutomatico === "function") calcularPeriodosAutomatico();
+        } else if (modo === 'anualidades' && formAnualidades) {
+            formAnualidades.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Anualidades Activo";
+            if (typeof calcularPeriodosAnualidadAutomatico === "function") calcularPeriodosAnualidadAutomatico();
+        } else if (modo === 'gradientes' && formGradientes) {
+            formGradientes.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Gradientes Activo";
         }
     }
 
-        // ====================================================================
-    // 🎯 CONTROLADOR MAESTRO DE LA PANTALLA INFERIOR (DBD / ICONV / MIXTO)
+    // ====================================================================
+    // CONTROLADOR MAESTRO DE LA PANTALLA INFERIOR (DBD / ICONV / MIXTO)
     // ====================================================================
     function conmutarModosAvanzados() {
         let modo = document.getElementById('selectorModoAvanzado').value;
@@ -782,7 +1141,7 @@
     }
 
     // ====================================================================
-    // 🎯 MOTOR ICONV: PROCESO DIRECTO (DE NOMINAL A EFECTIVA BLINDADO)
+    // MOTOR ICONV: PROCESO DIRECTO (DE NOMINAL A EFECTIVA BLINDADO)
     // ====================================================================
     function calcularTasaEfectivaICONV() {
         // 🛡️ DETECTOR UNIVERSAL: Lee la casilla avanzada se llame como se llame (con o sin tilde)
@@ -822,10 +1181,10 @@
     }
 
     // ====================================================================
-    // 🎯 MOTOR ICONV: PROCESO INVERSO (DE EFECTIVA A NOMINAL EQUIVALENTE BLINDADO)
+    // MOTOR ICONV: PROCESO INVERSO (DE EFECTIVA A NOMINAL EQUIVALENTE BLINDADO)
     // ====================================================================
     function calcularProcesoInversoICONV() {
-        // 🛡️ DETECTOR UNIVERSAL: Evita que el botón se congele por choques de tildes
+        // DETECTOR UNIVERSAL: Evita que el botón se congele por choques de tildes
         let campoTasa = document.getElementById('txtTasaMóduloAvanzado') || 
                         document.getElementById('txtTasaModuloAvanzado') || 
                         document.getElementById('txtTasaNominal') ||
@@ -863,7 +1222,7 @@
     }
 
     // ====================================================================
-    // 🎯 MOTOR DE HOMOGENEIZACIÓN DE TIEMPO MIXTO UNIVERSAL SMART
+    // MOTOR DE HOMOGENEIZACIÓN DE TIEMPO MIXTO UNIVERSAL SMART
     // ====================================================================
     function calcularTiempoMixtoAvanzado() {
         let cant1 = parseFloat(document.getElementById('txtCantidadMixta1').value) || 0;
@@ -890,7 +1249,7 @@
     }
 
     // ====================================================================
-    // 🎯 MOTOR FINANCIERO DBD (DAYS BETWEEN DATES)
+    // MOTOR FINANCIERO DBD (DAYS BETWEEN DATES)
     // ====================================================================
     function calcularDiasEntreFechas() {
         let f1 = document.getElementById('fechaInicial').value;
@@ -910,9 +1269,32 @@
         }
         pantalla.innerText = diasResultado;
     }
+    // ====================================================================
+    // CONTROLADORES INTERACTIVOS EXCLUSIVOS PARA MODO ANUALIDADES
+    // ====================================================================
+    function calcularPeriodosAnualidadAutomatico() {
+        let tiempo = parseFloat(document.getElementById('txtTiempoAnualidad').value) || 0;
+        let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempoAnualidad').value) || 1;
+        
+        let py_pagos = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
+        let cy_capitalizacion = parseFloat(document.getElementById('cboCapitalizaTasaAnualidad').value) || 1;
+        
+        // 1. Calcula el Número de Pagos Totales (N) basado en el ritmo del usuario
+        let pagosTotales_N = (tiempo / k_tiempo) * py_pagos;
+        document.getElementById('txtPeriodosTotalesAnualidad').value = Number(pagosTotales_N.toFixed(2));
+        
+        // 2. Calcula el Número de Capitalizaciones Totales (n) basado en el ritmo de la tasa
+        let capitalizacionesTotales_n = (tiempo / k_tiempo) * cy_capitalizacion;
+        document.getElementById('txtCapitalizacionesTotalesAnualidad').value = Number(capitalizacionesTotales_n.toFixed(2));
+    }
+
+    function restaurarCeroVacioAnualidad(elemento) {
+        if (elemento.value.trim() === "") elemento.value = "0";
+        calcularPeriodosAnualidadAutomatico();
+    }
 
     // ====================================================================
-    // 🗔 CONTROLES DE LA SUBVENTANITA MODAL (CRITERIOS BANCARIOS)
+    // CONTROLES DE LA SUBVENTANITA MODAL (CRITERIOS BANCARIOS)
     // ====================================================================
     function abrirModalObservaciones() {
         if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'flex';
@@ -921,9 +1303,8 @@
         if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'none';
     }
 
-
     // ====================================================================
-    // 🎚️ CONTROLADORES INTERACTIVOS DE LIMPIEZA DE CASILLAS
+    // CONTROLADORES INTERACTIVOS DE LIMPIEZA DE CASILLAS
     // ====================================================================
     function limpiarCeroInicial(elemento) {
         if (elemento.value === "0" || elemento.value === 0) elemento.value = "";
@@ -934,16 +1315,43 @@
         if (modoInteresActivo === "compuesto") calcularPeriodosAutomatico();
     }
 
+    // ====================================================================
+    // MOTOR UNIFICADO DE PLAZOS: CALCULA AUTOMÁTICAMENTE AMBOS MODOS
+    // ====================================================================
     function calcularPeriodosAutomatico() {
-        let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
-        let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
-        let m_capitalizacion = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
-        let periodosTotales = (tiempo / k_tiempo) * m_capitalizacion;
-        document.getElementById('txtPeriodosTotales').value = Number(periodosTotales.toFixed(2));
+        if (modoInteresActivo === "compuesto") {
+            // --- VÍA 1: LÓGICA TRADICIONAL PARA INTERÉS COMPUESTO ---
+            let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
+            let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
+            let m_capitalizacion = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
+            
+            let periodosTotales = (tiempo / k_tiempo) * m_capitalizacion;
+            document.getElementById('txtPeriodosTotales').value = Number(periodosTotales.toFixed(2));
+            
+        } else if (modoInteresActivo === "anualidades") {
+            // --- VÍA 2: LÓGICA AVANZADA EN PARALELO PARA ANUALIDADES (N y n) ---
+            let tiempo = parseFloat(document.getElementById('txtTiempoAnualidad').value) || 0;
+            let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempoAnualidad').value) || 1;
+            
+            let py_pagos = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
+            let cy_capitalizacion = parseFloat(document.getElementById('cboCapitalizaTasaAnualidad').value) || 1;
+            
+            // 1. Calcula el Número de Pagos Totales (N) basado en el ritmo del usuario
+            let pagosTotales_N = (tiempo / k_tiempo) * py_pagos;
+            if(document.getElementById('txtPeriodosTotalesAnualidad')) {
+                document.getElementById('txtPeriodosTotalesAnualidad').value = Number(pagosTotales_N.toFixed(2));
+            }
+            
+            // 2. Calcula el Número de Capitalizaciones Totales (n) basado en el ritmo de la tasa
+            let capitalizacionesTotales_n = (tiempo / k_tiempo) * cy_capitalizacion;
+            if(document.getElementById('txtCapitalizacionesTotalesAnualidad')) {
+                document.getElementById('txtCapitalizacionesTotalesAnualidad').value = Number(capitalizacionesTotales_n.toFixed(2));
+            }
+        }
     }
 
     // ====================================================================
-    // 🧼 MOTOR DE LIMPIEZA COMPLETO Y UNIFICADO
+    // MOTOR DE LIMPIEZA COMPLETO Y UNIFICADO
     // ====================================================================
     function limpiarFormularioTVM() {
         // Reseteo Completo de Casillas de Modo Compuesto
@@ -965,6 +1373,15 @@
         document.getElementById('cboUnidadTasaSimple').selectedIndex = 0;
         document.getElementById('cboUnidadTiempoSimple').selectedIndex = 0;
 
+        // Dentro de function limpiarFormularioTVM()...
+        document.getElementById('txtCapitalAnualidad').value = "0";
+        document.getElementById('txtRentaAnualidad').value = "0";
+        document.getElementById('txtTasaAnualidad').value = "0";
+        document.getElementById('txtTiempoAnualidad').value = "0";
+        document.getElementById('txtPeriodosTotalesAnualidad').value = "0";
+        document.getElementById('txtInteresAnualidad').value = "0";
+        document.getElementById('txtMontoAnualidad').value = "0";
+
         // Reseteo de Pantalla de Hardware Central
         textoAcumulado = "";
         pantalla.innerText = "0";
@@ -974,8 +1391,8 @@
         etiquetaEstado.innerText = (modoInteresActivo === "simple") ? "Estado: Interés Simple Lineal Activo" : "Estado: Interés Compuesto Periódico Activo";
     }
 
-        // ====================================================================
-    // 📊 MOTOR DE CÁLCULO UNIVERSAL TVM (COMPUESTO Y SIMPLE AL 100%)
+    // ====================================================================
+    // MOTOR DE CÁLCULO UNIVERSAL TVM (COMPUESTO Y SIMPLE AL 100%)
     // ====================================================================
     function ejecutarCalculoUniversal() {
         // Ejecuta la operación pendiente de la calculadora si la hubiera
@@ -986,7 +1403,7 @@
         const tipo = modoInteresActivo; // 'compuesto' o 'simple'
 
         if (tipo === 'compuesto') {
-            // --- 📦 CAPTURA DE VARIABLES MODO COMPUESTO ---
+            // --- CAPTURA DE VARIABLES MODO COMPUESTO ---
             let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
             let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
             let m_tasa = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
@@ -1052,8 +1469,8 @@
                 pantalla.innerText = Number(valorCalculado.toFixed(2));
             }
 
-        } else {
-            // --- 📦 CAPTURA DE VARIABLES MODO SIMPLE LINEAL ---
+        }else if (tipo === 'simple') {
+            // --- CAPTURA DE VARIABLES MODO SIMPLE LINEAL ---
             let capS = parseFloat(document.getElementById('txtCapitalSimple').value) || 0;
             let tasaS = parseFloat(document.getElementById('txtTasaSimple').value) || 0;
             let m_tasaS = parseFloat(document.getElementById('cboUnidadTasaSimple').value) || 1;
@@ -1099,9 +1516,65 @@
             document.getElementById('txtInteresSimple').value = intS.toFixed(2);
 
             pantalla.innerText = Number(valorCalculado.toFixed(2));
-        }
+        }else if( tipo == 'anualidades' ){
+            let vp = parseFloat(document.getElementById('txtCapitalAnualidad').value) || 0;
+            let pmt = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
+            let tasaAnual = parseFloat(document.getElementById('txtTasaAnualidad').value) || 0;
+            let py = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
+            let cy = parseFloat(document.getElementById('cboCapitalizaTasaAnualidad').value) || 1;
+            let tiempo = parseFloat(document.getElementById('txtTiempoAnualidad').value) || 0;
+            let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempoAnualidad').value) || 1;
+            let interesM = parseFloat(document.getElementById('txtInteresAnualidad').value) || 0;
+            let vf = parseFloat(document.getElementById('txtMontoAnualidad').value) || 0;
 
-        // --- 📊 ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA ---
+            let N = (tiempo / k_tiempo) * py; // Número de Pagos Totales reales
+
+            // i_banco es la tasa periódica según la capitalización de la tasa (C/Y)
+            let i_banco = (tasaAnual / 100) / cy;
+            // i_pago es la tasa periódica real equivalente ajustada al ritmo de los pagos (P/Y)
+            let i_pago = Math.pow((1 + i_banco), (cy / py)) - 1;
+
+            const variante = document.getElementById('cboTipoAnualidad').value;
+            let factorAnticipado = (variante === 'simple_anticipada') ? (1 + i_pago) : 1;
+
+            // Lógica de despeje para Anualidades
+            if (vf === 0 && pmt !== 0 && vp === 0) {
+                // Despejar Valor Futuro (Ahorros acumulados)
+                vf = pmt * ((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado;
+                incognita = "Valor Futuro (VF)";
+                valorCalculado = vf;
+            } 
+            else if (vp === 0 && pmt !== 0 && vf === 0) {
+                // Despejar Valor Presente (Monto de un Préstamo)
+                vp = pmt * ((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado;
+                incognita = "Valor Presente (VP)";
+                valorCalculado = vp;
+            } 
+            else if (pmt === 0) {
+                // Despejar el Monto de Pago Periódico (PMT - La Cuota Fija)
+                if (vf !== 0) {
+                    pmt = vf / (((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado);
+                } else if (vp !== 0) {
+                    pmt = vp / (((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado);
+                }
+                incognita = "Pago Periódico (PMT)";
+                valorCalculado = pmt;
+            }
+
+            // Cálculo automatizado del Interés Monetario en Efectivo (I = total de cuotas vs capital)
+            if (incognita !== "Interés Ganado / Pagado") {
+                if (vf !== 0) interesM = vf - (pmt * N);
+                else if (vp !== 0) interesM = (pmt * N) - vp;
+            }
+            // Sincronizar y plasmar los resultados en las casillas de Anualidades
+            document.getElementById('txtMontoAnualidad').value = vf.toFixed(2);
+            document.getElementById('txtCapitalAnualidad').value = vp.toFixed(2);
+            document.getElementById('txtRentaAnualidad').value = pmt.toFixed(2);
+            document.getElementById('txtInteresAnualidad').value = interesM.toFixed(2);
+
+            pantalla.innerText = Number(valorCalculado.toFixed(2));
+        }
+        // ---  ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
         etiquetaEstado.innerText = `Calculando: ${incognita} [Interés ${tipo.toUpperCase()}]`;
         etiquetaEstado.classList.remove('parpadeo-efecto');
@@ -1124,7 +1597,16 @@
         historialLog.insertBefore(nuevoItem, historialLog.firstChild);
         if (tipo === 'compuesto') calcularPeriodosAutomatico();
     }
-
+    // ====================================================================
+    // CONTROL DE APAGADO DE LA PANTALLA DE INICIO (SPLASH)
+    // ====================================================================
+    function ingresarAlDashboardFinanciero() {
+        const splash = document.getElementById('pantallaInicioSplash');
+        if (splash) {
+            // Le agrega la clase CSS que reduce la opacidad a 0 con una transición suave
+            splash.classList.add('splash-oculto');
+        }
+    }
 </script>
 </body>
 </html>
