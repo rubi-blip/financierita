@@ -385,7 +385,7 @@
     <div id="pantallaInicioSplash" class="splash-pantalla">
         <div class="splash-tarjeta">
             
-            <span class="badge-version">Suite Release v3.1</span>
+            <span class="badge-version">Suite Release v3.2</span>
             
             <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
                 FCM - Financierita
@@ -418,7 +418,7 @@
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA V3.1</h1>
+        <h1>FCM FINANCIERITA V3.2</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -432,7 +432,7 @@
     <div class="panel-lateral">
         <h2>Hoja de Trabajo TVM</h2>
         <p id="lblEstadoCalculo" style="font-size: 14px; color: #f1b233; margin: -5px 0 5px 0; font-weight: bold; letter-spacing: 0.5px;">
-            Estado: Estado: Interés Compuesto Periódico Activo
+            Estado: Interés Compuesto Periódico Activo
         </p>
 
         <!-- ==================================================================== -->
@@ -582,8 +582,7 @@
             <!-- Selector de Variantes Académicas -->
             <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: -2px;">
                 <label style="color: #a855f7; font-weight: bold;">Variante de Anualidad Activa</label>
-                <select id="cboTipoAnualidad" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer; transition: all 0.2s;"
-                        onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#4a5568'">
+                <select id="cboTipoAnualidad" onchange="conmutarTeoriaAnualidades() "style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer; transition: all 0.2s;"onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#4a5568'">
                     <option value="simple_ordinaria">Simple Ordinaria</option>
                     <option value="general_ordinaria">General Ordinaria</option>
                     <option value="simple_anticipada">Simple Anticipada</option>
@@ -880,68 +879,105 @@
         <div class="sub-panel">
             <h2>Guía Teórica de Auditoría</h2>
             <div style="font-size: 13px; line-height: 1.5; color: #cbd5e1;">
-                
-                <!--  SUB-BLOQUE COMPUESTO -->
-                <div id="teoriaCompuesto" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- 1. BLOQUE COMPUESTO (Aislado con Flexbox Columna) -->
+                <div id="teoriaCompuesto" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Compuesto Exponencial:</strong>
-                        <div class="formula-box">FV = PV &middot; (1 + I/Y%)<sup>N</sup></div>
-                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>C/Y</strong> es el número total de períodos capitalizables fraccionados.</p>
+                        <div class="formula-box">S = PV &middot; (1 + I/Y%)<sup>N</sup></div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Donde <strong>N</strong> es el número total de períodos capitalizables fraccionados.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Tasa Periódica Fraccionada:</strong>
-                        <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">
-                            i = [
-                            <div class="fraccion-vertical">
-                                <span class="fraccion-numerador">VF</span>
-                                <span class="fraccion-denominador">PV</span>
-                            </div>
-                            ]<sup><div class="fraccion-vertical" style="font-size: 10px; padding:0;"><span class="fraccion-numerador">1</span><span class="fraccion-denominador">N</span></div></sup> 
-                            - 1
+                        <div class="formula-box" style="color: #38bdf8;">i = [ I/Y ] / N</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Calcula el rendimiento exacto por cada ciclo de capitalización.</p>
                     </div>
                 </div>
 
-                <!-- SUB-BLOQUE SIMPLE -->
-                <div id="teoriaSimple" style="display: none; flex-direction: column; gap: 10px;">
+                <!-- 2. BLOQUE SIMPLE CON SU MATEMÁTICA REAL -->
+                <div id="teoriaSimple" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
                     <div>
                         <strong style="color: var(--dorado-mate);">Interés Simple Línea Base:</strong>
+                        <!-- Cambiado a su fórmula lineal real con punto medio formal -->
                         <div class="formula-box">FV = PV &middot; (1 + r% &middot; t)</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Cálculo proporcional y estático donde el interés no genera utilidades crecientes.</p>
                     </div>
                     <div>
                         <strong style="color: #38bdf8;">Homogeneización Lineal Universal:</strong>
+                        <!-- Cambiado a su fórmula de interés monetario real -->
                         <div class="formula-box" style="color: #38bdf8; background-color: rgba(56,189,248,0.1);">I = PV &middot; r% &middot; t</div>
                         <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">El sistema unifica la tasa (r) y el tiempo (t) a base anual antes de operar.</p>
                     </div>
                 </div>
-                <!-- SUB-BLOQUE ANUALIDADES -->
-                <div id="teoriaAnualidades" style="display: none; flex-direction: column; gap: 10px;">
-                    <div>
-                        <strong style="color: #a855f7;">Anualidades Ordinarias (Rentas):</strong>
-                        
+
+
+                <!-- 3. BLOQUE ANUALIDADES MODULAR DE TRIPLE ESPEJO -->
+                <div id="teoriaAnualidades" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
+                    
+                    <!-- 📄 Sub-Bloque A: Simple Ordinaria (Vencida) -->
+                    <div id="subTeoriaSimpleOrdinaria" style="display: flex; flex-direction: column; gap: 5px; width: 100%;">
+                        <strong style="color: #a855f7;">Anualidad Simple Ordinaria (Vencida):</strong>
                         <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(168,85,247,0.05); border-color: rgba(168,85,247,0.2);">
-                            VF = R &middot; [
+                            VF = PMT &middot; [
                             <div class="fraccion-vertical" style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 4px; font-size: 14px;">
-                                <!-- Exponente N arriba, el -1 va afuera en tamaño normal -->
-                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + I/Y) <sup>N</sup> - 1</span>
+                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + I/Y)<sup>N</sup> - 1</span>
                                 <span class="fraccion-denominador" style="border-top: 1px solid #cbd5e1; padding-top: 2px;">I/Y</span>
                             </div>
                             ]
                         </div>
-                        
-                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de pagos uniformes y periódicos en el tiempo.</p>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Pagos al final del periodo. La frecuencia de pago coincide con la capitalización.</p>
                     </div>
+
+                    <!-- 📄 Sub-Bloque B: General Ordinaria -->
+                    <div id="subTeoriaGeneralOrdinaria" style="display: none; flex-direction: column; gap: 5px; width: 100%;">
+                        <strong style="color: #38bdf8;">Anualidad General Ordinaria:</strong>
+                        <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(56,189,248,0.05); border-color: rgba(56,189,248,0.2);">
+                            VF = PMT &middot; [
+                            <div class="fraccion-vertical" style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 4px; font-size: 14px;">
+                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + i<sub>equiv.</sub>)<sup>N</sup> - 1</span>
+                                <span class="fraccion-denominador" style="border-top: 1px solid #cbd5e1; padding-top: 2px;">i<sub>equiv.</sub></span>
+                            </div>
+                            ]
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">El sistema realiza la homogeneización de tasas automática (P/Y &ne; C/Y).</p>
+                    </div>
+
+                    <!-- 📄 Sub-Bloque C: Simple Anticipada -->
+                    <div id="subTeoriaSimpleAnticipada" style="display: none; flex-direction: column; gap: 5px; width: 100%;">
+                        <strong style="color: #e9d5ff;">Anualidad Simple Anticipada:</strong>
+                        <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(233,213,255,0.05); border-color: rgba(233,213,255,0.2);">
+                            VF = PMT &middot; [
+                            <div class="fraccion-vertical" style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 4px; font-size: 14px;">
+                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + I/Y)<sup>N</sup> - 1</span>
+                                <span class="fraccion-denominador" style="border-top: 1px solid #cbd5e1; padding-top: 2px;">I/Y</span>
+                            </div>
+                            ] &middot; (1 + I/Y)
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Pagos al inicio de cada periodo (ej: alquileres). Genera un ciclo extra de interés.</p>
+                    </div>
+
+                    <!-- 📄 Sub-Bloque D: General Anticipada -->
+                    <div id="subTeoriaGeneralAnticipada" style="display: none; flex-direction: column; gap: 5px; width: 100%;">
+                        <strong style="color: #f472b6;">Anualidad General Anticipada:</strong>
+                        <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(244,114,182,0.05); border-color: rgba(244,114,182,0.2);">
+                            VF = PMT &middot; [
+                            <div class="fraccion-vertical" style="display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 4px; font-size: 14px;">
+                                <span class="fraccion-numerador" style="padding-bottom: 2px;">(1 + i<sub>equiv.</sub>)<sup>N</sup> - 1</span>
+                                <span class="fraccion-denominador" style="border-top: 1px solid #cbd5e1; padding-top: 2px;">i<sub>equiv.</sub></span>
+                            </div>
+                            ] &middot; (1 + i<sub>equiv.</sub>)
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Pagos al inicio del periodo con homogeneización exponencial de tasas (P/Y &ne; C/Y).</p>
+                    </div>
+
                 </div>
 
-                <!-- SUB-BLOQUE GRADIENTES -->
-                <div id="teoriaGradientes" style="display: none; flex-direction: column; gap: 10px;">
+
+                <!-- 4. BLOQUE GRADIENTES (Aislado con Flexbox Columna) -->
+                <div id="teoriaGradientes" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
                     <div>
-                        <strong style="color: #ec4899;">Gradientes Lineales y Geométricos:</strong>
-                        <div class="formula-box" style="color: #ec4899; background-color: rgba(236,72,153,0.05); border-color: rgba(236,72,153,0.2);">
-                            A = A<sub>1</sub> &plusmn; G &middot; [ ... ]
-                        </div>
-                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de flujos de caja que aumentan o disminuyen de forma constante (G).</p>
+                        <strong style="color: #ec4899;">Gradientes Aritméticos y Geométricos:</strong>
+                        <div class="formula-box" style="color: #ec4899; background-color: rgba(236,72,153,0.05); border-color: rgba(236,72,153,0.2);">Variación G &plusmn;</div>
+                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de flujos de caja que aumentan o disminuyen de forma constante.</p>
                     </div>
                 </div>
 
@@ -949,13 +985,19 @@
         </div>
 
         <!-- ==================================================================== -->
-        <!-- EL BOTÓN DE EN MEDIO: FILTRO DE OBSERVACIONES FIJAS                -->
+        <!-- EL BORONES DE EN MEDIO: FILTRO DE OBSERVACIONES Y GUIA DE USUARIO    -->
         <!-- ==================================================================== -->
         <button onclick="abrirModalObservaciones()" 
                 style="width: 100%; background-color: #2c2214; color: var(--dorado-mate); border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"
                 onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
             VER CRITERIOS DE BASE DE FINANCIERITA
         </button>
+        <button onclick="abrirModalGuia()" 
+                style="width: 100%; background-color: #2c2214; color: #a855f7; border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 15px;"
+                onmouseover="this.style.borderColor='#a855f7'" onmouseout="this.style.borderColor='#4a5568'">
+            VER GUÍA DE USUARIO INTERACTIVA
+        </button>
+
 
         <!-- BLOQUE INFERIOR: HISTORIAL CRONOLÓGICO DE AUDITORÍA -->
         <div class="sub-panel">
@@ -994,6 +1036,44 @@
             
     </div>
 </div>
+<!-- ==================================================================== -->
+<!-- SUBVENTANITA MODAL: MANUAL Y GUÍA DE USUARIO INTERACTIVA          -->
+<!-- ==================================================================== -->
+<div id="ventanaGuiaUsuario" class="modal-fondo-pantalla" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(11,15,25,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 20000;">
+    <div class="modal-caja-contenido" style="background-color: #121824; border: 1px solid #a855f7; border-radius: 12px; padding: 25px; width: 480px; max-width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); box-sizing: border-box;">
+        
+        <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #a855f7; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
+            Manual de Operación - Financierita
+        </h3>
+        
+        <!-- Cuerpo con scroll por si la pantalla de la laptop es compacta -->
+        <div style="max-height: 320px; overflow-y: auto; padding-right: 5px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 12px; line-height: 1.5; text-align: left;">
+            <div>
+                <strong style="color: #f1b233;">1. Selección de Entorno Camaleón:</strong><br>
+                Usa las pestañas superiores izquierdas para conmutar entre los módulos. El panel derecho se transformará en espejo cargando las fórmulas LaTeX correspondientes de forma automática.
+            </div>
+            <div>
+                <strong style="color: #38bdf8;">2. Regla de Oro del TVM (Despejes):</strong><br>
+                Rellena los datos conocidos del problema. **Deja estrictamente en 0 el casillero que deseas descubrir** (Capital, Tasa, Tiempo o Monto) y presiona el gran botón dorado de auditoría.
+            </div>
+            <div>
+                <strong style="color: #a855f7;">3. Operación de Anualidades Generales:</strong><br>
+                Define tu tipo de anualidad. Si los pagos al año (P/Y) y la capitalización (C/Y) difieren, el cerebro matemático ejecutará un arbitraje de tasas equivalentes de forma interna antes de calcular.
+            </div>
+            <div>
+                <strong style="color: #22c55e;">4. Módulos Avanzados Inferiores:</strong><br>
+                • <strong>DBD:</strong> Calcula los días comerciales exactos entre dos fechas.<br>
+                • <strong>ICONV:</strong> Realiza conversiones bi-direccionales de tasas nominales a efectivas verdaderas.<br>
+                • <strong>Tiempo Mixto:</strong> Homogeneiza plazos fraccionados (meses + días) a una sola base comercial.
+            </div>
+        </div>
+        
+        <button onclick="cerrarModalGuia()" style="width: 100%; background-color: #282828; color: #e7e6d4; border: 1px solid #4a5568; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; font-size: 12px; margin-top: 15px;">
+            ENTENDIDO ×
+        </button>
+    </div>
+</div>
+
 
 <script>
     let textoAcumulado = "";
@@ -1053,79 +1133,75 @@
     }
 
     // ====================================================================
-    // CONTROL DE INTERFAZ CAMALEÓN: SOLUCIÓN DE GUÍAS DE LÍNEA DIRECTA
+    // CONTROL DE INTERFAZ CAMALEÓN: APAGADO FÍSICO DE DISPLAY EN ESPEJO
     // ====================================================================
     function cambiarPestañaInteres(modo) {
         modoInteresActivo = modo;
         
-        // Captura directa de los 4 botones de la izquierda
+        // 1. CAPTURA DIRECTA DE LOS 4 BOTONES DE LA IZQUIERDA
         const btnCompuesto = document.getElementById('tabCompuesto');
         const btnSimple = document.getElementById('tabSimple');
         const btnAnualidades = document.getElementById('tabAnualidades');
         const btnGradientes = document.getElementById('tabGradientes');
 
-        // Captura directa de las 4 guías teóricas de la derecha
+        // 2. CAPTURA DIRECTA DE LAS 4 GUÍAS TEÓRICAS DE LA DERECHA
         const guiaCompuesto = document.getElementById('teoriaCompuesto');
         const guiaSimple = document.getElementById('teoriaSimple');
         const guiaAnualidades = document.getElementById('teoriaAnualidades');
         const guiaGradientes = document.getElementById('teoriaGradientes');
 
-        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
-
-        // APAGA los colores de TODOS los botones
-        if (btnCompuesto) { btnCompuesto.style.backgroundColor = 'transparent'; btnCompuesto.style.color = '#cbd5e1'; btnCompuesto.style.borderColor = 'transparent'; }
-        if (btnSimple) { btnSimple.style.backgroundColor = 'transparent'; btnSimple.style.color = '#cbd5e1'; btnSimple.style.borderColor = 'transparent'; }
-        if (btnAnualidades) { btnAnualidades.style.backgroundColor = 'transparent'; btnAnualidades.style.color = '#cbd5e1'; btnAnualidades.style.borderColor = 'transparent'; }
-        if (btnGradientes) { btnGradientes.style.backgroundColor = 'transparent'; btnGradientes.style.color = '#cbd5e1'; btnGradientes.style.borderColor = 'transparent'; }
-
-        // REMOVE la clase de encendido de todas las guías de golpe
-        if (guiaCompuesto) guiaCompuesto.classList.remove('teoria-activa');
-        if (guiaSimple) guiaSimple.classList.remove('teoria-activa');
-        if (guiaAnualidades) guiaAnualidades.classList.remove('teoria-activa');
-        if (guiaGradientes) guiaGradientes.classList.remove('teoria-activa');
-
-        // ENCIENDE el botón y la guía del modo seleccionado
-        if (modo === 'compuesto') {
-            if (btnCompuesto) { btnCompuesto.style.backgroundColor = '#2c2214'; btnCompuesto.style.color = '#f1b233'; btnCompuesto.style.borderColor = '#f1b233'; }
-            if (guiaCompuesto) guiaCompuesto.classList.add('teoria-activa');
-        } 
-        else if (modo === 'simple') {
-            if (btnSimple) { btnSimple.style.backgroundColor = '#2c2214'; btnSimple.style.color = '#f1b233'; btnSimple.style.borderColor = '#f1b233'; }
-            if (guiaSimple) guiaSimple.classList.add('teoria-activa');
-        } 
-        else if (modo === 'anualidades') {
-            if (btnAnualidades) { btnAnualidades.style.backgroundColor = '#2c2214'; btnAnualidades.style.color = '#f1b233'; btnAnualidades.style.borderColor = '#f1b233'; }
-            if (guiaAnualidades) guiaAnualidades.classList.add('teoria-activa');
-        } 
-        else if (modo === 'gradientes') {
-            if (btnGradientes) { btnGradientes.style.backgroundColor = '#2c2214'; btnGradientes.style.color = '#f1b233'; btnGradientes.style.borderColor = '#f1b233'; }
-            if (guiaGradientes) guiaGradientes.classList.add('teoria-activa');
-        }
-
-        // ENRUTADOR DE FORMULARIOS DEL PANEL IZQUIERDO
+        // 3. CAPTURA DIRECTA DE LOS 4 FORMULARIOS DE LA IZQUIERDA
         const formCompuesto = document.getElementById('formCompuesto');
         const formSimple = document.getElementById('formSimple');
         const formAnualidades = document.getElementById('formAnualidades');
         const formGradientes = document.getElementById('formGradientes');
 
+        const etiquetaEstado = document.getElementById('lblEstadoCalculo');
+
+        // PASO A: APAGA LOS COLORES DE TODOS LOS BOTONES
+        if (btnCompuesto) { btnCompuesto.style.backgroundColor = 'transparent'; btnCompuesto.style.color = '#cbd5e1'; btnCompuesto.style.borderColor = 'transparent'; }
+        if (btnSimple) { btnSimple.style.backgroundColor = 'transparent'; btnSimple.style.color = '#cbd5e1'; btnSimple.style.borderColor = 'transparent'; }
+        if (btnAnualidades) { btnAnualidades.style.backgroundColor = 'transparent'; btnAnualidades.style.color = '#cbd5e1'; btnAnualidades.style.borderColor = 'transparent'; }
+        if (btnGradientes) { btnGradientes.style.backgroundColor = 'transparent'; btnGradientes.style.color = '#cbd5e1'; btnGradientes.style.borderColor = 'transparent'; }
+
+        // PASO B: APAGADO FÍSICO DE TODAS LAS GUÍAS (Evita el bloqueo fantasma)
+        if (guiaCompuesto) guiaCompuesto.style.display = 'none';
+        if (guiaSimple) guiaSimple.style.display = 'none';
+        if (guiaAnualidades) guiaAnualidades.style.display = 'none';
+        if (guiaGradientes) guiaGradientes.style.display = 'none';
+
+        // PASO C: APAGADO FÍSICO DE TODOS LOS FORMULARIOS IZQUIERDOS
         if (formCompuesto) formCompuesto.style.display = 'none';
         if (formSimple) formSimple.style.display = 'none';
         if (formAnualidades) formAnualidades.style.display = 'none';
         if (formGradientes) formGradientes.style.display = 'none';
 
-        if (modo === 'simple' && formSimple) {
-            formSimple.style.display = 'flex';
-            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
-        } else if (modo === 'compuesto' && formCompuesto) {
-            formCompuesto.style.display = 'flex';
+        // PASO D: ENCIENDE EN ESPEJO EXCLUSIVAMENTE EL MODO SELECCIONADO
+        if (modo === 'compuesto') {
+            if (btnCompuesto) { btnCompuesto.style.backgroundColor = '#2c2214'; btnCompuesto.style.color = '#f1b233'; btnCompuesto.style.borderColor = '#f1b233'; }
+            if (guiaCompuesto) guiaCompuesto.style.display = 'flex';
+            if (formCompuesto) formCompuesto.style.display = 'flex';
             if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Interés Compuesto Periódico Activo";
             if (typeof calcularPeriodosAutomatico === "function") calcularPeriodosAutomatico();
-        } else if (modo === 'anualidades' && formAnualidades) {
-            formAnualidades.style.display = 'flex';
+        } 
+        else if (modo === 'simple') {
+            if (btnSimple) { btnSimple.style.backgroundColor = '#2c2214'; btnSimple.style.color = '#f1b233'; btnSimple.style.borderColor = '#f1b233'; }
+            if (guiaSimple) guiaSimple.style.display = 'flex';
+            if (formSimple) formSimple.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Interés Simple Lineal Activo";
+        } 
+        else if (modo === 'anualidades') {
+            if (btnAnualidades) { btnAnualidades.style.backgroundColor = '#2c2214'; btnAnualidades.style.color = '#f1b233'; btnAnualidades.style.borderColor = '#f1b233'; }
+            if (guiaAnualidades) guiaAnualidades.style.display = 'flex';
+            if (formAnualidades) formAnualidades.style.display = 'flex';
             if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Anualidades Activo";
-            if (typeof calcularPeriodosAnualidadAutomatico === "function") calcularPeriodosAnualidadAutomatico();
-        } else if (modo === 'gradientes' && formGradientes) {
-            formGradientes.style.display = 'flex';
+            if (typeof conmutarTeoriaAnualidades === "function") conmutarTeoriaAnualidades(); // Mantiene tu triple espejo de anualidades activo
+            if (typeof calcularPeriodosAutomatico === "function") calcularPeriodosAutomatico();
+        } 
+        else if (modo === 'gradientes') {
+            if (btnGradientes) { btnGradientes.style.backgroundColor = '#2c2214'; btnGradientes.style.color = '#f1b233'; btnGradientes.style.borderColor = '#f1b233'; }
+            if (guiaGradientes) guiaGradientes.style.display = 'flex';
+            if (formGradientes) formGradientes.style.display = 'flex';
             if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Gradientes Activo";
         }
     }
@@ -1295,14 +1371,56 @@
         calcularPeriodosAnualidadAutomatico();
     }
 
+    function conmutarTeoriaAnualidades() {
+        const variante = document.getElementById('cboTipoAnualidad').value;
+
+        const subSimpleOrdinaria = document.getElementById('subTeoriaSimpleOrdinaria');
+        const subGeneralOrdinaria = document.getElementById('subTeoriaGeneralOrdinaria');
+        const subSimpleAnticipada = document.getElementById('subTeoriaSimpleAnticipada');
+        const subGeneralAnticipada = document.getElementById('subTeoriaGeneralAnticipada'); // 🎯 Captura el nuevo bloque
+
+        // Apagado total preventivo de las 4 opciones
+        if (subSimpleOrdinaria) subSimpleOrdinaria.style.display = 'none';
+        if (subGeneralOrdinaria) subGeneralOrdinaria.style.display = 'none';
+        if (subSimpleAnticipada) subSimpleAnticipada.style.display = 'none';
+        if (subGeneralAnticipada) subGeneralAnticipada.style.display = 'none';
+
+        // Enrutador de encendido
+        if (variante === 'simple_ordinaria' && subSimpleOrdinaria) {
+            subSimpleOrdinaria.style.display = 'flex';
+        } else if (variante === 'general_ordinaria' && subGeneralOrdinaria) {
+            subGeneralOrdinaria.style.display = 'flex';
+        } else if (variante === 'simple_anticipada' && subSimpleAnticipada) {
+            subSimpleAnticipada.style.display = 'flex';
+        } else if (variante === 'general_anticipada' && subGeneralAnticipada) {
+            subGeneralAnticipada.style.display = 'flex'; // 🎯 Enciende la general anticipada
+        }
+    }
+
     // ====================================================================
     // CONTROLES DE LA SUBVENTANITA MODAL (CRITERIOS BANCARIOS)
     // ====================================================================
     function abrirModalObservaciones() {
         if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'flex';
     }
+
     function cerrarModalObservaciones() {
         if(document.getElementById('ventanaObservaciones')) document.getElementById('ventanaObservaciones').style.display = 'none';
+    }
+
+    // ====================================================================
+    // CONTROLES DE LA SUBVENTANITA MODAL DE GUÍA DE USUARIO
+    // ====================================================================
+    function abrirModalGuia() {
+        if(document.getElementById('ventanaGuiaUsuario')) {
+            document.getElementById('ventanaGuiaUsuario').style.display = 'flex';
+        }
+    }
+
+    function cerrarModalGuia() {
+        if(document.getElementById('ventanaGuiaUsuario')) {
+            document.getElementById('ventanaGuiaUsuario').style.display = 'none';
+        }
     }
 
     // ====================================================================
@@ -1471,7 +1589,7 @@
                 pantalla.innerText = Number(valorCalculado.toFixed(2));
             }
 
-        }else if (tipo === 'simple') {
+        } else if (tipo === 'simple') {
             // --- CAPTURA DE VARIABLES MODO SIMPLE LINEAL ---
             let capS = parseFloat(document.getElementById('txtCapitalSimple').value) || 0;
             let tasaS = parseFloat(document.getElementById('txtTasaSimple').value) || 0;
@@ -1537,7 +1655,7 @@
             let i_pago = Math.pow((1 + i_banco), (cy / py)) - 1;
 
             const variante = document.getElementById('cboTipoAnualidad').value;
-            let factorAnticipado = (variante === 'simple_anticipada') ? (1 + i_pago) : 1;
+            let factorAnticipado = (variante === 'simple_anticipada'|| variante === 'general_anticipada') ? (1 + i_pago) : 1;
 
             // Lógica de despeje para Anualidades
             if (vf === 0 && pmt !== 0 && vp === 0) {
@@ -1576,29 +1694,103 @@
 
             pantalla.innerText = Number(valorCalculado.toFixed(2));
         }
-        // ---  ACTUALIZACIÓN DE INTERFAZ Y BITÁCORA ---
+        // ---  ACTUALIZACIÓN DE INTERFAZ ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
         etiquetaEstado.innerText = `Calculando: ${incognita} [Interés ${tipo.toUpperCase()}]`;
         etiquetaEstado.classList.remove('parpadeo-efecto');
         void etiquetaEstado.offsetWidth;
         etiquetaEstado.classList.add('parpadeo-efecto');
 
+        // ====================================================================
+        // SECCIÓN POST-CÁLCULO: BITÁCORA DE AUDITORÍA DETALLADA
+        // ====================================================================
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
         let nuevoItem = document.createElement('li');
         nuevoItem.className = "historial-item";
+        nuevoItem.style.marginBottom = "12px";
+        nuevoItem.style.padding = "12px";
+        nuevoItem.style.borderRadius = "8px";
+        nuevoItem.style.backgroundColor = "rgba(255,255,255,0.02)";
+        nuevoItem.style.border = "1px solid rgba(255,255,255,0.05)";
         
-        // Reporte desglosado si es la tasa compuesta solicitada por tu compañero
-        if (tipo === 'compuesto' && incognita === "Tasa (I/Y)") {
+        if (tipo === 'compuesto') {
+            // Re-capturamos las variables para el reporte de salida
+            let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
+            let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
             let m_val = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
-            let t_p = (valorCalculado / 100) / m_val;
-            nuevoItem.innerHTML = `<strong>[COMPUESTO]</strong> Se resolvió Tasa (I/Y).<br>• Tasa Periódica (i): <strong>${(t_p * 100).toFixed(4)}%</strong><br>• Tasa Anual (I/Y): <strong>${valorCalculado.toFixed(2)}%</strong>`;
-        } else {
-            nuevoItem.innerHTML = `<strong>[${tipo.toUpperCase()}]</strong> Se resolvió <strong>${incognita}</strong> obteniendo <strong>${valorCalculado.toFixed(2)}</strong>.`;
+            let n_tot = parseFloat(document.getElementById('txtPeriodosTotales').value) || 0;
+            let fv_tot = parseFloat(document.getElementById('txtMonto').value) || 0;
+            let i_p = (tasa / 100) / m_val;
+
+            nuevoItem.innerHTML = `
+                <div style="color: var(--dorado-mate); font-weight: bold; margin-bottom: 5px;">[COMPUESTO] Despeje de ${incognita}</div>
+                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 6px;">➔ Registro: PV=$${cap} | I/Y=${tasa}% | C/Y=${m_val} | n=${n_tot}</div>
+                <div style="font-family: 'STIX Two Text', serif; font-style: italic; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px; text-align: center; margin-bottom: 6px; font-size: 13px; color: #cbd5e1;">
+                    S = PV &middot; (1 + I/Y%)<sup>n</sup>
+                </div>
+                <div style="font-size: 12px; line-height: 1.4;">
+                    • Tasa Periódica (i): <strong>${(i_p * 100).toFixed(4)}%</strong><br>
+                    • Veredicto Final: <strong style="color: var(--dorado-mate); font-size: 13px;">${pantalla.innerText}</strong>
+                </div>
+            `;
+        } 
+        else if (tipo === 'simple') {
+            let capS = parseFloat(document.getElementById('txtCapitalSimple').value) || 0;
+            let tasaS = parseFloat(document.getElementById('txtTasaSimple').value) || 0;
+            let tiempoS = parseFloat(document.getElementById('txtTiempoSimple').value) || 0;
+
+            nuevoItem.innerHTML = `
+                <div style="color: #38bdf8; font-weight: bold; margin-bottom: 5px;">[SIMPLE] Despeje de ${incognita}</div>
+                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 6px;">➔ Registro: PV=$${capS} | r=${tasaS}% | t=${tiempoS}</div>
+                <div style="font-family: 'STIX Two Text', serif; font-style: italic; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px; text-align: center; margin-bottom: 6px; font-size: 13px; color: #cbd5e1;">
+                    S = PV &middot; (1 + r% &middot; t)
+                </div>
+                <div style="font-size: 12px;">
+                    • Veredicto Final: <strong style="color: #38bdf8; font-size: 13px;">${pantalla.innerText}</strong>
+                </div>
+            `;
+        } else if (tipo === 'anualidades') {
+            // Captura de variables nativas de anualidades para el reporte analítico
+            let vp = parseFloat(document.getElementById('txtCapitalAnualidad').value) || 0;
+            let pmt = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
+            let tasaA = parseFloat(document.getElementById('txtTasaAnualidad').value) || 0;
+            let py = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
+            let cy = parseFloat(document.getElementById('cboCapitalizaTasaAnualidad').value) || 1;
+            let N_p = parseFloat(document.getElementById('txtPeriodosTotalesAnualidad').value) || 0;
+            
+            // Captura el nombre de la variante morada (Simple Ordinaria, General Anticipada, etc.)
+            const varName = document.getElementById('cboTipoAnualidad').options[document.getElementById('cboTipoAnualidad').selectedIndex].text;
+
+            // LOGICA DE DETECCIÓN: Determina qué fórmula se aplicó exactamente según el despeje
+            let formulaTexto = "";
+            if (incognita.includes("Valor Futuro")) {
+                formulaTexto = "VF = PMT &middot; [ ((1 + i<sub>eq</sub>)<sup>N</sup> - 1) / i<sub>eq</sub> ]";
+            } else if (incognita.includes("Valor Presente")) {
+                formulaTexto = "VP = PMT &middot; [ (1 - (1 + i<sub>eq</sub>)<sup>-N</sup>) / i<sub>eq</sub> ]";
+            } else if (incognita.includes("Pago Periódico")) {
+                formulaTexto = "PMT = VF / [ ((1 + i<sub>eq</sub>)<sup>N</sup> - 1) / i<sub>eq</sub> ]";
+            } else {
+                formulaTexto = "VF = PMT &middot; [ ((1 + i<sub>eq</sub>)<sup>N</sup> - 1) / i<sub>eq</sub> ]";
+            }
+
+            // Inyección del reporte premium desglosado con el título de despeje explícito
+            nuevoItem.innerHTML = `
+                <div style="color: #a855f7; font-weight: bold; margin-bottom: 5px;">[ANUALIDADES] Despeje de ${incognita}</div>
+                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 4px;">➔ Variante: <strong>${varName}</strong></div>
+                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 6px;">➔ Inputs: VP=$${vp} | PMT=$${pmt} | I/Y=${tasaA}% | P/Y=${py} | C/Y=${cy}</div>
+                <div style="font-family: 'STIX Two Text', serif; font-style: italic; background: rgba(0,0,0,0.2); padding: 5px; border-radius: 4px; text-align: center; margin-bottom: 6px; font-size: 12px; color: #cbd5e1;">
+                    ${formulaTexto}
+                </div>
+                <div style="font-size: 12px; line-height: 1.4;">
+                    • Frecuencia Homogeneizada (N): <strong>${N_p} periodos de pago</strong><br>
+                    • Veredicto del Auditor: <strong style="color: #a855f7; font-size: 13px;">${pantalla.innerText}</strong>
+                </div>
+            `;
         }
-        
+
         historialLog.insertBefore(nuevoItem, historialLog.firstChild);
-        if (tipo === 'compuesto') calcularPeriodosAutomatico();
     }
+
     // ====================================================================
     // CONTROL DE APAGADO DE LA PANTALLA DE INICIO (SPLASH)
     // ====================================================================
