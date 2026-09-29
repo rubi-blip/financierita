@@ -385,7 +385,7 @@
     <div id="pantallaInicioSplash" class="splash-pantalla">
         <div class="splash-tarjeta">
             
-            <span class="badge-version">Suite Release v2.4</span>
+            <span class="badge-version">Suite Release v3.1</span>
             
             <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
                 FCM - Financierita
@@ -400,9 +400,9 @@
                     Últimas Actualizaciones del Sistema
                 </h4>
                 <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.4;">
-                    <li><strong>Segmentación Camaleón:</strong> Nuevos entornos independientes para modelar de forma aislada el Interés Simple Lineal y el Compuesto Periódico.</li>
-                    <li><strong>ICONV Bi-Direccional:</strong> Módulo avanzado adaptado a la guía del profesor para calcular tasas directas (Nominales) e inversas (Efectivas Equivalentes).</li>
-                    <li><strong>Homogeneizador Universal:</strong> Soporte multi-unidad para transformar plazos mixtos de semestres, meses o semanas a días comerciales de forma automática.</li>
+                    <li><strong>Módulo de Anualidades v3.1:</strong> Entorno exclusivo configurado bajo los estándares de Wall Street corporativo con variables nativas de alta fidelidad: <strong>PMT, P/Y y N</strong>.</li>
+                    <li><strong>Doble Carril No-Coincidente:</strong> Algoritmo analítico diseñado para resolver <strong>Anualidades Generales</strong>, ejecutando la homogeneización automática de tasas cuando el pago (P/Y) y la capitalización (C/Y) difieren.</li>
+                    <li><strong>Renderizado LaTeX Puro:</strong> Visualización de ecuaciones financieras complejas y fracciones verticales en el panel derecho mediante maquetado vectorial nativo sin dependencias pesadas.</li>
                 </ul>
             </div>
 
@@ -592,7 +592,7 @@
             </div>
 
             <div class="input-group">
-                <label>Valor Inicial (IV)</label>
+                <label>Valor Presente (PV)</label>
                 <input type="number" id="txtCapitalAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
             </div>
 
@@ -973,14 +973,16 @@
     <div class="modal-caja-contenido">
             
         <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Criterios de Base de FCM-Financierita V2.3
+            Criterios de Base de FCM-Financierita V3.1
         </h3>
 
         <ul style="margin: 0 0 20px 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
-            <li><strong>Base Comercial Estándar:</strong> El núcleo matemático de la plataforma trabaja bajo el estándar de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán).</li>
-            <li><strong>Sincronización Perimetral:</strong> Las herramientas avanzadas (DBD, ICONV y Tiempo Mixto) inyectan sus resoluciones de forma directa sobre las casillas visibles en el panel izquierdo.</li>
-            <li><strong>Descomposición Temporal Automática:</strong> Al despejar plazos fraccionados en el Modo Compuesto, el sistema activa un algoritmo analítico de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> sobre el visor.</li>
-            <li><strong>Portabilidad Absoluta:</strong> La suite está compilada en entorno web nativo (HTML5/JS), garantizando la auditoría de estados financieros desde cualquier monitor o dispositivo móvil.</li>
+            <li><strong>Estándar de Año Comercial:</strong> El núcleo matemático de la suite computa de forma estricta bajo la base de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán Lineal).</li>
+            <li><strong>Sincronización de Entornos Avanzados:</strong> Las herramientas analíticas inferiores (Módulos DBD, ICONV y Tiempo Mixto) actúan de manera directa e inyectan sus resoluciones sobre las variables de la pestaña TVM activa [1.1].</li>
+            <li><strong>Algoritmo de Tasas Equivalentes:</strong> El módulo de Anualidades v2.5 incluye un enrutador inteligente para **Anualidades Generales**. Si los Pagos al Año (P/Y) y la Capitalización (C/Y) difieren, el sistema halla de forma interna la tasa periódica equivalente exacta antes de procesar el cálculo [1.1].</li>
+            <li><strong>Descomposición Temporal Analítica:</strong> Al despejar plazos fraccionados en Interés Compuesto, la plataforma activa un algoritmo de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> de manera automática sobre el visor central [1.1].</li>
+        </ul>
+            <li><strong>Renderizado LaTeX Puro:</strong> Visualización de ecuaciones financieras complejas y fracciones verticales en el panel derecho mediante maquetado vectorial nativo sin dependencias pesadas.</li>
         </ul>
 
         <!-- Botón estético en blanco crema para cerrar la ventana flotante -->
