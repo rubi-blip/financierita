@@ -385,7 +385,7 @@
     <div id="pantallaInicioSplash" class="splash-pantalla">
         <div class="splash-tarjeta">
             
-            <span class="badge-version">Suite Release v3.2</span>
+            <span class="badge-version">Suite Release v3.3</span>
             
             <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
                 FCM - Financierita
@@ -400,9 +400,9 @@
                     Últimas Actualizaciones del Sistema
                 </h4>
                 <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.4;">
-                    <li><strong>Módulo de Anualidades v3.1:</strong> Entorno exclusivo configurado bajo los estándares de Wall Street corporativo con variables nativas de alta fidelidad: <strong>PMT, P/Y y N</strong>.</li>
-                    <li><strong>Doble Carril No-Coincidente:</strong> Algoritmo analítico diseñado para resolver <strong>Anualidades Generales</strong>, ejecutando la homogeneización automática de tasas cuando el pago (P/Y) y la capitalización (C/Y) difieren.</li>
-                    <li><strong>Renderizado LaTeX Puro:</strong> Visualización de ecuaciones financieras complejas y fracciones verticales en el panel derecho mediante maquetado vectorial nativo sin dependencias pesadas.</li>
+                    <li><strong>Selector Máster de Incógnita:</strong> Control analítico guiado por menús independientes que rompe la limitación del descarte por ceros, aislando las órdenes del operador.</li>
+                    <li><strong>Eje Temporal de Doble Carril (VI / VR):</strong> Soporte avanzado para modelar flujos asimétricos simultáneos de cuotas iniciales en el Periodo Cero (<strong>VI</strong>) y opciones de compra o valores residuales futuros (<strong>VR</strong>).</li>
+                    <li><strong>Motores Algorítmicos Complejos:</strong> Integración de despejes de plazos logarítmicos estrictos (<strong>N y t</strong>) y un bucle de aproximación numérica iterativo para resolver tasas nominales y periódicas al centavo.</li>
                 </ul>
             </div>
 
@@ -418,7 +418,7 @@
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA V3.2</h1>
+        <h1>FCM FINANCIERITA V3.3</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -590,9 +590,33 @@
                 </select>
             </div>
 
-            <div class="input-group">
-                <label>Valor Presente (PV)</label>
-                <input type="number" id="txtCapitalAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            <!-- SELECTOR MÁSTER DE INCÓGNITA PARA ANUALIDADES -->
+            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: 4px;">
+                <label style="color: #38bdf8; font-weight: bold;">Variable a Despejar / Calcular</label>
+                <select id="cboIncognitaAnualidad" style="background-color: rgba(18, 24, 36, 0.8); color: #fff; border: 1px solid #38bdf8; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer; transition: all 0.2s;">
+                    <option value="vf">Valor Futuro Acumulado (VF)</option>
+                    <option value="vp">Valor Presente de la Serie (VP)</option>
+                    <option value="interes">Interés Monetario (I)</option>
+                    <option value="pmt">Monto de Pago Periódico (PMT)</option>
+                    <option value="N">Número de Pagos Totales (N)</option>
+                    <option value="t">Tiempo de Plazo (t)</option>
+                    <option value="tasa_nominal">Tasa Nominal Anual (I/Y %)</option>
+                    <option value="tasa_periodica">Tasa Periódica Ajustada (i %)</option>
+                </select>
+            </div>
+
+
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <!-- Columna Izquierda: Valor Presente Neto de las Rentas (VP) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #cbd5e1;">Valor Presente (VP)</label>
+                    <input type="number" id="txtCapitalAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="font-size: 12px; padding: 5px;">
+                </div>
+                <!-- Columna Derecha: Valor Inicial / Cuota Inicial (VI) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #a855f7; font-weight: bold;">Valor Inicial / Inicial (VI)</label>
+                    <input type="number" id="txtValorInicialAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(168,85,247,0.4); font-size: 12px; padding: 5px;">
+                </div>
             </div>
 
             <!-- MONTO DE PAGO PERIÓDICO (PMT) -->
@@ -685,9 +709,17 @@
                 <input type="number" id="txtInteresAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
             </div>
 
-            <div class="input-group">
-                <label>Valor Futuro (VF)</label>
-                <input type="number" id="txtMontoAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAnualidad(this)">
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <!-- Columna Izquierda: Valor Futuro Acumulado (VF) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #cbd5e1;">Valor Futuro (VF)</label>
+                    <input type="number" id="txtMontoAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="font-size: 12px; padding: 5px;">
+                </div>
+                <!-- Columna Derecha: Valor Residual / Opción de Compra (VR) -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #f472b6; font-weight: bold;">Valor Residual (VR)</label>
+                    <input type="number" id="txtValorResidualAnualidad" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(244,114,182,0.4); font-size: 12px; padding: 5px;">
+                </div>
             </div>
 
         </div>
@@ -1015,13 +1047,13 @@
     <div class="modal-caja-contenido">
             
         <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Criterios de Base de FCM-Financierita V3.1
+            Criterios de Base de FCM-Financierita V3.3
         </h3>
 
         <ul style="margin: 0 0 20px 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
             <li><strong>Estándar de Año Comercial:</strong> El núcleo matemático de la suite computa de forma estricta bajo la base de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán Lineal).</li>
             <li><strong>Sincronización de Entornos Avanzados:</strong> Las herramientas analíticas inferiores (Módulos DBD, ICONV y Tiempo Mixto) actúan de manera directa e inyectan sus resoluciones sobre las variables de la pestaña TVM activa [1.1].</li>
-            <li><strong>Algoritmo de Tasas Equivalentes:</strong> El módulo de Anualidades v2.5 incluye un enrutador inteligente para **Anualidades Generales**. Si los Pagos al Año (P/Y) y la Capitalización (C/Y) difieren, el sistema halla de forma interna la tasa periódica equivalente exacta antes de procesar el cálculo [1.1].</li>
+            <li><strong>Algoritmo de Tasas Equivalentes:</strong> El módulo de Anualidades v3.3 incluye un enrutador inteligente para **Anualidades Generales**. Si los Pagos al Año (P/Y) y la Capitalización (C/Y) difieren, el sistema halla de forma interna la tasa periódica equivalente exacta antes de procesar el cálculo [1.1].</li>
             <li><strong>Descomposición Temporal Analítica:</strong> Al despejar plazos fraccionados en Interés Compuesto, la plataforma activa un algoritmo de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> de manera automática sobre el visor central [1.1].</li>
             <li><strong>Renderizado LaTeX Puro:</strong> Visualización de ecuaciones financieras complejas y fracciones verticales en el panel derecho mediante maquetado vectorial nativo sin dependencias pesadas.</li>
         </ul>
@@ -1635,8 +1667,10 @@
             document.getElementById('txtInteresSimple').value = intS.toFixed(2);
 
             pantalla.innerText = Number(valorCalculado.toFixed(2));
-        }else if( tipo == 'anualidades' ){
+        }else if (tipo === 'anualidades') {
+            // --- CAPTURA COMPLETA DE VARIABLES DEL NUEVO ENTORNO v2.5 ---
             let vp = parseFloat(document.getElementById('txtCapitalAnualidad').value) || 0;
+            let vi = parseFloat(document.getElementById('txtValorInicialAnualidad').value) || 0; // Nueva variable
             let pmt = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
             let tasaAnual = parseFloat(document.getElementById('txtTasaAnualidad').value) || 0;
             let py = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
@@ -1645,52 +1679,201 @@
             let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempoAnualidad').value) || 1;
             let interesM = parseFloat(document.getElementById('txtInteresAnualidad').value) || 0;
             let vf = parseFloat(document.getElementById('txtMontoAnualidad').value) || 0;
+            let vr = parseFloat(document.getElementById('txtValorResidualAnualidad').value) || 0; // Nueva variable
 
-            let N = (tiempo / k_tiempo) * py; // Número de Pagos Totales reales
+            let N = (tiempo / k_tiempo) * py; // Número de Pagos Totales (Casilla celeste morada)
 
-            // i_banco es la tasa periódica según la capitalización de la tasa (C/Y)
+            // ALGORITMO DE EQUIVALENCIA PARA ANUALIDADES GENERALES (P/Y != C/Y)
             let i_banco = (tasaAnual / 100) / cy;
-            // i_pago es la tasa periódica real equivalente ajustada al ritmo de los pagos (P/Y)
             let i_pago = Math.pow((1 + i_banco), (cy / py)) - 1;
 
             const variante = document.getElementById('cboTipoAnualidad').value;
-            let factorAnticipado = (variante === 'simple_anticipada'|| variante === 'general_anticipada') ? (1 + i_pago) : 1;
+            let factorAnticipado = (variante === 'simple_anticipada' || variante === 'general_anticipada') ? (1 + i_pago) : 1;
 
-            // Lógica de despeje para Anualidades
-            if (vf === 0 && pmt !== 0 && vp === 0) {
-                // Despejar Valor Futuro (Ahorros acumulados)
-                vf = pmt * ((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado;
-                incognita = "Valor Futuro (VF)";
+            // CAPTURA DEL COMANDO MÁSTER DE INCÓGNITA
+            const metaCalculo = document.getElementById('cboIncognitaAnualidad').value;
+
+            // ====================================================================
+            // CORE MATEMÁTICO: ENRUTAMIENTO DE COMANDOS DE LÍNEA DIRECTA
+            // ====================================================================
+            if (metaCalculo === 'vf') {
+                // COMANDO A: DESPEJAR VALOR FUTURO (Ahorros capitalizados + Valor Inicial compuesto)
+                // Si el usuario ingresó una cuota inicial (VI), esta crece en el fondo del tiempo
+                let vf_de_las_rentas = pmt * ((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado;
+                let vf_del_capital_inicial = vi * Math.pow(1 + i_pago, N);
+                
+                vf = vf_de_las_rentas + vf_del_capital_inicial;
+                incognita = "Valor Futuro Total (VF)";
                 valorCalculado = vf;
+                
+                // Actualiza las casillas secundarias de apoyo
+                document.getElementById('txtMontoAnualidad').value = vf.toFixed(2);
             } 
-            else if (vp === 0 && pmt !== 0 && vf === 0) {
-                // Despejar Valor Presente (Monto de un Préstamo)
-                vp = pmt * ((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado;
-                incognita = "Valor Presente (VP)";
+            else if (metaCalculo === 'vp') {
+                // COMANDO B: DESPEJAR VALOR PRESENTE (Leasing completo: Inicial + Cuotas + Residuo descontado)
+                let vp_de_las_rentas = pmt * ((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado;
+                let vp_del_valor_residual = vr / Math.pow(1 + i_pago, N);
+                
+                vp = vi + vp_de_las_rentas + vp_del_valor_residual;
+                incognita = "Valor Presente Total (VP)";
                 valorCalculado = vp;
-            } 
-            else if (pmt === 0) {
-                // Despejar el Monto de Pago Periódico (PMT - La Cuota Fija)
-                if (vf !== 0) {
-                    pmt = vf / (((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado);
-                } else if (vp !== 0) {
-                    pmt = vp / (((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado);
+
+                // Sincroniza la casilla para reflejar el valor neto descontado puro de las cuotas
+                document.getElementById('txtCapitalAnualidad').value = vp_de_las_rentas.toFixed(2);
+                
+                // Inyecta en la bitácora el reporte analítico del desglose del contrato
+                if(historialLog) {
+                    setTimeout(() => {
+                        let logLeasing = document.createElement('li');
+                        logLeasing.className = "historial-item";
+                        logLeasing.style.borderColor = "#f472b6";
+                        logLeasing.innerHTML = `<strong>[LEASING / CONTADO]</strong> Inicial (VI): $${vi.toFixed(2)} | VP Cuotas: $${vp_de_las_rentas.toFixed(2)} | VP Residuo (VR): $${vp_del_valor_residual.toFixed(2)}`;
+                        historialLog.insertBefore(logLeasing, historialLog.firstChild);
+                    }, 50);
                 }
-                incognita = "Pago Periódico (PMT)";
+            } 
+            else if (metaCalculo === 'pmt') {
+                // COMANDO C: DESPEJAR MONTO DE PAGO PERIÓDICO (La Cuota Fija)
+                // Se descuentan algebraicamente los extremos (VI y VR) antes de hallar la renta pura
+                if (vf !== 0) {
+                    let vf_neto_rentas = vf - (vi * Math.pow(1 + i_pago, N));
+                    pmt = vf_neto_rentas / (((Math.pow(1 + i_pago, N) - 1) / i_pago) * factorAnticipado);
+                } else if (vp !== 0) {
+                    let vp_neto_rentas = vp - vi - (vr / Math.pow(1 + i_pago, N));
+                    pmt = vp_neto_rentas / (((1 - Math.pow(1 + i_pago, -N)) / i_pago) * factorAnticipado);
+                }
+                incognita = "Monto de Pago Periódico (PMT)";
                 valorCalculado = pmt;
+                
+                document.getElementById('txtRentaAnualidad').value = pmt.toFixed(2);
             }
-
-            // Cálculo automatizado del Interés Monetario en Efectivo (I = total de cuotas vs capital)
-            if (incognita !== "Interés Ganado / Pagado") {
-                if (vf !== 0) interesM = vf - (pmt * N);
-                else if (vp !== 0) interesM = (pmt * N) - vp;
+            else if (metaCalculo === 'interes') {
+                // COMANDO D: DESPEJAR INTERÉS EN EFECTIVO (I)
+                // El sistema evalúa de forma inteligente si el usuario está analizando un ahorro (VF) o un préstamo (VP)
+                if (vf !== 0) {
+                    // Si estás ahorrando: El interés es el fondo final acumulado menos lo que pusiste de tu bolsillo
+                    interesM = vf - vi - (pmt * N);
+                    incognita = "Interés Monetario Ganado (I)";
+                } else if (vp !== 0) {
+                    // Si es un préstamo: El interés es el total de cuotas y residuo pagados menos el valor del bien hoy
+                    interesM = (pmt * N) + vr + vi - vp;
+                    incognita = "Interés Monetario Pagado (I)";
+                } else {
+                    // Si ambos extremos están vacíos, asume la proyección base de rentas puras
+                    interesM = (pmt * N) - vp;
+                    incognita = "Interés Proyectado (I)";
+                }
+                
+                valorCalculado = Math.abs(interesM);
+                
+                // Sincroniza automáticamente la casilla de interés con la respuesta en la hoja de trabajo
+                document.getElementById('txtInteresAnualidad').value = valorCalculado.toFixed(2);
             }
-            // Sincronizar y plasmar los resultados en las casillas de Anualidades
-            document.getElementById('txtMontoAnualidad').value = vf.toFixed(2);
-            document.getElementById('txtCapitalAnualidad').value = vp.toFixed(2);
-            document.getElementById('txtRentaAnualidad').value = pmt.toFixed(2);
-            document.getElementById('txtInteresAnualidad').value = interesM.toFixed(2);
+            else if (metaCalculo === 'N' || metaCalculo === 't') {
+                // 📄 COMANDOS E y F: DESPEJE LOGARÍTMICO DE PLAZOS Y TIEMPO (N / t)
+                // El sistema evalúa si el usuario ingresó un fondo final (VF) o un préstamo (VP) para aplicar el logaritmo exacto
+                let N_calculado = 0;
 
+                if (vf !== 0 && pmt !== 0) {
+                    // Despeje logarítmico desde la fórmula de Valor Futuro
+                    let argumento = ((vf * i_pago) / (pmt * factorAnticipado)) + 1;
+                    if (argumento > 0) {
+                        N_calculado = Math.log(argumento) / Math.log(1 + i_pago);
+                    }
+                } else if (vp !== 0 && pmt !== 0) {
+                    // Despeje logarítmico desde la fórmula de Valor Presente (restando cuota inicial VI y sumando residuo VR)
+                    let vp_neto_rentas = vp - vi - (vr / Math.pow(1 + i_pago, N || 1));
+                    let argumento = 1 - ((vp_neto_rentas * i_pago) / (pmt * factorAnticipado));
+                    if (argumento > 0) {
+                        N_calculado = -Math.log(argumento) / Math.log(1 + i_pago);
+                    }
+                }
+
+                // Asignación de resultados cruzados en espejo según la opción elegida
+                if (metaCalculo === 'N') {
+                    N = N_calculado;
+                    tiempo = (N / py) * k_tiempo; // Deducción inversa del tiempo
+                    incognita = "Número de Pagos Totales (N)";
+                    valorCalculado = N;
+                } else {
+                    N = N_calculado;
+                    tiempo = (N / py) * k_tiempo;
+                    incognita = "Tiempo de Plazo (t)";
+                    valorCalculado = tiempo;
+                }
+
+                // Sincroniza y plasma de inmediato las respuestas automáticas en las casillas celestes y de tiempo
+                document.getElementById('txtPeriodosTotalesAnualidad').value = N.toFixed(2);
+                document.getElementById('txtTiempoAnualidad').value = tiempo.toFixed(2);
+            }
+            else if (metaCalculo === 'tasa_nominal' || metaCalculo === 'tasa_periodica') {
+                // COMANDOS G y H: ALGORITMO DE ITERACIÓN PARA TASAS (I/Y e i)
+                let i_encontrada = 0.001; // Arranca probando con 0.1%
+                let mejorDiferencia = Infinity;
+                
+                // Evaluamos si el problema se basa en un Valor Futuro (Ahorro) o Valor Presente (Préstamo)
+                let objetivo = 0;
+                if (vf !== 0 && pmt !== 0) objetivo = vf / pmt;
+                else if (vp !== 0 && pmt !== 0) {
+                    let vp_neto = vp - vi - (vr / Math.pow(1 + i_banco, N || 1));
+                    objetivo = vp_neto / pmt;
+                }
+
+                // BUCLE DE ALTA VELOCIDAD: Prueba 10,000 combinaciones de tasas en un milisegundo
+                for (let tasaPrueba = 0.00001; tasaPrueba <= 2.0; tasaPrueba += 0.00005) {
+                    let factorPrueba = (variante === 'simple_anticipada' || variante === 'general_anticipada') ? (1 + tasaPrueba) : 1;
+                    let calculoPrueba = 0;
+                    
+                    if (vf !== 0) {
+                        calculoPrueba = ((Math.pow(1 + tasaPrueba, N) - 1) / tasaPrueba) * factorPrueba;
+                    } else {
+                        calculoPrueba = ((1 - Math.pow(1 + tasaPrueba, -N)) / tasaPrueba) * factorPrueba;
+                    }
+                    
+                    let diferencia = Math.abs(calculoPrueba - objetivo);
+                    if (diferencia < mejorDiferencia) {
+                        mejorDiferencia = diferencia;
+                        i_encontrada = tasaPrueba; // Tasa periódica equivalente al ritmo de pagos (i)
+                    }
+                }
+
+                // RE-CONVERSIÓN INVERSA: Deshace el puente P/Y y C/Y para hallar la Nominal Anual verdadera
+                let i_banco_real = Math.pow(1 + i_encontrada, py / cy) - 1;
+                let tasaNominalAnual_IY = i_banco_real * cy * 100;
+                let tasaPeriodica_i = i_encontrada * 100;
+
+                if (metaCalculo === 'tasa_nominal') {
+                    valorCalculated = tasaNominalAnual_IY;
+                    incognita = "Tasa Nominal Anual (I/Y %)";
+                } else {
+                    valorCalculated = tasaPeriodica_i;
+                    incognita = "Tasa Periódica de Pago (i %)";
+                }
+
+                // Sincroniza y estampa los dos resultados reales en las casillas correspondientes
+                document.getElementById('txtTasaAnualidad').value = tasaNominalAnual_IY.toFixed(2);
+                pantalla.innerText = `${valorCalculated.toFixed(2)}%`;
+
+                // Inyecta un reporte premium en el historial desglosando ambas tasas para el profesor
+                if(historialLog) {
+                    setTimeout(() => {
+                        let logTasas = document.createElement('li');
+                        logConsolidado.className = "historial-item";
+                        logTasas.style.borderColor = "#38bdf8";
+                        logTasas.innerHTML = `<strong>[DESPEJE NUMÉRICO]</strong> Nominal Anual (I/Y): <strong>${tasaNominalAnual_IY.toFixed(4)}%</strong> | Periódica de Pago (i): <strong>${tasaPeriodica_i.toFixed(4)}%</strong>`;
+                        historialLog.insertBefore(logTasas, historialLog.firstChild);
+                    }, 50);
+                }
+            }
+            // CALCULO DE BITÁCORA DEL INTERÉS EFECTIVO MONETARIO
+            if (vf !== 0) {
+                interesM = vf - vi - (pmt * N);
+            } else if (vp !== 0) {
+                interesM = (pmt * N) + vr + vi - vp;
+            }
+            document.getElementById('txtInteresAnualidad').value = Math.abs(interesM).toFixed(2);
+
+            // Renderiza el resultado neto en el visor beige tradicional
             pantalla.innerText = Number(valorCalculado.toFixed(2));
         }
         // ---  ACTUALIZACIÓN DE INTERFAZ ---
