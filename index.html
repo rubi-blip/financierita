@@ -1279,7 +1279,6 @@
         }
         
         // Sincroniza la propia casilla del módulo avanzado para que veas el cambio en vivo
-        campoTasa.value = porcentajeEfectivo.toFixed(2);
         pantalla.innerText = porcentajeEfectivo.toFixed(2) + "%";
 
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
@@ -1320,7 +1319,6 @@
             if(document.getElementById('txtTasa')) document.getElementById('txtTasa').value = porcentajeNominal.toFixed(2);
         }
         
-        campoTasa.value = porcentajeNominal.toFixed(2);
         pantalla.innerText = porcentajeNominal.toFixed(2) + "%";
 
         if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
