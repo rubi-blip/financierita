@@ -1666,18 +1666,17 @@
 
             pantalla.innerText = Number(valorCalculado.toFixed(2));
         }else if (tipo === 'anualidades') {
-            // --- CAPTURA COMPLETA DE VARIABLES DEL NUEVO ENTORNO v2.5 ---
-            let vp = parseFloat(document.getElementById('txtCapitalAnualidad').value) || 0;
-            let vi = parseFloat(document.getElementById('txtValorInicialAnualidad').value) || 0; // Nueva variable
-            let pmt = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
-            let tasaAnual = parseFloat(document.getElementById('txtTasaAnualidad').value) || 0;
+            let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAnualidad').value) || 0);
+            let vi = Math.abs(parseFloat(document.getElementById('txtValorInicialAnualidad').value) || 0);
+            let pmt = Math.abs(parseFloat(document.getElementById('txtRentaAnualidad').value) || 0);
+            let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAnualidad').value) || 0);
             let py = parseFloat(document.getElementById('cboPagosAnoAnualidad').value) || 1;
             let cy = parseFloat(document.getElementById('cboCapitalizaTasaAnualidad').value) || 1;
-            let tiempo = parseFloat(document.getElementById('txtTiempoAnualidad').value) || 0;
+            let tiempo = Math.abs(parseFloat(document.getElementById('txtTiempoAnualidad').value) || 0);
             let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempoAnualidad').value) || 1;
-            let interesM = parseFloat(document.getElementById('txtInteresAnualidad').value) || 0;
-            let vf = parseFloat(document.getElementById('txtMontoAnualidad').value) || 0;
-            let vr = parseFloat(document.getElementById('txtValorResidualAnualidad').value) || 0; // Nueva variable
+            let interesM = Math.abs(parseFloat(document.getElementById('txtInteresAnualidad').value) || 0);
+            let vf = Math.abs(parseFloat(document.getElementById('txtMontoAnualidad').value) || 0);
+            let vr = Math.abs(parseFloat(document.getElementById('txtValorResidualAnualidad').value) || 0);
 
             let N = (tiempo / k_tiempo) * py; // Número de Pagos Totales (Casilla celeste morada)
 
