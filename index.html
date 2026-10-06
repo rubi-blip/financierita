@@ -1862,6 +1862,36 @@
                     }, 50);
                 }
             }
+            // ====================================================================
+            // CONTROL DE SALIDA: EVITA QUE EL INTERÉS PISE EL VALOR CALCULADO
+            // ====================================================================
+            
+            // 1. Si NO estás calculando el interés como incógnita principal, 
+            // forzamos a que el casillero de interés siempre muestre la diferencia en positivo.
+            if (metaCalculo !== 'interes') {
+                if (metaCalculo === 'vf') {
+                    interesM = Math.abs(vf) - Math.abs(vi) - (Math.abs(pmt) * N);
+                } else {
+                    interesM = (Math.abs(pmt) * N) + Math.abs(vr) + Math.abs(vi) - Math.abs(vp);
+                }
+                document.getElementById('txtInteresAnualidad').value = Math.abs(interesM).toFixed(2);
+            }
+            if (metaCalculo === 'vf') {
+                document.getElementById('txtMontoAnualidad').value = Math.abs(vf).toFixed(2);
+                valorCalculado = Math.abs(vf);
+            } else if (metaCalculo === 'vp') {
+                valorCalculado = Math.abs(vp);
+            } else if (metaCalculo === 'pmt') {
+                valorCalculado = Math.abs(pmt);
+            } else if (metaCalculo === 'interes') {
+                valorCalculado = Math.abs(interesM);
+            }
+
+            // 3. Renderiza en el visor beige central de la calculadora el valor absoluto exacto
+            pantalla.innerText = (metaCalculo === 'tasa_nominal' || metaCalculo === 'tasa_periodica') 
+                ? `${valorCalculado.toFixed(2)}%` 
+                : Number(Math.abs(valorCalculado).toFixed(2));
+
             // CALCULO DE BITÁCORA DEL INTERÉS EFECTIVO MONETARIO
             if (vf !== 0) {
                 interesM = vf - vi - (pmt * N);
