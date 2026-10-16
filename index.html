@@ -1552,14 +1552,23 @@
         const tipo = modoInteresActivo; // 'compuesto' o 'simple'
 
         if (tipo === 'compuesto') {
-            // --- CAPTURA DE VARIABLES MODO COMPUESTO ---
-            let cap = parseFloat(document.getElementById('txtCapital').value) || 0;
-            let tasa = parseFloat(document.getElementById('txtTasa').value) || 0;
+            // --- CAPTURA RESPETUOSA DE ENTRADAS MODO COMPUESTO ---
+            // Captura los valores numéricos tal como el usuario los escribió sin alterarlos
+            let cap_raw = parseFloat(document.getElementById('txtCapital').value) || 0;
+            let monto_raw = parseFloat(document.getElementById('txtMonto').value) || 0;
+            let tasa_raw = parseFloat(document.getElementById('txtTasa').value) || 0;
+            let tiempo_raw = parseFloat(document.getElementById('txtTiempo').value) || 0;
+            let intMonetario_raw = parseFloat(document.getElementById('txtInteresMonetario').value) || 0;
+
             let m_tasa = parseFloat(document.getElementById('cboCapitalizacion').value) || 1;
-            let tiempo = parseFloat(document.getElementById('txtTiempo').value) || 0;
             let k_tiempo = parseFloat(document.getElementById('cboUnidadTiempo').value) || 1;
-            let intMonetario = parseFloat(document.getElementById('txtInteresMonetario').value) || 0;
-            let monto = parseFloat(document.getElementById('txtMonto').value) || 0;
+
+            // 🛡️ Filtro de Backend: Purifica a absoluto SOLO para las ecuaciones internas
+            let cap = Math.abs(cap_raw);
+            let monto = Math.abs(monto_raw);
+            let tasa = Math.abs(tasa_raw);
+            let tiempo = Math.abs(tiempo_raw);
+            let intMonetario = Math.abs(intMonetario_raw);
 
             let i = (tasa / 100) / m_tasa;
             let tiempoEnAnos = tiempo / k_tiempo;
@@ -1590,16 +1599,40 @@
                 valorCalculado = tiempo;
             }
 
-            if (incognita !== "Interés Monetario (I)") intMonetario = monto - cap;
+            // ====================================================================
+            // 🎯 CONVENCIÓN DE SIGNOS PARA INTERÉS COMPUESTO (EXCEL STYLE)
+            // ====================================================================
+            if (incognita !== "Interés Monetario (I)") intMonetario = Math.abs(monto - cap);
 
-            // Sincronización de casillas compuestas
-            document.getElementById('txtMonto').value = monto.toFixed(2);
-            document.getElementById('txtCapital').value = cap.toFixed(2);
+            // Leemos el Capital (PV) tal como lo ingresó originalmente el usuario en la casilla física HTML
+            let capitalOriginalHTML = parseFloat(document.getElementById('txtCapital').value) || 0;
+            let finalSignoCompuesto = 1;
+
+            // REGLA FINANCIERA: Si el Capital (PV) ingresó en positivo, el Valor Futuro (monto) resulta negativo (-)
+            if (capitalOriginalHTML > 0 && incognita.includes("Valor Futuro")) {
+                finalSignoCompuesto = -1;
+            }
+
+            let montoFinalConSigno = monto * finalSignoCompuesto;
+            let capFinalConSigno = cap; // Mantiene el capital inicial según corresponda
+            
+            if (capitalOriginalHTML > 0 && incognita.includes("Capital")) {
+                // Proceso inverso: Si el usuario ingresó un monto final positivo para saber cuánto depositar hoy
+                capFinalConSigno = cap * -1;
+            }
+
             document.getElementById('txtTasa').value = tasa.toFixed(2);
             document.getElementById('txtTiempo').value = tiempo.toFixed(2);
-            document.getElementById('txtInteresMonetario').value = intMonetario.toFixed(2);
+            document.getElementById('txtInteresMonetario').value = Math.abs(intMonetario).toFixed(2);
+            if (incognita.includes("Valor Futuro")) {
+                document.getElementById('txtMonto').value = montoFinalConSigno.toFixed(2);
+                // 🌟 Mantiene tu capital original intacto con su signo tal como lo pusiste
+                document.getElementById('txtCapital').value = capitalOriginalHTML; 
+            } else if (incognita.includes("Capital")) {
+                document.getElementById('txtCapital').value = capFinalConSigno.toFixed(2);
+            }
 
-            // Filtro desglosador analítico de tiempo compuesto (años, meses, días)
+            // Renderizado en el gran visor beige central de la calculadora azul
             let esTiempo = incognita.toLowerCase().includes("tiempo") || incognita.toLowerCase().includes("(t)");
             if (esTiempo) {
                 let tiempoEnAnosBase = valorCalculado / k_tiempo; 
@@ -1615,7 +1648,12 @@
                 
                 pantalla.innerText = `${anosEnteros}a, ${mesesEnteros}m, ${diasEnteros}d`;
             } else {
-                pantalla.innerText = Number(valorCalculado.toFixed(2));
+                // Si la incógnita es el Valor Futuro, le aplicamos el signo correspondiente
+                let resultadoPantalla = valorCalculado;
+                if (incognita.includes("Valor Futuro")) resultadoPantalla = valorCalculado * finalSignoCompuesto;
+                if (incognita.includes("Capital")) resultadoPantalla = capFinalConSigno;
+                
+                pantalla.innerText = (incognita.includes("Tasa")) ? `${resultadoPantalla.toFixed(2)}%` : Number(resultadoPantalla.toFixed(2));
             }
 
         } else if (tipo === 'simple') {
@@ -1767,7 +1805,7 @@
                 document.getElementById('txtInteresAnualidad').value = valorCalculado.toFixed(2);
             }
             else if (metaCalculo === 'N' || metaCalculo === 't') {
-                // 📄 COMANDOS E y F: DESPEJE LOGARÍTMICO DE PLAZOS Y TIEMPO (N / t)
+                // COMANDOS E y F: DESPEJE LOGARÍTMICO DE PLAZOS Y TIEMPO (N / t)
                 // El sistema evalúa si el usuario ingresó un fondo final (VF) o un préstamo (VP) para aplicar el logaritmo exacto
                 let N_calculado = 0;
 
@@ -1863,11 +1901,10 @@
                 }
             }
             // ====================================================================
-            // CONTROL DE SALIDA: EVITA QUE EL INTERÉS PISE EL VALOR CALCULADO
+            // CONVENCIÓN MAESTRA DE SIGNOS: ESPEJO INVERSO INTEGRADO (EXCEL STYLE)
             // ====================================================================
             
-            // 1. Si NO estás calculando el interés como incógnita principal, 
-            // forzamos a que el casillero de interés siempre muestre la diferencia en positivo.
+            // 1. Cálculo de interés en base a valores absolutos para evitar distorsiones
             if (metaCalculo !== 'interes') {
                 if (metaCalculo === 'vf') {
                     interesM = Math.abs(vf) - Math.abs(vi) - (Math.abs(pmt) * N);
@@ -1876,32 +1913,37 @@
                 }
                 document.getElementById('txtInteresAnualidad').value = Math.abs(interesM).toFixed(2);
             }
-            if (metaCalculo === 'vf') {
-                document.getElementById('txtMontoAnualidad').value = Math.abs(vf).toFixed(2);
-                valorCalculado = Math.abs(vf);
-            } else if (metaCalculo === 'vp') {
-                valorCalculado = Math.abs(vp);
-            } else if (metaCalculo === 'pmt') {
-                valorCalculado = Math.abs(pmt);
-            } else if (metaCalculo === 'interes') {
-                valorCalculado = Math.abs(interesM);
+
+            // 2. Sincronización del valor base en memoria
+            if (metaCalculo === 'vf') valorCalculado = Math.abs(vf);
+            else if (metaCalculo === 'vp') valorCalculado = Math.abs(vp);
+            else if (metaCalculo === 'pmt') valorCalculado = Math.abs(pmt);
+            else if (metaCalculo === 'interes') valorCalculado = Math.abs(interesM);
+
+            // 3. DETECTOR INTERNO DE DIRECCIÓN DE FLUJO
+            // Leemos directamente cómo ingresó el usuario el PMT original en la casilla física del HTML
+            let pmtOriginalHTML = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
+            let finalSigno = 1;
+
+            // Si el usuario ingresó una Renta (PMT) en positivo, la regla financiera internacional 
+            // exige que el resultado del VF o VP se proyecte en negativo (-)
+            if (pmtOriginalHTML > 0 && (metaCalculo === 'vf' || metaCalculo === 'vp')) {
+                finalSigno = -1;
             }
 
-            // 3. Renderiza en el visor beige central de la calculadora el valor absoluto exacto
-            pantalla.innerText = (metaCalculo === 'tasa_nominal' || metaCalculo === 'tasa_periodica') 
-                ? `${valorCalculado.toFixed(2)}%` 
-                : Number(Math.abs(valorCalculado).toFixed(2));
+            // Aplicamos el signo correspondiente a los inputs físicos del formulario
+            let resultadoConSigno = valorCalculado * finalSigno;
 
-            // CALCULO DE BITÁCORA DEL INTERÉS EFECTIVO MONETARIO
-            if (vf !== 0) {
-                interesM = vf - vi - (pmt * N);
-            } else if (vp !== 0) {
-                interesM = (pmt * N) + vr + vi - vp;
+            if (metaCalculo === 'vf') document.getElementById('txtMontoAnualidad').value = resultadoConSigno.toFixed(2);
+            else if (metaCalculo === 'vp') document.getElementById('txtCapitalAnualidad').value = resultadoConSigno.toFixed(2);
+            else if (metaCalculo === 'pmt') document.getElementById('txtRentaAnualidad').value = resultadoConSigno.toFixed(2);
+
+            // 4. Renderiza el veredicto en el visor beige central de la calculadora azul
+            if (metaCalculo === 'tasa_nominal' || metaCalculo === 'tasa_periodica') {
+                pantalla.innerText = `${valorCalculado.toFixed(2)}%`;
+            } else {
+                pantalla.innerText = Number(resultadoConSigno.toFixed(2));
             }
-            document.getElementById('txtInteresAnualidad').value = Math.abs(interesM).toFixed(2);
-
-            // Renderiza el resultado neto en el visor beige tradicional
-            pantalla.innerText = Number(valorCalculado.toFixed(2));
         }
         // ---  ACTUALIZACIÓN DE INTERFAZ ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
