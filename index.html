@@ -26,7 +26,6 @@
             box-sizing: border-box;
         }
 
-        /* Encabezado Corporativo de la Plataforma */
         header {
             display: flex;
             justify-content: space-between;
@@ -52,7 +51,6 @@
             font-weight: bold;
         }
 
-        /* Distribución del Dashboard Completo */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 30% 340px 1fr; 
@@ -64,7 +62,6 @@
 
         }
 
-        /* Panel Izquierdo: Hoja de Trabajo TVM con Distribución Controlada */
         .panel-lateral {
             flex: 1;             
             align-self: stretch; 
@@ -93,6 +90,7 @@
             padding-bottom: 8px;
             color: var(--dorado-mate);
         }
+
         .input-group {
             display: flex;
             flex-direction: column;
@@ -118,7 +116,6 @@
             border-color: var(--dorado-mate);
         }
 
-        /* Contenedor Central: Tu modelo de calculadora física */
         .modulo-central {
             width: 340px;
             display: flex;
@@ -168,7 +165,6 @@
             border-radius: 6px;
         }
 
-        /* Panel Derecho: Historial y Fórmulas del Profesor */
         .panel-derecho {
             height: 100%;
             display: flex;
@@ -216,6 +212,7 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
             transition: all 0.2s;
         }
+
         .formula-box:hover {
             background-color: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.2);
@@ -230,6 +227,7 @@
             50% { opacity: 0.3; } /* Baja la opacidad suavemente a la mitad */
             100% { opacity: 1; }  /* Vuelve a su brillo total */
         }
+
         /* ==================================================================== */
         /* ESTILOS PARA LA SUBVENTANITA FLOTANTE (MODAL OBSERVACIONES) */
         /* ==================================================================== --> */
@@ -278,13 +276,11 @@
             transition: all 0.2s;
         }
 
-        /* Al pasar el mouse por encima de la casilla de fecha */
         input[type="date"]:hover {
             border-color: #f1b233 !important; /* El borde se ilumina en dorado mate */
             box-shadow: 0 0 8px rgba(241, 178, 51, 0.2);
         }
 
-        /* El icono del almanaque flotante a la derecha de la casilla */
         input[type="date"]::-webkit-calendar-picker-indicator {
             background-color: transparent;
             padding: 3px;
@@ -295,11 +291,11 @@
             transition: all 0.2s;
         }
 
-        /* Al pasar el mouse sobre el icono del almanaque */
         input[type="date"]::-webkit-calendar-picker-indicator:hover {
             filter: invert(85%) sepia(60%) saturate(2000%) hue-rotate(365deg); /* Dorado brillante */
             transform: scale(1.1);
         }
+
         /* ==================================================================== */
         /* PANTALLA DE INICIO (SPLASH SCREEN / BIENVENIDA CORPORATIVA)        */
         /* ==================================================================== */
@@ -328,7 +324,6 @@
             animation: entradaSplash 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Pequeña etiqueta verde de versión tipo software real */
         .badge-version {
             background-color: rgba(34, 197, 94, 0.15);
             color: #22c55e;
@@ -347,14 +342,14 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Clase que usará el Script para desvanecer la pantalla de forma fluida */
         .splash-oculto {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+
         /* ==================================================================== */
-        /* 📐 FRACCIÓN VERTICAL EN HTML PURO (ESTILO LATEX)                     */
+        /* FRACCIÓN VERTICAL EN HTML PURO (ESTILO LATEX)                     */
         /* ==================================================================== */
         .fraccion-vertical {
             display: inline-flex;
@@ -371,7 +366,6 @@
             border-top: 1px solid #cbd5e1; /* La línea real de la fracción */
             padding-top: 2px;
         }
-        /* Fuerza el encendido de la guía teórica en espejo */
         .teoria-activa {
             display: flex !important;
         }
@@ -384,9 +378,8 @@
     <!-- ==================================================================== -->
     <div id="pantallaInicioSplash" class="splash-pantalla">
         <div class="splash-tarjeta">
-            
-            <span class="badge-version">Suite Release v3.3</span>
-            
+            <span class="badge-version">Suite Release v4.1</span>
+
             <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
                 FCM - Financierita
             </h1>
@@ -394,15 +387,15 @@
                 Plataforma Analítica de Auditoría Financiera
             </p>
 
-            <!-- Sección de Novedades y Actualizaciones -->
+            <!-- Sección de Novedades V4.1 -->
             <div style="background-color: rgba(30, 38, 64, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; text-align: left; margin-bottom: 25px;">
                 <h4 style="margin: 0 0 10px 0; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Últimas Actualizaciones del Sistema
+                    Novedades del Sistema - Release v4.1
                 </h4>
                 <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.4;">
-                    <li><strong>Selector Máster de Incógnita:</strong> Control analítico guiado por menús independientes que rompe la limitación del descarte por ceros, aislando las órdenes del operador.</li>
-                    <li><strong>Eje Temporal de Doble Carril (VI / VR):</strong> Soporte avanzado para modelar flujos asimétricos simultáneos de cuotas iniciales en el Periodo Cero (<strong>VI</strong>) y opciones de compra o valores residuales futuros (<strong>VR</strong>).</li>
-                    <li><strong>Motores Algorítmicos Complejos:</strong> Integración de despejes de plazos logarítmicos estrictos (<strong>N y t</strong>) y un bucle de aproximación numérica iterativo para resolver tasas nominales y periódicas al centavo.</li>
+                    <li><strong>Módulo de Amortización TVM:</strong> Desglose analítico de cuota uniforme ($PMT$), saldo insoluto ($BAL$), amortización de principal ($PRN$) e intereses devengados ($INT$).</li>
+                    <li><strong>Auditoría de Rango de Cuotas [P1 - P2]:</strong> Evaluación precisa para cuotas puntuales o intervalos acumulados con cálculo de costos totales del crédito.</li>
+                    <li><strong>Desacoplamiento Integral C/Y y P/Y:</strong> Soporte de frecuencias comerciales (Diario 360, Semanal 52, Quincenal 26, Mensual 12, etc.) con cálculo automático de tasa equivalente.</li>
                 </ul>
             </div>
 
@@ -418,7 +411,7 @@
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA V3.3</h1>
+        <h1>FCM FINANCIERITA V4.1</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -458,10 +451,10 @@
                 MODO<br>ANUALIDADES
             </button>
             
-            <!-- Tab 4: Modo Gradientes -->
-            <button id="tabGradientes" onclick="cambiarPestañaInteres('gradientes')" 
+           <!-- Tab 4: Modo Amortización -->
+            <button id="tabAmortizacion" onclick="cambiarPestañaInteres('amortizacion')" 
                     style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
-                MODO<br>GRADIENTES
+                MODO<br>AMORTIZACIÓN
             </button>
         </div>
 
@@ -665,25 +658,34 @@
                 </div>
             </div>
 
-            <!-- Fila tradicional de Tiempo de Plazo -->
-            <div class="input-group">
-                <label>Tiempo de Plazo (t)</label>
-                <input type="number" id="txtTiempoAnualidad" value="0" onfocus="limpiarCeroInicial(this)" oninput="calcularPeriodosAnualidadAutomatico()" onblur="restaurarCeroVacioAnualidad(this)">
-            </div>
+            <!-- FILA COMPACTA EN PARALELO: TIEMPO (t) Y UNIDAD DE TIEMPO -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <!-- Columna Izquierda: Tiempo numérico -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #cbd5e1;">Tiempo de Plazo (t)</label>
+                    <input type="number" id="txtTiempoAnualidad" value="0" 
+                        onfocus="limpiarCeroInicial(this)" 
+                        oninput="calcularPeriodosAnualidadAutomatico()" 
+                        onblur="restaurarCeroVacioAnualidad(this)" 
+                        style="font-size: 12px; padding: 5px;">
+                </div>
 
-            <div class="input-group">
-                <label>Unidad del Tiempo ingresado</label>
-                <select id="cboUnidadTiempoAnualidad" onchange="calcularPeriodosAnualidadAutomatico()">
-                    <option value="1">Años</option>
-                    <option value="2">Semestral</option>
-                    <option value="3">Cuatrimestral</option>
-                    <option value="4">Trimestral</option>
-                    <option value="6">Bimestral</option>
-                    <option value="12">Meses</option>
-                    <option value="26">Quincenas</option>
-                    <option value="52">Semanas</option>
-                    <option value="360">Días</option>
-                </select>
+                <!-- Columna Derecha: Unidad del tiempo -->
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #cbd5e1;">Unidad de Tiempo</label>
+                    <select id="cboUnidadTiempoAnualidad" onchange="calcularPeriodosAnualidadAutomatico()" 
+                            style="font-size: 11px; padding: 5px; height: 32px;">
+                        <option value="1">Años</option>
+                        <option value="2">Semestres</option>
+                        <option value="3">Cuatrimestres</option>
+                        <option value="4">Trimestres</option>
+                        <option value="6">Bimestres</option>
+                        <option value="12">Meses</option>
+                        <option value="26">Quincenas</option>
+                        <option value="52">Semanas</option>
+                        <option value="360">Días</option>
+                    </select>
+                </div>
             </div>
 
             <!-- CARRIL DUAL 2: SALIDAS CELESTES EN PARALELO (N y n) -->
@@ -725,31 +727,137 @@
         </div>
 
         <!-- ==================================================================== -->
-        <!-- FORMULARIO 4: ENTORNO EXCLUSIVO PARA GRADIENTES                      -->
+        <!-- FORMULARIO 4: ENTORNO EXCLUSIVO PARA AMORTIZACIONES (AMORT)          -->
         <!-- ==================================================================== -->
-        <div id="formGradientes" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 12px; padding-right: 5px; margin-bottom: 10px;">
+        <div id="formAmortizacion" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 8px; padding-right: 5px; margin-bottom: 10px;">
             
-            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; margin-bottom: -2px;">
-                <label style="color: #ec4899; font-weight: bold;">Tipo de Gradiente</label>
-                <select id="cboTipoGradiente" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid #4a5568; padding: 6px; border-radius: 4px; font-size: 12px; width: 100%; box-sizing: border-box; font-family: inherit; cursor: pointer;">
-                    <option value="aritmetico">Gradiente Aritmético (Lineal)</option>
-                    <option value="geometrico">Gradiente Geométrico (Porcentual)</option>
-                </select>
+            <!-- Deuda Inicial (VP) -->
+            <div class="input-group">
+                <label style="color: #ec4899; font-weight: bold;">Deuda Inicial / Capital Financiado (VP)</label>
+                <input type="number" id="txtCapitalAmortizacion" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAmort(this)" style="border-color: rgba(236,72,153,0.5);">
             </div>
 
+            <!-- Tasa Nominal Anual (I/Y %) -->
             <div class="input-group">
-                <label>Primera Cuota o Base (A1)</label>
-                <input type="number" id="txtBaseGradiente" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+                <label>Tasa de Interés Anual (I/Y %)</label>
+                <input type="number" id="txtTasaAmortizacion" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacioAmort(this)">
             </div>
 
-            <div class="input-group">
-                <label style="color: #ec4899; font-weight: bold;">Variación Constante (G)</label>
-                <input type="number" id="txtValorG" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(236,72,153,0.4);">
+            <!-- Frecuencias C/Y y P/Y con todas tus opciones -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #38bdf8; font-weight: bold;">Frec. de Capit. (C/Y)</label>
+                    <select id="cboCapitAmortizacion" onchange="calcularPeriodosAmortizacionAutomatico()" style="font-size: 11px; padding: 5px;">
+                        <option value="1">Anual (1)</option>
+                        <option value="2">Semestral (2)</option>
+                        <option value="3">Cuatrimestral (3)</option>
+                        <option value="4">Trimestral (4)</option>
+                        <option value="6">Bimestral (6)</option>
+                        <option value="12" selected>Mensual (12)</option>
+                        <option value="26">Quincenal (26)</option>
+                        <option value="52">Semanal (52)</option>
+                        <option value="360">Diario (360)</option>
+                    </select>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #a855f7; font-weight: bold;">Pagos al año (P/Y)</label>
+                    <select id="cboPagosAmortizacion" onchange="calcularPeriodosAmortizacionAutomatico()" style="font-size: 11px; padding: 5px;">
+                        <option value="1">Anual (1)</option>
+                        <option value="2">Semestral (2)</option>
+                        <option value="3">Cuatrimestral (3)</option>
+                        <option value="4">Trimestral (4)</option>
+                        <option value="6">Bimestral (6)</option>
+                        <option value="12" selected>Mensual (12)</option>
+                        <option value="26">Quincenal (26)</option>
+                        <option value="52">Semanal (52)</option>
+                        <option value="360">Diario (360)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="input-group">
-                <label>Plazo Total de Periodos (n)</label>
-                <input type="number" id="txtPeriodosGradiente" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            <!-- Tiempo (t) y Unidad -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <div class="input-group" style="flex: 1;">
+                    <label>Tiempo de Plazo (t)</label>
+                    <input type="number" id="txtTiempoAmortizacion" value="0" onfocus="limpiarCeroInicial(this)" oninput="calcularPeriodosAmortizacionAutomatico()" onblur="restaurarCeroVacioAmort(this)" style="font-size: 12px; padding: 5px;">
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>Unidad de Tiempo</label>
+                    <select id="cboUnidadTiempoAmortizacion" onchange="calcularPeriodosAmortizacionAutomatico()" style="font-size: 11px; padding: 5px;">
+                        <option value="1">Años</option>
+                        <option value="2">Semestres</option>
+                        <option value="3">Cuatrimestres</option>
+                        <option value="4">Trimestres</option>
+                        <option value="6">Bimestres</option>
+                        <option value="12">Meses</option>
+                        <option value="26">Quincenas</option>
+                        <option value="52">Semanas</option>
+                        <option value="360">Días</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- N y n automáticos -->
+            <div style="display: flex; gap: 10px; width: 100%;">
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #a855f7; font-weight: bold;">N° Pagos Totales (N)</label>
+                    <input type="text" id="txtPagosTotalesAmort" value="0" readonly 
+                        style="background-color: #1a2035; border: 1px solid #a855f7; color: #a855f7; font-weight: bold; font-size: 12px; padding: 5px; text-align: center;">
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label style="font-size: 11px; color: #38bdf8; font-weight: bold;">N° Capit. Totales (n)</label>
+                    <input type="text" id="txtCapitTotalesAmort" value="0" readonly 
+                        style="background-color: #1a2035; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold; font-size: 12px; padding: 5px; text-align: center;">
+                </div>
+            </div>
+
+            <!-- Rango P1 - P2 -->
+            <div style="background-color: rgba(18, 24, 36, 0.6); border: 1px solid rgba(241, 178, 51, 0.3); border-radius: 6px; padding: 8px;">
+                <label style="font-size: 11px; color: var(--dorado-mate); font-weight: bold; display: block; margin-bottom: 4px;">
+                    Rango de Auditoría (Función AMORT)
+                </label>
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #a0aec0;">Cuota Inicial (P1)</label>
+                        <input type="number" id="txtP1Amort" value="1" min="1" style="font-size: 11px; padding: 4px; text-align: center; border-color: #f1b233;">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #a0aec0;">Cuota Final (P2)</label>
+                        <input type="number" id="txtP2Amort" value="1" min="1" style="font-size: 11px; padding: 4px; text-align: center; border-color: #f1b233;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================================================ -->
+            <!-- RESULTADOS DIRECTOS EN PANTALLA TVM (PMT, BAL, PRN, INT)        -->
+            <!-- ================================================================ -->
+            <div style="background-color: rgba(30, 38, 64, 0.5); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px;">
+                
+                <div class="input-group">
+                    <label style="font-size: 11px; color: #ec4899; font-weight: bold;">Cuota Periódica Fija (PMT)</label>
+                    <input type="text" id="txtOutPMTAmort" value="0.00" readonly 
+                        style="background-color: #121824; border: 1px solid #ec4899; color: #ec4899; font-weight: bold; font-size: 13px; text-align: right; padding: 5px;">
+                </div>
+
+                <div class="input-group">
+                    <label style="font-size: 11px; color: #ec4899; font-weight: bold;">Saldo Deudor Remanente (BAL en P2)</label>
+                    <input type="text" id="txtOutBALAmort" value="0.00" readonly 
+                        style="background-color: #121824; border: 1px solid #ec4899; color: #ec4899; font-weight: bold; font-size: 13px; text-align: right; padding: 5px;">
+                </div>
+
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #ec4899; font-weight: bold;">Principal Amortizado (PRN)</label>
+                        <input type="text" id="txtOutPRNAmort" value="0.00" readonly 
+                            style="background-color: #121824; border: 1px solid #ec4899; color: #ec4899; font-weight: bold; font-size: 12px; text-align: right; padding: 4px;">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #ec4899; font-weight: bold;">Interés Devengado (INT)</label>
+                        <input type="text" id="txtOutINTAmort" value="0.00" readonly 
+                            style="background-color: #121824; border: 1px solid #ec4899; color: #ec4899; font-weight: bold; font-size: 12px; text-align: right; padding: 4px;">
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -1004,12 +1112,34 @@
                 </div>
 
 
-                <!-- 4. BLOQUE GRADIENTES (Aislado con Flexbox Columna) -->
-                <div id="teoriaGradientes" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
+                <!-- 4. BLOQUE AMORTIZACIÓN EN ESPEJO -->
+                <div id="teoriaAmortizacion" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
                     <div>
-                        <strong style="color: #ec4899;">Gradientes Aritméticos y Geométricos:</strong>
-                        <div class="formula-box" style="color: #ec4899; background-color: rgba(236,72,153,0.05); border-color: rgba(236,72,153,0.2);">Variación G &plusmn;</div>
-                        <p style="margin: 3px 0 0 0; font-size: 11px; color: #a0aec0;">Series de flujos de caja que aumentan o disminuyen de forma constante.</p>
+                        <strong style="color: var(--dorado-mate);">Cuota Periódica Uniforme (PMT):</strong>
+                        <div class="formula-box" style="display: flex; justify-content: center; align-items: center; gap: 4px; color: #cbd5e1; background-color: rgba(241,178,51,0.05); border-color: rgba(241,178,51,0.2);">
+                            PMT = VP &middot; [
+                            <div class="fraccion-vertical">
+                                <span class="fraccion-numerador">i<sub>p</sub></span>
+                                <span class="fraccion-denominador">1 - (1 + i<sub>p</sub>)<sup>-N</sup></span>
+                            </div>
+                            ]
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Si P/Y &ne; C/Y, el núcleo halla i<sub>p</sub> equivalente antes de computar.</p>
+                    </div>
+
+                    <div>
+                        <strong style="color: #38bdf8;">Saldo Deudor Remanente (BAL en cuota t):</strong>
+                        <div class="formula-box" style="color: #38bdf8; font-size: 13px;">
+                            BAL<sub>t</sub> = VP(1 + i<sub>p</sub>)<sup>t</sup> - PMT &middot; [ ((1 + i<sub>p</sub>)<sup>t</sup> - 1) / i<sub>p</sub> ]
+                        </div>
+                    </div>
+
+                    <div>
+                        <strong style="color: #ec4899;">Descomposición en el Rango [P1, P2]:</strong>
+                        <div class="formula-box" style="color: #ec4899; font-size: 12px; line-height: 1.4;">
+                            &Sigma; PRN = BAL<sub>P1 - 1</sub> - BAL<sub>P2</sub><br>
+                            &Sigma; INT = (P2 - P1 + 1)&middot;PMT - &Sigma; PRN
+                        </div>
                     </div>
                 </div>
 
@@ -1047,15 +1177,14 @@
     <div class="modal-caja-contenido">
             
         <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #22c55e; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">
-            Criterios de Base de FCM-Financierita V3.3
+            Criterios de Base de FCM-Financierita V4.1
         </h3>
 
         <ul style="margin: 0 0 20px 0; padding-left: 18px; font-size: 13px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.5;">
-            <li><strong>Estándar de Año Comercial:</strong> El núcleo matemático de la suite computa de forma estricta bajo la base de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días (Método Alemán Lineal).</li>
-            <li><strong>Sincronización de Entornos Avanzados:</strong> Las herramientas analíticas inferiores (Módulos DBD, ICONV y Tiempo Mixto) actúan de manera directa e inyectan sus resoluciones sobre las variables de la pestaña TVM activa [1.1].</li>
-            <li><strong>Algoritmo de Tasas Equivalentes:</strong> El módulo de Anualidades v3.3 incluye un enrutador inteligente para **Anualidades Generales**. Si los Pagos al Año (P/Y) y la Capitalización (C/Y) difieren, el sistema halla de forma interna la tasa periódica equivalente exacta antes de procesar el cálculo [1.1].</li>
-            <li><strong>Descomposición Temporal Analítica:</strong> Al despejar plazos fraccionados en Interés Compuesto, la plataforma activa un algoritmo de residuo decimal para desglosar la respuesta exacta en <strong>Años, Meses y Días</strong> de manera automática sobre el visor central [1.1].</li>
-            <li><strong>Renderizado LaTeX Puro:</strong> Visualización de ecuaciones financieras complejas y fracciones verticales en el panel derecho mediante maquetado vectorial nativo sin dependencias pesadas.</li>
+            <li><strong>Estándar de Año Comercial:</strong> El núcleo matemático computa bajo la base estricta de <strong>Año Comercial (Base 360 días)</strong> y meses uniformes de 30 días.</li>
+            <li><strong>Cronogramas de Amortización TVM:</strong> Implementación del estándar de cuota constante ($PMT$) con descomposición $PMT_k = PRN_k + INT_k$ y balance de deuda en rangos $[P_1, P_2]$.</li>
+            <li><strong>Frecuencias Contractuales y Equivalencia:</strong> Sincronización en paralelo de $C/Y$ y $P/Y$ (anual, semestral, cuatrimestral, trimestral, bimestral, mensual, quincenal 26, semanal 52 y diario 360).</li>
+            <li><strong>Sincronización de Entornos Avanzados:</strong> Las herramientas inferiores (DBD, ICONV y Tiempo Mixto) inyectan sus resoluciones directamente en la pestaña TVM activa.</li>
         </ul>
 
         <!-- Botón estético en blanco crema para cerrar la ventana flotante -->
@@ -1092,7 +1221,11 @@
                 Define tu tipo de anualidad. Si los pagos al año (P/Y) y la capitalización (C/Y) difieren, el cerebro matemático ejecutará un arbitraje de tasas equivalentes de forma interna antes de calcular.
             </div>
             <div>
-                <strong style="color: #22c55e;">4. Módulos Avanzados Inferiores:</strong><br>
+                <strong style="color: #a855f7;">4. Módulo de Amortización y Cronogramas:</strong><br>
+                Ingresa la deuda inicial ($VP$), la tasa nominal ($I/Y\%$), las frecuencias ($C/Y$ y $P/Y$) y el plazo ($t$). Define $P_1$ y $P_2$ para auditar la cuota ($PMT$), el saldo ($BAL$), el principal amortizado ($PRN$) y los intereses ($INT$).
+            </div>
+            <div>
+                <strong style="color: #22c55e;">5. Módulos Avanzados Inferiores:</strong><br>
                 • <strong>DBD:</strong> Calcula los días comerciales exactos entre dos fechas.<br>
                 • <strong>ICONV:</strong> Realiza conversiones bi-direccionales de tasas nominales a efectivas verdaderas.<br>
                 • <strong>Tiempo Mixto:</strong> Homogeneiza plazos fraccionados (meses + días) a una sola base comercial.
@@ -1173,19 +1306,19 @@
         const btnCompuesto = document.getElementById('tabCompuesto');
         const btnSimple = document.getElementById('tabSimple');
         const btnAnualidades = document.getElementById('tabAnualidades');
-        const btnGradientes = document.getElementById('tabGradientes');
+        const btnAmortizacion = document.getElementById('tabAmortizacion');
 
         // 2. CAPTURA DIRECTA DE LAS 4 GUÍAS TEÓRICAS DE LA DERECHA
         const guiaCompuesto = document.getElementById('teoriaCompuesto');
         const guiaSimple = document.getElementById('teoriaSimple');
         const guiaAnualidades = document.getElementById('teoriaAnualidades');
-        const guiaGradientes = document.getElementById('teoriaGradientes');
+        const guiaAmortizacion = document.getElementById('teoriaAmortizacion');
 
         // 3. CAPTURA DIRECTA DE LOS 4 FORMULARIOS DE LA IZQUIERDA
         const formCompuesto = document.getElementById('formCompuesto');
         const formSimple = document.getElementById('formSimple');
         const formAnualidades = document.getElementById('formAnualidades');
-        const formGradientes = document.getElementById('formGradientes');
+        const formAmortizacion = document.getElementById('formAmortizacion');
 
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
 
@@ -1193,19 +1326,19 @@
         if (btnCompuesto) { btnCompuesto.style.backgroundColor = 'transparent'; btnCompuesto.style.color = '#cbd5e1'; btnCompuesto.style.borderColor = 'transparent'; }
         if (btnSimple) { btnSimple.style.backgroundColor = 'transparent'; btnSimple.style.color = '#cbd5e1'; btnSimple.style.borderColor = 'transparent'; }
         if (btnAnualidades) { btnAnualidades.style.backgroundColor = 'transparent'; btnAnualidades.style.color = '#cbd5e1'; btnAnualidades.style.borderColor = 'transparent'; }
-        if (btnGradientes) { btnGradientes.style.backgroundColor = 'transparent'; btnGradientes.style.color = '#cbd5e1'; btnGradientes.style.borderColor = 'transparent'; }
+        if (btnAmortizacion) { btnAmortizacion.style.backgroundColor = 'transparent'; btnAmortizacion.style.color = '#cbd5e1'; btnAmortizacion.style.borderColor = 'transparent'; }
 
         // PASO B: APAGADO FÍSICO DE TODAS LAS GUÍAS (Evita el bloqueo fantasma)
         if (guiaCompuesto) guiaCompuesto.style.display = 'none';
         if (guiaSimple) guiaSimple.style.display = 'none';
         if (guiaAnualidades) guiaAnualidades.style.display = 'none';
-        if (guiaGradientes) guiaGradientes.style.display = 'none';
+        if (guiaAmortizacion) guiaAmortizacion.style.display = 'none';
 
         // PASO C: APAGADO FÍSICO DE TODOS LOS FORMULARIOS IZQUIERDOS
         if (formCompuesto) formCompuesto.style.display = 'none';
         if (formSimple) formSimple.style.display = 'none';
         if (formAnualidades) formAnualidades.style.display = 'none';
-        if (formGradientes) formGradientes.style.display = 'none';
+        if (formAmortizacion) formAmortizacion.style.display = 'none';
 
         // PASO D: ENCIENDE EN ESPEJO EXCLUSIVAMENTE EL MODO SELECCIONADO
         if (modo === 'compuesto') {
@@ -1229,11 +1362,12 @@
             if (typeof conmutarTeoriaAnualidades === "function") conmutarTeoriaAnualidades(); // Mantiene tu triple espejo de anualidades activo
             if (typeof calcularPeriodosAutomatico === "function") calcularPeriodosAutomatico();
         } 
-        else if (modo === 'gradientes') {
-            if (btnGradientes) { btnGradientes.style.backgroundColor = '#2c2214'; btnGradientes.style.color = '#f1b233'; btnGradientes.style.borderColor = '#f1b233'; }
-            if (guiaGradientes) guiaGradientes.style.display = 'flex';
-            if (formGradientes) formGradientes.style.display = 'flex';
-            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Gradientes Activo";
+        else if (modo === 'amortizacion') {
+            if (btnAmortizacion) { btnAmortizacion.style.backgroundColor = '#2c2214'; btnAmortizacion.style.color = '#f1b233'; btnAmortizacion.style.borderColor = '#f1b233'; }
+            if (guiaAmortizacion) guiaAmortizacion.style.display = 'flex';
+            if (formAmortizacion) formAmortizacion.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Amortización Activo";
+            if (typeof calcularPeriodosAmortizacionAutomatico === "function") calcularPeriodosAmortizacionAutomatico();
         }
     }
 
@@ -1462,6 +1596,7 @@
     function restaurarCeroVacio(elemento) {
         if (elemento.value.trim() === "") elemento.value = "0";
         if (modoInteresActivo === "compuesto") calcularPeriodosAutomatico();
+        calcularPeriodosAmortizacionAutomatico();
     }
 
     // ====================================================================
@@ -1499,6 +1634,19 @@
         }
     }
 
+    function calcularPeriodosAmortizacionAutomatico() {
+    let t = parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0;
+    let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
+    let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
+    let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
+
+    let totalN = (t / k_t) * py;
+    let total_n = (t / k_t) * cy;
+
+    document.getElementById('txtPagosTotalesAmort').value = Number(totalN.toFixed(2));
+    document.getElementById('txtCapitTotalesAmort').value = Number(total_n.toFixed(2));
+    }
+    
     // ====================================================================
     // MOTOR DE LIMPIEZA COMPLETO Y UNIFICADO
     // ====================================================================
@@ -1522,7 +1670,7 @@
         document.getElementById('cboUnidadTasaSimple').selectedIndex = 0;
         document.getElementById('cboUnidadTiempoSimple').selectedIndex = 0;
 
-        // Dentro de function limpiarFormularioTVM()...
+        // Reseteo Completo de Casillas de Modo Anualidades
         document.getElementById('txtCapitalAnualidad').value = "0";
         document.getElementById('txtRentaAnualidad').value = "0";
         document.getElementById('txtTasaAnualidad').value = "0";
@@ -1530,6 +1678,12 @@
         document.getElementById('txtPeriodosTotalesAnualidad').value = "0";
         document.getElementById('txtInteresAnualidad').value = "0";
         document.getElementById('txtMontoAnualidad').value = "0";
+
+        // Reseteo Completo de Casillas de Modo Amortizaciones
+        if(document.getElementById('txtOutPMTAmort')) document.getElementById('txtOutPMTAmort').value = "0.00";
+        if(document.getElementById('txtOutBALAmort')) document.getElementById('txtOutBALAmort').value = "0.00";
+        if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = "0.00";
+        if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = "0.00";
 
         // Reseteo de Pantalla de Hardware Central
         textoAcumulado = "";
@@ -1600,7 +1754,7 @@
             }
 
             // ====================================================================
-            // 🎯 CONVENCIÓN DE SIGNOS PARA INTERÉS COMPUESTO (EXCEL STYLE)
+            // CONVENCIÓN DE SIGNOS PARA INTERÉS COMPUESTO (EXCEL STYLE)
             // ====================================================================
             if (incognita !== "Interés Monetario (I)") intMonetario = Math.abs(monto - cap);
 
@@ -1944,7 +2098,87 @@
             } else {
                 pantalla.innerText = Number(resultadoConSigno.toFixed(2));
             }
+
+        }else if (tipo === 'amortizacion') {
+            let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAmortizacion').value) || 0);
+            let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAmortizacion').value) || 0);
+            let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
+            let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
+            let t = Math.abs(parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0);
+            let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
+
+            let N = Math.round((t / k_t) * py);
+            let p1 = parseInt(document.getElementById('txtP1Amort').value) || 1;
+            let p2 = parseInt(document.getElementById('txtP2Amort').value) || p1;
+
+            if (vp === 0 || tasaAnual === 0 || N === 0) {
+                alert("Por favor ingrese Deuda (VP), Tasa (I/Y%) y Tiempo (t).");
+                return;
+            }
+
+            if (p1 < 1) p1 = 1;
+            if (p2 < p1) p2 = p1;
+            if (p2 > N) p2 = N;
+
+            // 1. Homogeneización de Tasa (P/Y vs C/Y)
+            let i_banco = (tasaAnual / 100) / cy;
+            let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
+
+            // 2. Cuota Regular Fija (PMT)
+            let pmt = vp * (ip / (1 - Math.pow(1 + ip, -N)));
+            valorCalculado = pmt;
+            incognita = "Cuota Periódica Fija (PMT)";
+            pantalla.innerText = Number(pmt.toFixed(2));
+
+            // 3. Función auxiliar para calcular Saldo Deudor tras cuota k
+            function obtenerSaldo(k) {
+                if (k <= 0) return vp;
+                if (k >= N) return 0;
+                let saldo = vp * Math.pow(1 + ip, k) - pmt * ((Math.pow(1 + ip, k) - 1) / ip);
+                return Math.max(0, saldo);
+            }
+
+            let bal_p1_ant = obtenerSaldo(p1 - 1);
+            let bal_p2 = obtenerSaldo(p2);
+            let prn_rango = bal_p1_ant - bal_p2;
+            let numCuotasRango = (p2 - p1 + 1);
+            let int_rango = (numCuotasRango * pmt) - prn_rango;
+            let interesTotalCredito = (N * pmt) - vp;
+
+            pantalla.innerText = Number(pmt.toFixed(2));
+            if(document.getElementById('txtOutPMTAmort')) document.getElementById('txtOutPMTAmort').value = pmt.toFixed(2);
+            if(document.getElementById('txtOutBALAmort')) document.getElementById('txtOutBALAmort').value = bal_p2.toFixed(2);
+            if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = prn_rango.toFixed(2);
+            if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = int_rango.toFixed(2);
+
+            // 4. Registro en el Historial de Auditoría Analítica
+            if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+            let nuevoItem = document.createElement('li');
+            nuevoItem.className = "historial-item";
+            nuevoItem.style.marginBottom = "12px";
+            nuevoItem.style.padding = "12px";
+            nuevoItem.style.borderRadius = "8px";
+            nuevoItem.style.backgroundColor = "rgba(255,255,255,0.02)";
+            nuevoItem.style.border = "1px solid #f1b233";
+
+            let labelRango = (p1 === p2) ? `Cuota Única [k = ${p1}]` : `Rango Acumulado [P1 = ${p1} a P2 = ${p2}]`;
+
+            nuevoItem.innerHTML = `
+                <div style="color: var(--dorado-mate); font-weight: bold; margin-bottom: 5px;">[AMORTIZACIÓN TVM] ${labelRango}</div>
+                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 4px;">➔ Deuda (VP): $${vp.toFixed(2)} | I/Y: ${tasaAnual}% (C/Y=${cy}, P/Y=${py}) | N: ${N} pagos</div>
+                <div style="font-size: 12px; line-height: 1.5;">
+                    • Cuota Regular Fija: <strong style="color: var(--dorado-mate); font-size: 13px;">PMT = $${pmt.toFixed(2)}</strong><br>
+                    • Amortización de Principal (PRN): <strong style="color: #38bdf8;">$${prn_rango.toFixed(2)}</strong><br>
+                    • Interés Pagado (INT): <strong style="color: #ec4899;">$${int_rango.toFixed(2)}</strong><br>
+                    • Saldo Deudor Remanente (BAL): <strong style="color: #22c55e;">$${bal_p2.toFixed(2)}</strong>
+                </div>
+                <div style="font-size: 11px; color: #718096; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
+                    Total Crédito: Desembolso Total = $${(N * pmt).toFixed(2)} | Interés Total (&Sigma;I) = $${interesTotalCredito.toFixed(2)}
+                </div>
+            `;
+            historialLog.insertBefore(nuevoItem, historialLog.firstChild);
         }
+
         // ---  ACTUALIZACIÓN DE INTERFAZ ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
         etiquetaEstado.innerText = `Calculando: ${incognita} [Interés ${tipo.toUpperCase()}]`;
