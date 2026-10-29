@@ -378,7 +378,7 @@
     <!-- ==================================================================== -->
     <div id="pantallaInicioSplash" class="splash-pantalla">
         <div class="splash-tarjeta">
-            <span class="badge-version">Suite Release v4.1</span>
+            <span class="badge-version">Suite Release v5.1</span>
 
             <h1 style="margin: 0 0 5px 0; font-size: 26px; color: var(--dorado-mate); font-weight: 800; letter-spacing: 0.5px;">
                 FCM - Financierita
@@ -387,15 +387,17 @@
                 Plataforma Analítica de Auditoría Financiera
             </p>
 
-            <!-- Sección de Novedades V4.1 -->
+            <!-- NOVEDADES V5.1 -->
             <div style="background-color: rgba(30, 38, 64, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; text-align: left; margin-bottom: 25px;">
                 <h4 style="margin: 0 0 10px 0; font-size: 12px; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px;">
-                    Novedades del Sistema - Release v4.1
+                    Novedades de la Versión 5.1
                 </h4>
                 <ul style="margin: 0; padding-left: 15px; font-size: 12px; color: #cbd5e1; display: flex; flex-direction: column; gap: 8px; line-height: 1.4;">
-                    <li><strong>Módulo de Amortización TVM:</strong> Desglose analítico de cuota uniforme ($PMT$), saldo insoluto ($BAL$), amortización de principal ($PRN$) e intereses devengados ($INT$).</li>
-                    <li><strong>Auditoría de Rango de Cuotas [P1 - P2]:</strong> Evaluación precisa para cuotas puntuales o intervalos acumulados con cálculo de costos totales del crédito.</li>
-                    <li><strong>Desacoplamiento Integral C/Y y P/Y:</strong> Soporte de frecuencias comerciales (Diario 360, Semanal 52, Quincenal 26, Mensual 12, etc.) con cálculo automático de tasa equivalente.</li>
+                    <li><strong>Arquitectura Hexagonal (6 Modos):</strong> Barra superior organizada en dos niveles para transitar entre Interés Compuesto, Simple, Anualidades, Amortización, Rentabilidad y CVU.</li>
+                    <li><strong>Análisis de Rentabilidad y Decisiones de Inversión:</strong> Soporte dual para cómputo TVM de flujo puntual (Cash Outflow en $t=0$ o $FV$ en $N$) y evaluación multianual completa con $VAN$, $TIR$, ratio $B/C$ y dictamen de viabilidad económica con tres estados.</li>
+                    <li><strong>Módulo Costo-Volumen-Utilidad (BRKEVN):</strong> Simbología estándar de hoja de cálculo ($FC, VC, P, PFT, Q$), despeje algebraico universal de cualquiera de sus 5 variables y determinación del Punto de Equilibrio ($PFT = 0$).</li>
+                    <li><strong>Cronogramas de Amortización con Rango P1/P2:</strong> Liquidación bajo Sistemas Francés, Alemán y Americano, con auditoría de saldo insoluto ($BAL$), amortización acumulada ($\sum PRN$) e intereses acumulados ($\sum INT$).</li>
+                    <li><strong>Guía Teórica de Auditoría en Espejo:</strong> Transformación dinámica del panel derecho con renderizado de fórmulas LaTeX, ley de descomposición de cuotas y casos decisionales del $VAN$.</li>
                 </ul>
             </div>
 
@@ -411,7 +413,7 @@
 
 <header>
     <div>
-        <h1>FCM FINANCIERITA V4.1</h1>
+        <h1>FCM FINANCIERITA V5.1</h1>
         <small style="color: #a0aec0;">Sistema de Auditoría y Modelado Matemático Financiero</small>
     </div>
     <div class="status-badge">● NÚCLEO MATEMÁTICO INTEGRADO</div>
@@ -431,31 +433,39 @@
         <!-- ==================================================================== -->
         <!-- CONTROL DE PESTAÑAS (TABS) DE 4 VÍAS COMPLETAMENTE DESBLOQUEADO -->
         <!-- ==================================================================== -->
-        <div style="display: flex; gap: 4px; background-color: rgba(18, 24, 36, 0.6); padding: 4px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; width: 100%; box-sizing: border-box;">
-            
-            <!-- Tab 1: Modo Compuesto -->
-            <button id="tabCompuesto" onclick="cambiarPestañaInteres('compuesto')" 
-                    style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #f1b233; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
-                MODO<br>COMPUESTO
-            </button>
-            
-            <!-- Tab 2: Modo Simple -->
-            <button id="tabSimple" onclick="cambiarPestañaInteres('simple')" 
-                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
-                MODO<br>SIMPLE
-            </button>
-            
-            <!-- Tab 3: Modo Anualidades -->
-            <button id="tabAnualidades" onclick="cambiarPestañaInteres('anualidades')" 
-                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
-                MODO<br>ANUALIDADES
-            </button>
-            
-           <!-- Tab 4: Modo Amortización -->
-            <button id="tabAmortizacion" onclick="cambiarPestañaInteres('amortizacion')" 
-                    style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 8px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.2; min-height: 38px;">
-                MODO<br>AMORTIZACIÓN
-            </button>
+        <div style="display: flex; flex-direction: column; gap: 5px; background-color: rgba(18, 24, 36, 0.6); padding: 5px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 8px; width: 100%; box-sizing: border-box;">    
+        <!-- Fila 1: Regímenes Tradicionales de Valor del Dinero en el Tiempo -->
+            <div style="display: flex; gap: 4px; width: 100%;">
+                <button id="tabCompuesto" onclick="cambiarPestañaInteres('compuesto')" 
+                        style="flex: 1; background-color: #2c2214; color: #f1b233; border: 1px solid #f1b233; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.1; min-height: 32px;">
+                    MODO<br>COMPUESTO
+                </button>
+                <button id="tabSimple" onclick="cambiarPestañaInteres('simple')" 
+                        style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.1; min-height: 32px;">
+                    MODO<br>SIMPLE
+                </button>
+                <button id="tabAnualidades" onclick="cambiarPestañaInteres('anualidades')" 
+                        style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.1; min-height: 32px;">
+                    MODO<br>ANUALIDADES
+                </button>
+            </div>
+
+            <!-- Fila 2: Decisiones Empresariales y Estructura Operativa -->
+            <div style="display: flex; gap: 4px; width: 100%;">
+                <button id="tabAmortizacion" onclick="cambiarPestañaInteres('amortizacion')" 
+                        style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; line-height: 1.1; min-height: 32px;">
+                    MODO<br>AMORTIZACIÓN
+                </button>
+                <button id="tabRentabilidad" onclick="cambiarPestañaInteres('rentabilidad')" 
+                        style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; line-height: 1.1; min-height: 32px;">
+                    ANÁLISIS DE<br>RENTABILIDAD
+                </button>
+                <button id="tabCVU" onclick="cambiarPestañaInteres('cvu')" 
+                        style="flex: 1; background-color: transparent; color: #cbd5e1; border: 1px solid transparent; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: bold; cursor: pointer; transition: all 0.2s; white-space: normal; line-height: 1.1; min-height: 32px;">
+                    ANÁLISIS DE CVU<br>(COSTO-VOLUMEN-UTILIDAD)
+                </button>
+            </div>
+
         </div>
 
 
@@ -862,6 +872,216 @@
 
         </div>
 
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 5: ANÁLISIS DE RENTABILIDAD -->
+        <!-- ==================================================================== -->
+        <div id="formRentabilidad" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 8px; padding-right: 5px; margin-bottom: 10px;">
+            
+            <!-- Selector de Operación -->
+            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px;">
+                <label style="color: var(--dorado-mate); font-weight: bold;">Operación de Flujo de Caja</label>
+                <select id="cboTipoOperacionRentabilidad" onchange="conmutarCamposRentabilidad()" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid var(--dorado-mate); padding: 5px; border-radius: 4px; font-size: 11px; width: 100%;">
+                    <option value="tvm_directo">Cash Outflow / Flujo de Caja directo</option>
+                    <option value="van_tir">Evaluación de Proyecto (VAN / TIR Multianual)</option>
+                </select>
+            </div>
+
+            <!-- Tasa Nominal / COK -->
+            <div class="input-group">
+                <label style="color: var(--dorado-mate); font-weight: bold;">Tasa de Interés / Descuento (I/Y % o COK %)</label>
+                <input type="number" id="txtTasaRentabilidad" value="5.4" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(241,178,51,0.5);">
+            </div>
+
+            <!-- BLOQUE 1: CÓMPUTO TVM DIRECTO (DIAPOSITIVAS PROFESOR) -->
+            <div id="bloqueTVMDirecto" style="display: flex; flex-direction: column; gap: 8px;">
+
+                <!-- Selector de Incógnita TVM -->
+                <div class="input-group">
+                    <label style="font-size: 11px; color: #38bdf8; font-weight: bold;">Variable a Despejar en Periodo N</label>
+                    <select id="cboIncognitaTVMRent" style="font-size: 11px; padding: 4px; background-color: #121824; color: #fff; border: 1px solid #38bdf8;">
+                        <option value="pv">Valor Presente / Desembolso Hoy (PV)</option>
+                        <option value="fv">Flujo de Caja al Vencimiento en Periodo N (FV)</option>
+                    </select>
+                </div>
+
+                <!-- Frecuencias C/Y y P/Y -->
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #cbd5e1;">Frec. Capit. (C/Y)</label>
+                        <select id="cboCapitRentabilidad" style="font-size: 11px; padding: 4px;">
+                            <option value="1" selected>Anual (1)</option>
+                            <option value="2">Semestral (2)</option>
+                            <option value="4">Trimestral (4)</option>
+                            <option value="12">Mensual (12)</option>
+                            <option value="360">Diario (360)</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #cbd5e1;">Pagos al año (P/Y)</label>
+                        <select id="cboPagosRentabilidad" style="font-size: 11px; padding: 4px;">
+                            <option value="1" selected>Anual (1)</option>
+                            <option value="2">Semestral (2)</option>
+                            <option value="4">Trimestral (4)</option>
+                            <option value="12">Mensual (12)</option>
+                            <option value="360">Diario (360)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- N directo y PMT -->
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 11px; color: #a855f7; font-weight: bold;">Número de Periodos (N)</label>
+                        <input type="number" id="txtPeriodosRentabilidad" value="1" min="1" step="1"
+                            style="font-size: 12px; padding: 4px; border-color: rgba(168,85,247,0.5);">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 11px; color: #a855f7;">Pago Periódico (PMT)</label>
+                        <input type="number" id="txtPMTRentabilidad" value="0" 
+                            onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)"
+                            placeholder="0 para flujo único"
+                            style="font-size: 12px; padding: 4px;">
+                    </div>
+                </div>
+
+                <!-- Casillas de Entrada de PV y FV -->
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 11px; color: #22c55e;">Valor Presente (PV)</label>
+                        <input type="number" id="txtInPVRent" value="0" 
+                            onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)"
+                            placeholder="Dejar en 0 si es incógnita"
+                            style="font-size: 12px; padding: 4px;">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 11px; color: #cbd5e1;">Flujo en Periodo N (FV)</label>
+                        <input type="number" id="txtFVRentabilidad" value="20000" 
+                            onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)"
+                            placeholder="Dejar en 0 si es incógnita"
+                            style="font-size: 12px; padding: 4px;">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BLOQUE 2: PROYECTO MULTIANUAL (VAN / TIR) -->
+            <div id="bloqueVANTIR" style="display: none; flex-direction: column; gap: 8px;">
+                <div class="input-group">
+                    <label style="color: #ec4899; font-weight: bold;">Inversión Inicial ($I_0$)</label>
+                    <input type="number" id="txtInversionInicialRent" value="0" style="border-color: rgba(236,72,153,0.5);">
+                </div>
+                <div class="input-group">
+                    <label style="color: #38bdf8; font-weight: bold;">Flujos de Caja ($FC_1, FC_2, \dots$)</label>
+                    <textarea id="txtFlujosCajaRent" rows="2" placeholder="Ejemplo: 4000, 6000, 8000" 
+                            style="background-color: var(--fondo-oscuro); border: 1px solid #4a5568; color: #fff; padding: 6px; border-radius: 6px; font-size: 12px; resize: none; font-family: inherit; outline: none;"></textarea>
+                </div>
+            </div>
+
+            <!-- CUADRO DE RESULTADOS TVM DIRECTO -->
+            <div style="background-color: rgba(30, 38, 64, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+                <div class="input-group">
+                    <label style="font-size: 11px; color: #22c55e; font-weight: bold;">Flujo de Caja / Cash Outflow</label>
+                    <input type="text" id="txtOutPVRent" value="0.00" readonly 
+                        style="background-color: #121824; border: 1px solid #22c55e; color: #22c55e; font-weight: bold; font-size: 13px; text-align: right; padding: 4px;">
+                </div>
+
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #22c55e; font-weight: bold;">VAN (S/)</label>
+                        <input type="text" id="txtOutVANRent" value="0.00" readonly 
+                            style="background-color: #121824; border: 1px solid var#22c55e; color: #22c55e; font-weight: bold; font-size: 11px; text-align: right; padding: 3px;">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 10px; color: #22c55e; font-weight: bold;">TIR (%)</label>
+                        <input type="text" id="txtOutTIRRent" value="0.00%" readonly 
+                            style="background-color: #121824; border: 1px solid #22c55e; color: #22c55e; font-weight: bold; font-size: 11px; text-align: right; padding: 3px;">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ==================================================================== -->
+        <!-- FORMULARIO 6: ANÁLISIS CVU / BREAK-EVEN (BRKEVN WORKSHEET)             -->
+        <!-- ==================================================================== -->
+        <div id="formCVU" class="scroll-variables" style="flex: 1; overflow-y: auto; display: none; flex-direction: column; gap: 8px; padding-right: 5px; margin-bottom: 10px;">
+            
+            <!-- Selector de Incógnita CVU -->
+            <div class="input-group" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px;">
+                <label style="color: var(--dorado-mate); font-weight: bold;">Variable a Despejar / Calcular</label>
+                <select id="cboIncognitaCVU" style="background-color: rgba(18,24,36,0.8); color: #fff; border: 1px solid var(--dorado-mate); padding: 5px; border-radius: 4px; font-size: 11px; width: 100%;">
+                    <option value="q" selected>Cantidad / Volumen de Unidades (Q)</option>
+                    <option value="p">Precio de Venta Unitario (P)</option>
+                    <option value="fc">Costos Fijos Totales (FC)</option>
+                    <option value="vc">Costo Variable por Unidad (VC)</option>
+                    <option value="pft">Beneficio / Utilidad Neta (PFT)</option>
+                </select>
+            </div>
+
+            <!-- Costos Fijos (FC) -->
+            <div class="input-group">
+                <label style="color: #ec4899; font-weight: bold;">Costos Fijos Totales (FC)</label>
+                <input type="number" id="txtCostosFijosCVU" value="15000" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)" style="border-color: rgba(236,72,153,0.5);">
+            </div>
+
+            <!-- Costo Variable Unitario (VC) -->
+            <div class="input-group">
+                <label style="color: #38bdf8; font-weight: bold;">Costo Variable por Unidad (VC)</label>
+                <input type="number" id="txtCostoVarCVU" value="25" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+
+            <!-- Precio Unitario (P) -->
+            <div class="input-group">
+                <label style="color: var(--dorado-mate); font-weight: bold;">Precio por Unidad (P)</label>
+                <input type="number" id="txtPrecioCVU" value="50" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+
+            <!-- Beneficio / Utilidad (PFT) -->
+            <div class="input-group">
+                <label style="color: #22c55e; font-weight: bold;">Beneficio / Ingreso Neto Meta (PFT)</label>
+                <input type="number" id="txtProfitCVU" value="0" placeholder="0 para Punto de Equilibrio" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+                <small style="font-size: 10px; color: #a0aec0;">* PFT = 0 representa el punto de equilibrio estricto.</small>
+            </div>
+
+            <!-- Cantidad (Q) -->
+            <div class="input-group">
+                <label style="color: #a855f7; font-weight: bold;">Cantidad / Volumen (Q)</label>
+                <input type="number" id="txtCantidadCVU" value="0" onfocus="limpiarCeroInicial(this)" onblur="restaurarCeroVacio(this)">
+            </div>
+
+            <!-- CUADRO DE RESULTADOS CVU DIRECTO -->
+            <div style="background-color: rgba(30, 38, 64, 0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+                
+                <div class="input-group">
+                    <label style="font-size: 10px; color: var(--dorado-mate); font-weight: bold;">Resultado Despejado</label>
+                    <input type="text" id="txtOutResultadoCVU" value="0.00" readonly 
+                        style="background-color: #121824; border: 1px solid var(--dorado-mate); color: var(--dorado-mate); font-weight: bold; font-size: 13px; text-align: right; padding: 4px;">
+                </div>
+
+                <div style="display: flex; gap: 6px; width: 100%;">
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 9px; color: #38bdf8; font-weight: bold;">Margen (P - VC)</label>
+                        <input type="text" id="txtOutMCU_CVU" value="S/ 0.00" readonly 
+                            style="background-color: #121824; border: 1px solid #38bdf8; color: #38bdf8; font-weight: bold; font-size: 11px; text-align: right; padding: 3px;">
+                    </div>
+                    <div class="input-group" style="flex: 1;">
+                        <label style="font-size: 9px; color: #22c55e; font-weight: bold;">Ventas Totales ($)</label>
+                        <input type="text" id="txtOutVentasCVU" value="S/ 0.00" readonly 
+                            style="background-color: #121824; border: 1px solid #22c55e; color: #22c55e; font-weight: bold; font-size: 11px; text-align: right; padding: 3px;">
+                    </div>
+                </div>
+
+                <!-- Indicador de Punto de Equilibrio vs Utilidad -->
+                <div class="input-group" style="margin-top: 2px;">
+                    <div id="badgeCVU" style="background-color: #1a2035; border: 1px solid #4a5568; color: #cbd5e1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; text-align: center;">
+                        Esperando evaluación...
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <!-- EN LA BASE: BOTONES DE ACCIÓN FIJOS -->
         <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 5px;">
             <button onclick="ejecutarCalculoUniversal()" style="width: 100%; background-color: #2c2214; color: #f1b233; border: 1px solid #4a5568; padding: 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.borderColor='#f1b233'" onmouseout="this.style.borderColor='#4a5568'">
@@ -1143,6 +1363,93 @@
                     </div>
                 </div>
 
+                <!-- 5. BLOQUE RENTABILIDAD -->
+                <div id="teoriaRentabilidad" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
+                    
+                    <!-- BLOQUE 1: ECUACIÓN FUNDAMENTAL DEL VAN -->
+                    <div>
+                        <strong style="color: var(--dorado-mate); font-size: 12px;">Valor Actual Neto (VAN / NPV):</strong>
+                        <div class="formula-box" style="color: var(--dorado-mate); font-size: 13px; margin: 4px 0;">
+                            VAN = -I<sub>0</sub> + &sum; [ FC<sub>t</sub> / (1 + COK)<sup>t</sup> ]
+                        </div>
+                        <p style="margin: 0; font-size: 10.5px; color: #a0aec0; line-height: 1.3;">
+                            Mide la riqueza neta incremental generada hoy sobre el costo de oportunidad del capital (COK).
+                        </p>
+                    </div>
+
+                    <!-- BLOQUE 2: CASOS DE DECISIÓN Y SIGNIFICADO ECONÓMICO DEL VAN -->
+                    <div style="background-color: rgba(18, 24, 36, 0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 6px; display: flex; flex-direction: column; gap: 5px;">
+                        <span style="font-size: 10px; color: #cbd5e1; font-weight: bold; text-transform: uppercase;">Criterios de Viabilidad Económica (VAN):</span>
+                        
+                        <!-- Caso 1: VAN > 0 -->
+                        <div style="font-size: 10.5px; line-height: 1.3;">
+                            <strong style="color: #22c55e;">● VAN &gt; 0 (Proyecto Rentable &rarr; Se Acepta):</strong><br>
+                            <span style="color: #cbd5e1;">Recupera la inversión ($I_0$), cubre el costo $COK$ y <strong>genera valor económico excedente</strong> para la empresa.</span>
+                        </div>
+
+                        <!-- Caso 2: VAN = 0 -->
+                        <div style="font-size: 10.5px; line-height: 1.3; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
+                            <strong style="color: #f1b233;">● VAN = 0 (Decisión Marginal &rarr; Indiferente):</strong><br>
+                            <span style="color: #cbd5e1;">Rinde exactamente la tasa exigida ($TIR = COK$). Recupera el capital pero <strong>no crea ni destruye riqueza</strong>.</span>
+                        </div>
+
+                        <!-- Caso 3: VAN < 0 -->
+                        <div style="font-size: 10.5px; line-height: 1.3; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
+                            <strong style="color: #ef4444;">● VAN &lt; 0 (Proyecto No Rentable &rarr; Se Rechaza):</strong><br>
+                            <span style="color: #cbd5e1;">Rinde por debajo del $COK$. No cubre el costo financiero del capital y <strong>destruye valor patrimonial</strong>.</span>
+                        </div>
+                    </div>
+
+                    <!-- BLOQUE 3: TASA INTERNA DE RETORNO (TIR) -->
+                    <div>
+                        <strong style="color: #22c55e; font-size: 12px;">Tasa Interna de Retorno (TIR / IRR):</strong>
+                        <div class="formula-box" style="color: #22c55e; font-size: 12px; margin: 4px 0;">
+                            0 = -I<sub>0</sub> + &sum; [ FC<sub>t</sub> / (1 + TIR)<sup>t</sup> ]
+                        </div>
+                        <p style="margin: 0; font-size: 10.5px; color: #a0aec0; line-height: 1.3;">
+                            Rendimiento intrínseco donde $VAN = 0$. Es viable si <strong>TIR &ge; COK</strong>.
+                        </p>
+                    </div>
+
+                    <!-- BLOQUE 4: RATIO BENEFICIO / COSTO (B/C) -->
+                    <div>
+                        <strong style="color: #38bdf8; font-size: 12px;">Índice Beneficio / Costo (B/C):</strong>
+                        <div class="formula-box" style="color: #38bdf8; font-size: 12px; margin: 4px 0;">
+                            B/C = (VPI de Flujos Descontados) / I<sub>0</sub>
+                        </div>
+                        <p style="margin: 0; font-size: 10.5px; color: #a0aec0; line-height: 1.3;">
+                            Retorno generado por cada sol o dólar invertido. Aceptable si <strong>B/C &gt; 1.00</strong>.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- 6. BLOQUE ANÁLISIS DE CVU / PUNTO DE EQUILIBRIO -->
+                <div id="teoriaCVU" style="display: none; flex-direction: column; gap: 10px; width: 100%;">
+                    <div>
+                        <strong style="color: var(--dorado-mate);">Relación Fundamental de Equilibrio:</strong>
+                        <div class="formula-box" style="color: var(--dorado-mate); font-size: 13px;">
+                            (P - VC) &times; Q = FC + PFT
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Equilibrio operativo entre ingresos totales y costos totales.</p>
+                    </div>
+
+                    <div>
+                        <strong style="color: #a855f7;">Volumen de Equilibrio / Meta (Q):</strong>
+                        <div class="formula-box" style="color: #a855f7; font-size: 13px;">
+                            Q = (FC + PFT) / (P - VC)
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Unidades mínimas requeridas para cubrir costos fijos y la meta PFT.</p>
+                    </div>
+
+                    <div>
+                        <strong style="color: #38bdf8;">Precio de Venta Requerido (P):</strong>
+                        <div class="formula-box" style="color: #38bdf8; font-size: 13px;">
+                            P = VC + [ (FC + PFT) / Q ]
+                        </div>
+                        <p style="margin: 0; font-size: 11px; color: #a0aec0;">Fijación de precio para una estructura de costos y volumen dado.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1297,50 +1604,57 @@
     }
 
     // ====================================================================
-    // CONTROL DE INTERFAZ CAMALEÓN: APAGADO FÍSICO DE DISPLAY EN ESPEJO
+    // CONTROL MAESTRO DE INTERFAZ CAMALEÓN (6 MODOS OPERATIVOS)
     // ====================================================================
     function cambiarPestañaInteres(modo) {
         modoInteresActivo = modo;
         
-        // 1. CAPTURA DIRECTA DE LOS 4 BOTONES DE LA IZQUIERDA
-        const btnCompuesto = document.getElementById('tabCompuesto');
-        const btnSimple = document.getElementById('tabSimple');
-        const btnAnualidades = document.getElementById('tabAnualidades');
+        // 1. CAPTURA DE LOS 6 BOTONES DE NAVEGACIÓN
+        const btnCompuesto    = document.getElementById('tabCompuesto');
+        const btnSimple       = document.getElementById('tabSimple');
+        const btnAnualidades  = document.getElementById('tabAnualidades');
         const btnAmortizacion = document.getElementById('tabAmortizacion');
+        const btnRentabilidad = document.getElementById('tabRentabilidad');
+        const btnCVU          = document.getElementById('tabCVU');
 
-        // 2. CAPTURA DIRECTA DE LAS 4 GUÍAS TEÓRICAS DE LA DERECHA
-        const guiaCompuesto = document.getElementById('teoriaCompuesto');
-        const guiaSimple = document.getElementById('teoriaSimple');
-        const guiaAnualidades = document.getElementById('teoriaAnualidades');
+        // 2. CAPTURA DE LAS 6 GUÍAS TEÓRICAS EN ESPEJO (DERECHA)
+        const guiaCompuesto    = document.getElementById('teoriaCompuesto');
+        const guiaSimple       = document.getElementById('teoriaSimple');
+        const guiaAnualidades  = document.getElementById('teoriaAnualidades');
         const guiaAmortizacion = document.getElementById('teoriaAmortizacion');
+        const guiaRentabilidad = document.getElementById('teoriaRentabilidad');
+        const guiaCVU          = document.getElementById('teoriaCVU');
 
-        // 3. CAPTURA DIRECTA DE LOS 4 FORMULARIOS DE LA IZQUIERDA
-        const formCompuesto = document.getElementById('formCompuesto');
-        const formSimple = document.getElementById('formSimple');
-        const formAnualidades = document.getElementById('formAnualidades');
+        // 3. CAPTURA DE LOS 6 FORMULARIOS DE LA HOJA TVM (IZQUIERDA)
+        const formCompuesto    = document.getElementById('formCompuesto');
+        const formSimple       = document.getElementById('formSimple');
+        const formAnualidades  = document.getElementById('formAnualidades');
         const formAmortizacion = document.getElementById('formAmortizacion');
+        const formRentabilidad = document.getElementById('formRentabilidad');
+        const formCVU          = document.getElementById('formCVU');
 
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
 
-        // PASO A: APAGA LOS COLORES DE TODOS LOS BOTONES
-        if (btnCompuesto) { btnCompuesto.style.backgroundColor = 'transparent'; btnCompuesto.style.color = '#cbd5e1'; btnCompuesto.style.borderColor = 'transparent'; }
-        if (btnSimple) { btnSimple.style.backgroundColor = 'transparent'; btnSimple.style.color = '#cbd5e1'; btnSimple.style.borderColor = 'transparent'; }
-        if (btnAnualidades) { btnAnualidades.style.backgroundColor = 'transparent'; btnAnualidades.style.color = '#cbd5e1'; btnAnualidades.style.borderColor = 'transparent'; }
-        if (btnAmortizacion) { btnAmortizacion.style.backgroundColor = 'transparent'; btnAmortizacion.style.color = '#cbd5e1'; btnAmortizacion.style.borderColor = 'transparent'; }
+        // PASO A: APAGA EL ESTILO DE TODOS LOS BOTONES
+        [btnCompuesto, btnSimple, btnAnualidades, btnAmortizacion, btnRentabilidad, btnCVU].forEach(btn => {
+            if (btn) {
+                btn.style.backgroundColor = 'transparent';
+                btn.style.color = '#cbd5e1';
+                btn.style.borderColor = 'transparent';
+            }
+        });
 
-        // PASO B: APAGADO FÍSICO DE TODAS LAS GUÍAS (Evita el bloqueo fantasma)
-        if (guiaCompuesto) guiaCompuesto.style.display = 'none';
-        if (guiaSimple) guiaSimple.style.display = 'none';
-        if (guiaAnualidades) guiaAnualidades.style.display = 'none';
-        if (guiaAmortizacion) guiaAmortizacion.style.display = 'none';
+        // PASO B: OCULTA TODAS LAS GUÍAS TEÓRICAS DERECHAS
+        [guiaCompuesto, guiaSimple, guiaAnualidades, guiaAmortizacion, guiaRentabilidad, guiaCVU].forEach(guia => {
+            if (guia) guia.style.display = 'none';
+        });
 
-        // PASO C: APAGADO FÍSICO DE TODOS LOS FORMULARIOS IZQUIERDOS
-        if (formCompuesto) formCompuesto.style.display = 'none';
-        if (formSimple) formSimple.style.display = 'none';
-        if (formAnualidades) formAnualidades.style.display = 'none';
-        if (formAmortizacion) formAmortizacion.style.display = 'none';
+        // PASO C: OCULTA TODOS LOS FORMULARIOS IZQUIERDOS
+        [formCompuesto, formSimple, formAnualidades, formAmortizacion, formRentabilidad, formCVU].forEach(form => {
+            if (form) form.style.display = 'none';
+        });
 
-        // PASO D: ENCIENDE EN ESPEJO EXCLUSIVAMENTE EL MODO SELECCIONADO
+        // PASO D: ENCIENDE EXCLUSIVAMENTE EL MODO SELECCIONADO
         if (modo === 'compuesto') {
             if (btnCompuesto) { btnCompuesto.style.backgroundColor = '#2c2214'; btnCompuesto.style.color = '#f1b233'; btnCompuesto.style.borderColor = '#f1b233'; }
             if (guiaCompuesto) guiaCompuesto.style.display = 'flex';
@@ -1359,7 +1673,7 @@
             if (guiaAnualidades) guiaAnualidades.style.display = 'flex';
             if (formAnualidades) formAnualidades.style.display = 'flex';
             if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Anualidades Activo";
-            if (typeof conmutarTeoriaAnualidades === "function") conmutarTeoriaAnualidades(); // Mantiene tu triple espejo de anualidades activo
+            if (typeof conmutarTeoriaAnualidades === "function") conmutarTeoriaAnualidades();
             if (typeof calcularPeriodosAutomatico === "function") calcularPeriodosAutomatico();
         } 
         else if (modo === 'amortizacion') {
@@ -1368,6 +1682,19 @@
             if (formAmortizacion) formAmortizacion.style.display = 'flex';
             if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Módulo de Amortización Activo";
             if (typeof calcularPeriodosAmortizacionAutomatico === "function") calcularPeriodosAmortizacionAutomatico();
+        } 
+        else if (modo === 'rentabilidad') {
+            if (btnRentabilidad) { btnRentabilidad.style.backgroundColor = '#2c2214'; btnRentabilidad.style.color = '#f1b233'; btnRentabilidad.style.borderColor = '#f1b233'; }
+            if (guiaRentabilidad) guiaRentabilidad.style.display = 'flex';
+            if (formRentabilidad) formRentabilidad.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Análisis de Rentabilidad (Cash Flow / VAN / TIR) Activo";
+        } 
+        else if (modo === 'cvu') {
+            // ENTORNO ACTIVO: COSTO-VOLUMEN-UTILIDAD (BRKEVN)
+            if (btnCVU) { btnCVU.style.backgroundColor = '#2c2214'; btnCVU.style.color = '#f1b233'; btnCVU.style.borderColor = '#f1b233'; }
+            if (guiaCVU) guiaCVU.style.display = 'flex';
+            if (formCVU) formCVU.style.display = 'flex';
+            if (etiquetaEstado) etiquetaEstado.innerText = "Estado: Análisis de Costo-Volumen-Utilidad (CVU) Activo";
         }
     }
 
@@ -1648,6 +1975,38 @@
     }
     
     // ====================================================================
+    // CONTROLADOR EXCLUSIVO DE RENTABILIDAD 
+    // ====================================================================
+    function calcularPeriodosRentabilidadAutomatico() {
+        let t = parseFloat(document.getElementById('txtTiempoRentabilidad').value) || 0;
+        let k_t = parseFloat(document.getElementById('cboUnidadTiempoRentabilidad').value) || 1;
+        let py = parseFloat(document.getElementById('cboPagosRentabilidad').value) || 1;
+
+        // Conversión a años base (t / k_t) y multiplicación por los pagos al año (P/Y)
+        let totalN = (t / k_t) * py;
+
+        if (document.getElementById('txtPeriodosRentabilidad')) {
+            document.getElementById('txtPeriodosRentabilidad').value = Number(totalN.toFixed(2));
+        }
+    }
+
+    function conmutarCamposRentabilidad() {
+        const selector = document.getElementById('cboTipoOperacionRentabilidad');
+        const bloque1 = document.getElementById('bloqueTVMDirecto');
+        const bloque2 = document.getElementById('bloqueVANTIR');
+
+        if (!selector || !bloque1 || !bloque2) return;
+
+        if (selector.value === 'van_tir') {
+            bloque1.style.display = 'none';
+            bloque2.style.display = 'flex';
+        } else {
+            bloque1.style.display = 'flex';
+            bloque2.style.display = 'none';
+        }
+    } 
+
+    // ====================================================================
     // MOTOR DE LIMPIEZA COMPLETO Y UNIFICADO
     // ====================================================================
     function limpiarFormularioTVM() {
@@ -1685,6 +2044,28 @@
         if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = "0.00";
         if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = "0.00";
 
+        // Reseteo Completo de Casillas de Modo Rentabilidad
+        if (document.getElementById('txtTiempoRentabilidad')) document.getElementById('txtTiempoRentabilidad').value = "1";
+        if (document.getElementById('txtPeriodosRentabilidad')) document.getElementById('txtPeriodosRentabilidad').value = "1";
+        if (document.getElementById('txtPMTRentabilidad')) document.getElementById('txtPMTRentabilidad').value = "0";
+        if (document.getElementById('txtFVRentabilidad')) document.getElementById('txtFVRentabilidad').value = "0";
+
+        // Reseteo Completo de Casillas de Modo CVU
+        if (document.getElementById('txtCostosFijosCVU')) document.getElementById('txtCostosFijosCVU').value = "0";
+        if (document.getElementById('txtCostoVarCVU')) document.getElementById('txtCostoVarCVU').value = "0";
+        if (document.getElementById('txtPrecioCVU')) document.getElementById('txtPrecioCVU').value = "0";
+        if (document.getElementById('txtProfitCVU')) document.getElementById('txtProfitCVU').value = "0";
+        if (document.getElementById('txtCantidadCVU')) document.getElementById('txtCantidadCVU').value = "0";
+        if (document.getElementById('txtOutResultadoCVU')) document.getElementById('txtOutResultadoCVU').value = "0.00";
+        if (document.getElementById('txtOutMCU_CVU')) document.getElementById('txtOutMCU_CVU').value = "S/ 0.00";
+        if (document.getElementById('txtOutVentasCVU')) document.getElementById('txtOutVentasCVU').value = "S/ 0.00";
+        if (document.getElementById('badgeCVU')) {
+            document.getElementById('badgeCVU').style.backgroundColor = "#1a2035";
+            document.getElementById('badgeCVU').style.borderColor = "#4a5568";
+            document.getElementById('badgeCVU').style.color = "#cbd5e1";
+            document.getElementById('badgeCVU').innerText = "Esperando evaluación...";
+        }
+
         // Reseteo de Pantalla de Hardware Central
         textoAcumulado = "";
         pantalla.innerText = "0";
@@ -1695,7 +2076,7 @@
     }
 
     // ====================================================================
-    // MOTOR DE CÁLCULO UNIVERSAL TVM (COMPUESTO Y SIMPLE AL 100%)
+    // MOTOR DE CÁLCULO UNIVERSAL TVM
     // ====================================================================
     function ejecutarCalculoUniversal() {
         // Ejecuta la operación pendiente de la calculadora si la hubiera
@@ -1703,7 +2084,7 @@
 
         let incognita = "";
         let valorCalculado = 0;
-        const tipo = modoInteresActivo; // 'compuesto' o 'simple'
+        const tipo = modoInteresActivo;
 
         if (tipo === 'compuesto') {
             // --- CAPTURA RESPETUOSA DE ENTRADAS MODO COMPUESTO ---
@@ -2052,132 +2433,292 @@
                         logTasas.innerHTML = `<strong>[DESPEJE NUMÉRICO]</strong> Nominal Anual (I/Y): <strong>${tasaNominalAnual_IY.toFixed(4)}%</strong> | Periódica de Pago (i): <strong>${tasaPeriodica_i.toFixed(4)}%</strong>`;
                         historialLog.insertBefore(logTasas, historialLog.firstChild);
                     }, 50);
+                }}
+            }else if (tipo === 'amortizacion') {
+                let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAmortizacion').value) || 0);
+                let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAmortizacion').value) || 0);
+                let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
+                let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
+                let t = Math.abs(parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0);
+                let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
+
+                let N = Math.round((t / k_t) * py);
+                let p1 = parseInt(document.getElementById('txtP1Amort').value) || 1;
+                let p2 = parseInt(document.getElementById('txtP2Amort').value) || p1;
+
+                if (vp === 0 || tasaAnual === 0 || N === 0) {
+                    alert("Por favor ingrese Deuda (VP), Tasa (I/Y%) y Tiempo (t).");
+                    return;
                 }
-            }
-            // ====================================================================
-            // CONVENCIÓN MAESTRA DE SIGNOS: ESPEJO INVERSO INTEGRADO (EXCEL STYLE)
-            // ====================================================================
-            
-            // 1. Cálculo de interés en base a valores absolutos para evitar distorsiones
-            if (metaCalculo !== 'interes') {
-                if (metaCalculo === 'vf') {
-                    interesM = Math.abs(vf) - Math.abs(vi) - (Math.abs(pmt) * N);
+
+                if (p1 < 1) p1 = 1;
+                if (p2 < p1) p2 = p1;
+                if (p2 > N) p2 = N;
+
+                // 1. Homogeneización de Tasa (P/Y vs C/Y)
+                let i_banco = (tasaAnual / 100) / cy;
+                let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
+
+                // 2. Cuota Regular Fija (PMT)
+                let pmt = vp * (ip / (1 - Math.pow(1 + ip, -N)));
+                valorCalculado = pmt;
+                incognita = "Cuota Periódica Fija (PMT)";
+                pantalla.innerText = Number(pmt.toFixed(2));
+
+                // 3. Función auxiliar para calcular Saldo Deudor tras cuota k
+                function obtenerSaldo(k) {
+                    if (k <= 0) return vp;
+                    if (k >= N) return 0;
+                    let saldo = vp * Math.pow(1 + ip, k) - pmt * ((Math.pow(1 + ip, k) - 1) / ip);
+                    return Math.max(0, saldo);
+                }
+
+                let bal_p1_ant = obtenerSaldo(p1 - 1);
+                let bal_p2 = obtenerSaldo(p2);
+                let prn_rango = bal_p1_ant - bal_p2;
+                let numCuotasRango = (p2 - p1 + 1);
+                let int_rango = (numCuotasRango * pmt) - prn_rango;
+                let interesTotalCredito = (N * pmt) - vp;
+
+                pantalla.innerText = Number(pmt.toFixed(2));
+                if(document.getElementById('txtOutPMTAmort')) document.getElementById('txtOutPMTAmort').value = pmt.toFixed(2);
+                if(document.getElementById('txtOutBALAmort')) document.getElementById('txtOutBALAmort').value = bal_p2.toFixed(2);
+                if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = prn_rango.toFixed(2);
+                if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = int_rango.toFixed(2);
+
+                // 4. Registro en el Historial de Auditoría Analítica
+                if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+                let nuevoItem = document.createElement('li');
+                nuevoItem.className = "historial-item";
+                nuevoItem.style.marginBottom = "12px";
+                nuevoItem.style.padding = "12px";
+                nuevoItem.style.borderRadius = "8px";
+                nuevoItem.style.backgroundColor = "rgba(255,255,255,0.02)";
+                nuevoItem.style.border = "1px solid #f1b233";
+
+                let labelRango = (p1 === p2) ? `Cuota Única [k = ${p1}]` : `Rango Acumulado [P1 = ${p1} a P2 = ${p2}]`;
+
+                nuevoItem.innerHTML = `
+                    <div style="color: var(--dorado-mate); font-weight: bold; margin-bottom: 5px;">[AMORTIZACIÓN TVM] ${labelRango}</div>
+                    <div style="font-size: 11px; color: #a0aec0; margin-bottom: 4px;">➔ Deuda (VP): $${vp.toFixed(2)} | I/Y: ${tasaAnual}% (C/Y=${cy}, P/Y=${py}) | N: ${N} pagos</div>
+                    <div style="font-size: 12px; line-height: 1.5;">
+                        • Cuota Regular Fija: <strong style="color: var(--dorado-mate); font-size: 13px;">PMT = $${pmt.toFixed(2)}</strong><br>
+                        • Amortización de Principal (PRN): <strong style="color: #38bdf8;">$${prn_rango.toFixed(2)}</strong><br>
+                        • Interés Pagado (INT): <strong style="color: #ec4899;">$${int_rango.toFixed(2)}</strong><br>
+                        • Saldo Deudor Remanente (BAL): <strong style="color: #22c55e;">$${bal_p2.toFixed(2)}</strong>
+                    </div>
+                    <div style="font-size: 11px; color: #718096; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
+                        Total Crédito: Desembolso Total = $${(N * pmt).toFixed(2)} | Interés Total (&Sigma;I) = $${interesTotalCredito.toFixed(2)}
+                    </div>
+                `;
+                historialLog.insertBefore(nuevoItem, historialLog.firstChild);
+            } else if (tipo === 'rentabilidad') {
+                let operacion = document.getElementById('cboTipoOperacionRentabilidad').value;
+                let tasa = parseFloat(document.getElementById('txtTasaRentabilidad').value) || 0;
+
+                if (operacion === 'tvm_directo') {
+                    let meta = document.getElementById('cboIncognitaTVMRent').value;
+                    let cy = parseFloat(document.getElementById('cboCapitRentabilidad').value) || 1;
+                    let py = parseFloat(document.getElementById('cboPagosRentabilidad').value) || 1;
+                    let N = parseFloat(document.getElementById('txtPeriodosRentabilidad').value) || 1;
+                    let pmt = parseFloat(document.getElementById('txtPMTRentabilidad').value) || 0;
+                    let fv = parseFloat(document.getElementById('txtFVRentabilidad').value) || 0;
+                    let pv_input = parseFloat(document.getElementById('txtInPVRent').value) || 0;
+
+                    // Homogeneización de tasa según C/Y y P/Y
+                    let i_banco = (tasa / 100) / cy;
+                    let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
+
+                    let factorFAS = (ip !== 0) ? ((1 - Math.pow(1 + ip, -N)) / ip) : N;
+                    let factorFCS = (ip !== 0) ? ((Math.pow(1 + ip, N) - 1) / ip) : N;
+
+                    if (meta === 'pv') {
+                        // Despeje de PV (Cash Outflow en t=0)
+                        let pv_fv = fv / Math.pow(1 + ip, N);
+                        let pv_pmt = pmt * factorFAS;
+                        let pv_total = pv_fv + pv_pmt;
+                        let cashOutflow = -Math.abs(pv_total);
+
+                        pantalla.innerText = Number(cashOutflow.toFixed(6));
+                        document.getElementById('txtOutPVRent').value = "PV = S/ " + cashOutflow.toFixed(2);
+
+                        // Registro en Historial
+                        if (historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+                        let item = document.createElement('li');
+                        item.className = "historial-item";
+                        item.style.marginBottom = "8px";
+                        item.style.borderLeft = "4px solid #22c55e";
+                        item.innerHTML = `
+                            <div style="color: #22c55e; font-weight: bold;">[TVM] Cash Outflow (Desembolso en t=0)</div>
+                            <div style="font-size: 11px; color: #a0aec0;">➔ N = ${N} | I/Y = ${tasa}% (C/Y=${cy}, P/Y=${py}) | FV = ${fv} | PMT = ${pmt}</div>
+                            <div style="font-size: 12px; margin-top: 3px;">
+                                • Valor Presente Requerido: <strong style="color: #22c55e;">${cashOutflow.toFixed(6)}</strong>
+                            </div>
+                        `;
+                        historialLog.insertBefore(item, historialLog.firstChild);
+
+                    } else if (meta === 'fv') {
+                        // Despeje del Flujo de Caja en el Periodo N (FV)
+                        let pv_base = Math.abs(pv_input);
+                        let fv_total = pv_base * Math.pow(1 + ip, N) - (pmt * factorFCS);
+
+                        pantalla.innerText = Number(fv_total.toFixed(2));
+                        document.getElementById('txtOutPVRent').value = "FC (N=" + N + ") = S/ " + fv_total.toFixed(2);
+
+                        // Registro en Historial
+                        if (historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+                        let item = document.createElement('li');
+                        item.className = "historial-item";
+                        item.style.marginBottom = "8px";
+                        item.style.borderLeft = "4px solid #38bdf8";
+                        item.innerHTML = `
+                            <div style="color: #38bdf8; font-weight: bold;">[TVM] Flujo de Caja en Periodo N (FV)</div>
+                            <div style="font-size: 11px; color: #a0aec0;">➔ N = ${N} | I/Y = ${tasa}% (C/Y=${cy}, P/Y=${py}) | PV = ${pv_base} | PMT = ${pmt}</div>
+                            <div style="font-size: 12px; margin-top: 3px;">
+                                • Flujo Acumulado al Periodo ${N}: <strong style="color: #38bdf8;">S/ ${fv_total.toFixed(2)}</strong>
+                            </div>
+                        `;
+                        historialLog.insertBefore(item, historialLog.firstChild);
+                    }
                 } else {
-                    interesM = (Math.abs(pmt) * N) + Math.abs(vr) + Math.abs(vi) - Math.abs(vp);
+                    // Modo VAN y TIR Multianual
+                    let I0 = Math.abs(parseFloat(document.getElementById('txtInversionInicialRent').value) || 0);
+                    let rawFlujos = document.getElementById('txtFlujosCajaRent').value.trim();
+                    let flujos = rawFlujos.split(/[\s,;]+/).map(Number).filter(n => !isNaN(n));
+
+                    if (I0 === 0 || flujos.length === 0) {
+                        alert("Por favor ingrese Inversión Inicial (I0) y Flujos de Caja.");
+                        return;
+                    }
+
+                    let k_dec = tasa / 100;
+                    let vpi = 0;
+                    for (let t = 1; t <= flujos.length; t++) {
+                        vpi += flujos[t - 1] / Math.pow(1 + k_dec, t);
+                    }
+                    let van = vpi - I0;
+
+                    // TIR Numérica
+                    let r0 = 0.05, r1 = 0.25;
+                    let npv = r => -I0 + flujos.reduce((acc, f, idx) => acc + f / Math.pow(1 + r, idx + 1), 0);
+                    for (let i = 0; i < 100; i++) {
+                        let f0 = npv(r0);
+                        let f1 = npv(r1);
+                        if (Math.abs(f1 - f0) < 1e-9) break;
+                        let rNext = r1 - f1 * (r1 - r0) / (f1 - f0);
+                        r0 = r1; r1 = rNext;
+                        if (Math.abs(f1) < 1e-6) break;
+                    }
+
+                    pantalla.innerText = (van >= 0 ? "+" : "") + Number(van.toFixed(2));
+                    document.getElementById('txtOutPVRent').value = (-I0).toFixed(2);
+                    document.getElementById('txtOutVANRent').value = (van >= 0 ? "+" : "") + van.toFixed(2);
+                    document.getElementById('txtOutTIRRent').value = (r1 * 100).toFixed(2) + "%";
                 }
-                document.getElementById('txtInteresAnualidad').value = Math.abs(interesM).toFixed(2);
+            }else if (tipo === 'cvu') {
+                let meta = document.getElementById('cboIncognitaCVU').value;
+                let FC = Math.abs(parseFloat(document.getElementById('txtCostosFijosCVU').value) || 0);
+                let VC = Math.abs(parseFloat(document.getElementById('txtCostoVarCVU').value) || 0);
+                let P = Math.abs(parseFloat(document.getElementById('txtPrecioCVU').value) || 0);
+                let PFT = parseFloat(document.getElementById('txtProfitCVU').value) || 0;
+                let Q = Math.abs(parseFloat(document.getElementById('txtCantidadCVU').value) || 0);
+
+                let resultado = 0;
+                let etiqueta = "";
+
+                // 1. Despeje de la variable seleccionada
+                if (meta === 'q') {
+                    if (P <= VC) {
+                        alert("Error: El Precio (P) debe ser mayor que el Costo Variable Unitario (VC) para tener margen de contribución positivo.");
+                        return;
+                    }
+                    resultado = (FC + PFT) / (P - VC);
+                    Q = resultado;
+                    document.getElementById('txtCantidadCVU').value = Number(resultado.toFixed(2));
+                    etiqueta = `Q = ${Number(resultado.toFixed(2))} unidades`;
+                    pantalla.innerText = Number(resultado.toFixed(2));
+                } 
+                else if (meta === 'p') {
+                    if (Q === 0) {
+                        alert("Por favor ingrese una Cantidad (Q) mayor a 0.");
+                        return;
+                    }
+                    resultado = VC + ((FC + PFT) / Q);
+                    P = resultado;
+                    document.getElementById('txtPrecioCVU').value = Number(resultado.toFixed(2));
+                    etiqueta = `P = S/ ${resultado.toFixed(2)}`;
+                    pantalla.innerText = Number(resultado.toFixed(2));
+                } 
+                else if (meta === 'fc') {
+                    resultado = (Q * (P - VC)) - PFT;
+                    FC = Math.max(0, resultado);
+                    document.getElementById('txtCostosFijosCVU').value = Number(resultado.toFixed(2));
+                    etiqueta = `FC = S/ ${resultado.toFixed(2)}`;
+                    pantalla.innerText = Number(resultado.toFixed(2));
+                } 
+                else if (meta === 'vc') {
+                    if (Q === 0) {
+                        alert("Por favor ingrese una Cantidad (Q) mayor a 0.");
+                        return;
+                    }
+                    resultado = P - ((FC + PFT) / Q);
+                    VC = resultado;
+                    document.getElementById('txtCostoVarCVU').value = Number(resultado.toFixed(2));
+                    etiqueta = `VC = S/ ${resultado.toFixed(2)}`;
+                    pantalla.innerText = Number(resultado.toFixed(2));
+                } 
+                else if (meta === 'pft') {
+                    resultado = (Q * (P - VC)) - FC;
+                    PFT = resultado;
+                    document.getElementById('txtProfitCVU').value = Number(resultado.toFixed(2));
+                    etiqueta = `PFT = S/ ${resultado.toFixed(2)}`;
+                    pantalla.innerText = (resultado >= 0 ? "+" : "") + Number(resultado.toFixed(2));
+                }
+
+                // 2. Métricas auxiliares de control
+                let mcu = P - VC;
+                let ventasTotales = P * Q;
+
+                document.getElementById('txtOutResultadoCVU').value = etiqueta;
+                document.getElementById('txtOutMCU_CVU').value = `S/ ${mcu.toFixed(2)}`;
+                document.getElementById('txtOutVentasCVU').value = `S/ ${ventasTotales.toFixed(2)}`;
+
+                // 3. Badge de Dictamen Operativo
+                const badge = document.getElementById('badgeCVU');
+                if (PFT === 0) {
+                    badge.style.backgroundColor = "rgba(56, 189, 248, 0.2)";
+                    badge.style.borderColor = "#38bdf8";
+                    badge.style.color = "#38bdf8";
+                    badge.innerText = `● PUNTO DE EQUILIBRIO (Qe = ${Math.ceil(Q)} unid.)`;
+                } else if (PFT > 0) {
+                    badge.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
+                    badge.style.borderColor = "#22c55e";
+                    badge.style.color = "#22c55e";
+                    badge.innerText = `✔ ZONA DE UTILIDAD (+S/ ${PFT.toFixed(2)})`;
+                } else {
+                    badge.style.backgroundColor = "rgba(239, 68, 68, 0.2)";
+                    badge.style.borderColor = "#ef4444";
+                    badge.style.color = "#ef4444";
+                    badge.innerText = `✖ ZONA DE PÉRDIDA (-S/ ${Math.abs(PFT).toFixed(2)})`;
+                }
+
+                // 4. Registro en el Historial de Auditoría Analítica
+                if (historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+                let item = document.createElement('li');
+                item.className = "historial-item";
+                item.style.marginBottom = "8px";
+                item.style.borderLeft = "4px solid #f1b233";
+
+                item.innerHTML = `
+                    <div style="color: var(--dorado-mate); font-weight: bold;">[BRKEVN - CVU] ${etiqueta}</div>
+                    <div style="font-size: 11px; color: #a0aec0;">➔ FC = S/ ${FC.toFixed(2)} | VC = S/ ${VC.toFixed(2)} | P = S/ ${P.toFixed(2)} | PFT = S/ ${PFT.toFixed(2)} | Q = ${Q.toFixed(2)}</div>
+                    <div style="font-size: 12px; margin-top: 3px;">
+                        • Margen Unitario (P - VC): <strong style="color: #38bdf8;">S/ ${mcu.toFixed(2)}</strong> | Ventas Totales: <strong style="color: #22c55e;">S/ ${ventasTotales.toFixed(2)}</strong><br>
+                        • Estado: <em>${badge.innerText}</em>
+                    </div>
+                `;
+                historialLog.insertBefore(item, historialLog.firstChild);
             }
-
-            // 2. Sincronización del valor base en memoria
-            if (metaCalculo === 'vf') valorCalculado = Math.abs(vf);
-            else if (metaCalculo === 'vp') valorCalculado = Math.abs(vp);
-            else if (metaCalculo === 'pmt') valorCalculado = Math.abs(pmt);
-            else if (metaCalculo === 'interes') valorCalculado = Math.abs(interesM);
-
-            // 3. DETECTOR INTERNO DE DIRECCIÓN DE FLUJO
-            // Leemos directamente cómo ingresó el usuario el PMT original en la casilla física del HTML
-            let pmtOriginalHTML = parseFloat(document.getElementById('txtRentaAnualidad').value) || 0;
-            let finalSigno = 1;
-
-            // Si el usuario ingresó una Renta (PMT) en positivo, la regla financiera internacional 
-            // exige que el resultado del VF o VP se proyecte en negativo (-)
-            if (pmtOriginalHTML > 0 && (metaCalculo === 'vf' || metaCalculo === 'vp')) {
-                finalSigno = -1;
-            }
-
-            // Aplicamos el signo correspondiente a los inputs físicos del formulario
-            let resultadoConSigno = valorCalculado * finalSigno;
-
-            if (metaCalculo === 'vf') document.getElementById('txtMontoAnualidad').value = resultadoConSigno.toFixed(2);
-            else if (metaCalculo === 'vp') document.getElementById('txtCapitalAnualidad').value = resultadoConSigno.toFixed(2);
-            else if (metaCalculo === 'pmt') document.getElementById('txtRentaAnualidad').value = resultadoConSigno.toFixed(2);
-
-            // 4. Renderiza el veredicto en el visor beige central de la calculadora azul
-            if (metaCalculo === 'tasa_nominal' || metaCalculo === 'tasa_periodica') {
-                pantalla.innerText = `${valorCalculado.toFixed(2)}%`;
-            } else {
-                pantalla.innerText = Number(resultadoConSigno.toFixed(2));
-            }
-
-        }else if (tipo === 'amortizacion') {
-            let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAmortizacion').value) || 0);
-            let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAmortizacion').value) || 0);
-            let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
-            let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
-            let t = Math.abs(parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0);
-            let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
-
-            let N = Math.round((t / k_t) * py);
-            let p1 = parseInt(document.getElementById('txtP1Amort').value) || 1;
-            let p2 = parseInt(document.getElementById('txtP2Amort').value) || p1;
-
-            if (vp === 0 || tasaAnual === 0 || N === 0) {
-                alert("Por favor ingrese Deuda (VP), Tasa (I/Y%) y Tiempo (t).");
-                return;
-            }
-
-            if (p1 < 1) p1 = 1;
-            if (p2 < p1) p2 = p1;
-            if (p2 > N) p2 = N;
-
-            // 1. Homogeneización de Tasa (P/Y vs C/Y)
-            let i_banco = (tasaAnual / 100) / cy;
-            let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
-
-            // 2. Cuota Regular Fija (PMT)
-            let pmt = vp * (ip / (1 - Math.pow(1 + ip, -N)));
-            valorCalculado = pmt;
-            incognita = "Cuota Periódica Fija (PMT)";
-            pantalla.innerText = Number(pmt.toFixed(2));
-
-            // 3. Función auxiliar para calcular Saldo Deudor tras cuota k
-            function obtenerSaldo(k) {
-                if (k <= 0) return vp;
-                if (k >= N) return 0;
-                let saldo = vp * Math.pow(1 + ip, k) - pmt * ((Math.pow(1 + ip, k) - 1) / ip);
-                return Math.max(0, saldo);
-            }
-
-            let bal_p1_ant = obtenerSaldo(p1 - 1);
-            let bal_p2 = obtenerSaldo(p2);
-            let prn_rango = bal_p1_ant - bal_p2;
-            let numCuotasRango = (p2 - p1 + 1);
-            let int_rango = (numCuotasRango * pmt) - prn_rango;
-            let interesTotalCredito = (N * pmt) - vp;
-
-            pantalla.innerText = Number(pmt.toFixed(2));
-            if(document.getElementById('txtOutPMTAmort')) document.getElementById('txtOutPMTAmort').value = pmt.toFixed(2);
-            if(document.getElementById('txtOutBALAmort')) document.getElementById('txtOutBALAmort').value = bal_p2.toFixed(2);
-            if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = prn_rango.toFixed(2);
-            if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = int_rango.toFixed(2);
-
-            // 4. Registro en el Historial de Auditoría Analítica
-            if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
-            let nuevoItem = document.createElement('li');
-            nuevoItem.className = "historial-item";
-            nuevoItem.style.marginBottom = "12px";
-            nuevoItem.style.padding = "12px";
-            nuevoItem.style.borderRadius = "8px";
-            nuevoItem.style.backgroundColor = "rgba(255,255,255,0.02)";
-            nuevoItem.style.border = "1px solid #f1b233";
-
-            let labelRango = (p1 === p2) ? `Cuota Única [k = ${p1}]` : `Rango Acumulado [P1 = ${p1} a P2 = ${p2}]`;
-
-            nuevoItem.innerHTML = `
-                <div style="color: var(--dorado-mate); font-weight: bold; margin-bottom: 5px;">[AMORTIZACIÓN TVM] ${labelRango}</div>
-                <div style="font-size: 11px; color: #a0aec0; margin-bottom: 4px;">➔ Deuda (VP): $${vp.toFixed(2)} | I/Y: ${tasaAnual}% (C/Y=${cy}, P/Y=${py}) | N: ${N} pagos</div>
-                <div style="font-size: 12px; line-height: 1.5;">
-                    • Cuota Regular Fija: <strong style="color: var(--dorado-mate); font-size: 13px;">PMT = $${pmt.toFixed(2)}</strong><br>
-                    • Amortización de Principal (PRN): <strong style="color: #38bdf8;">$${prn_rango.toFixed(2)}</strong><br>
-                    • Interés Pagado (INT): <strong style="color: #ec4899;">$${int_rango.toFixed(2)}</strong><br>
-                    • Saldo Deudor Remanente (BAL): <strong style="color: #22c55e;">$${bal_p2.toFixed(2)}</strong>
-                </div>
-                <div style="font-size: 11px; color: #718096; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
-                    Total Crédito: Desembolso Total = $${(N * pmt).toFixed(2)} | Interés Total (&Sigma;I) = $${interesTotalCredito.toFixed(2)}
-                </div>
-            `;
-            historialLog.insertBefore(nuevoItem, historialLog.firstChild);
-        }
 
         // ---  ACTUALIZACIÓN DE INTERFAZ ---
         const etiquetaEstado = document.getElementById('lblEstadoCalculo');
