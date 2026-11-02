@@ -2434,85 +2434,133 @@
                         historialLog.insertBefore(logTasas, historialLog.firstChild);
                     }, 50);
                 }}
-            }else if (tipo === 'amortizacion') {
-                let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAmortizacion').value) || 0);
-                let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAmortizacion').value) || 0);
-                let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
-                let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
-                let t = Math.abs(parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0);
-                let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
+            } else if (tipo === 'amortizacion') {
+            let vp = Math.abs(parseFloat(document.getElementById('txtCapitalAmortizacion').value) || 0);
+            let tasaAnual = Math.abs(parseFloat(document.getElementById('txtTasaAmortizacion').value) || 0);
+            let py = parseFloat(document.getElementById('cboPagosAmortizacion').value) || 12;
+            let cy = parseFloat(document.getElementById('cboCapitAmortizacion').value) || 12;
+            let t = Math.abs(parseFloat(document.getElementById('txtTiempoAmortizacion').value) || 0);
+            let k_t = parseFloat(document.getElementById('cboUnidadTiempoAmortizacion').value) || 1;
 
-                let N = Math.round((t / k_t) * py);
-                let p1 = parseInt(document.getElementById('txtP1Amort').value) || 1;
-                let p2 = parseInt(document.getElementById('txtP2Amort').value) || p1;
+            let N = Math.round((t / k_t) * py);
+            let p1 = parseInt(document.getElementById('txtP1Amort').value, 10) || 1;
+            let p2 = parseInt(document.getElementById('txtP2Amort').value, 10) || p1;
 
-                if (vp === 0 || tasaAnual === 0 || N === 0) {
-                    alert("Por favor ingrese Deuda (VP), Tasa (I/Y%) y Tiempo (t).");
-                    return;
+            if (vp === 0 || tasaAnual === 0 || N === 0) {
+                alert("Por favor ingrese Deuda (VP), Tasa (I/Y%) y Tiempo (t).");
+                return;
+            }
+
+            if (p1 < 1) p1 = 1;
+            if (p2 < p1) p2 = p1;
+            if (p2 > N) p2 = N;
+
+            // 1. Homogeneización de Tasa
+            let i_banco = (tasaAnual / 100) / cy;
+            let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
+
+            // 2. Cuota Teórica Regular redondeada a 2 decimales
+            let pmt_exacto = vp * (ip / (1 - Math.pow(1 + ip, -N)));
+            let pmt_regular = Number(pmt_exacto.toFixed(2));
+
+            // 3. Simulación recursiva paso a paso
+            let saldo = vp;
+            let bal_prev_p1 = vp; // Saldo justo antes de P1
+            let bal_en_p2 = vp;   // Saldo al cierre de P2
+            let total_prn_rango = 0;
+            let total_int_rango = 0;
+            let bal_penultimo = vp; // Saldo en N-1
+
+            for (let k = 1; k <= N; k++) {
+                let int_k = Number((saldo * ip).toFixed(2));
+                let prn_k = Number((pmt_regular - int_k).toFixed(2));
+                let saldo_siguiente = Number((saldo - prn_k).toFixed(2));
+
+                if (k === (N - 1)) {
+                    bal_penultimo = saldo_siguiente;
                 }
-
-                if (p1 < 1) p1 = 1;
-                if (p2 < p1) p2 = p1;
-                if (p2 > N) p2 = N;
-
-                // 1. Homogeneización de Tasa (P/Y vs C/Y)
-                let i_banco = (tasaAnual / 100) / cy;
-                let ip = (py === cy) ? i_banco : (Math.pow(1 + i_banco, cy / py) - 1);
-
-                // 2. Cuota Regular Fija (PMT)
-                let pmt = vp * (ip / (1 - Math.pow(1 + ip, -N)));
-                valorCalculado = pmt;
-                incognita = "Cuota Periódica Fija (PMT)";
-                pantalla.innerText = Number(pmt.toFixed(2));
-
-                // 3. Función auxiliar para calcular Saldo Deudor tras cuota k
-                function obtenerSaldo(k) {
-                    if (k <= 0) return vp;
-                    if (k >= N) return 0;
-                    let saldo = vp * Math.pow(1 + ip, k) - pmt * ((Math.pow(1 + ip, k) - 1) / ip);
-                    return Math.max(0, saldo);
+                if (k === (p1 - 1)) {
+                    bal_prev_p1 = saldo;
                 }
+                if (k >= p1 && k <= p2) {
+                    total_prn_rango += prn_k;
+                    total_int_rango += int_k;
+                }
+                if (k === p2) {
+                    bal_en_p2 = saldo_siguiente;
+                }
+                saldo = saldo_siguiente;
+            }
 
-                let bal_p1_ant = obtenerSaldo(p1 - 1);
-                let bal_p2 = obtenerSaldo(p2);
-                let prn_rango = bal_p1_ant - bal_p2;
-                let numCuotasRango = (p2 - p1 + 1);
-                let int_rango = (numCuotasRango * pmt) - prn_rango;
-                let interesTotalCredito = (N * pmt) - vp;
+            total_prn_rango = Number(total_prn_rango.toFixed(2));
+            total_int_rango = Number(total_int_rango.toFixed(2));
 
-                pantalla.innerText = Number(pmt.toFixed(2));
-                if(document.getElementById('txtOutPMTAmort')) document.getElementById('txtOutPMTAmort').value = pmt.toFixed(2);
-                if(document.getElementById('txtOutBALAmort')) document.getElementById('txtOutBALAmort').value = bal_p2.toFixed(2);
-                if(document.getElementById('txtOutPRNAmort')) document.getElementById('txtOutPRNAmort').value = prn_rango.toFixed(2);
-                if(document.getElementById('txtOutINTAmort')) document.getElementById('txtOutINTAmort').value = int_rango.toFixed(2);
+            // 4. LÓGICA DE VISUALIZACIÓN DINÁMICA DEL PMT
+            let pmt_a_mostrar = pmt_regular;
+            let bal_a_mostrar = bal_en_p2;
+            let prn_a_mostrar = total_prn_rango;
+            let int_a_mostrar = total_int_rango;
+            let esLiquidacionFinal = (p1 === N && p2 === N);
 
-                // 4. Registro en el Historial de Auditoría Analítica
-                if(historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
-                let nuevoItem = document.createElement('li');
-                nuevoItem.className = "historial-item";
-                nuevoItem.style.marginBottom = "12px";
-                nuevoItem.style.padding = "12px";
-                nuevoItem.style.borderRadius = "8px";
-                nuevoItem.style.backgroundColor = "rgba(255,255,255,0.02)";
-                nuevoItem.style.border = "1px solid #f1b233";
+            if (esLiquidacionFinal) {
+                // Aplicación directa del Método 1 del profesor:
+                int_a_mostrar = Number((bal_penultimo * ip).toFixed(2));
+                prn_a_mostrar = bal_penultimo; // Liquida el 100% restante del saldo anterior
+                pmt_a_mostrar = Number((prn_a_mostrar + int_a_mostrar).toFixed(2)); // PMT_N = BAL_{N-1} + INT_N
+                bal_a_mostrar = 0.00; // Extinción nula
+            }
 
-                let labelRango = (p1 === p2) ? `Cuota Única [k = ${p1}]` : `Rango Acumulado [P1 = ${p1} a P2 = ${p2}]`;
+            // 5. Inyección Forzada en Pantalla y en Casillas TVM
+            pantalla.innerText = Number(pmt_a_mostrar.toFixed(2));
 
-                nuevoItem.innerHTML = `
-                    <div style="color: var(--dorado-mate); font-weight: bold; margin-bottom: 5px;">[AMORTIZACIÓN TVM] ${labelRango}</div>
-                    <div style="font-size: 11px; color: #a0aec0; margin-bottom: 4px;">➔ Deuda (VP): $${vp.toFixed(2)} | I/Y: ${tasaAnual}% (C/Y=${cy}, P/Y=${py}) | N: ${N} pagos</div>
-                    <div style="font-size: 12px; line-height: 1.5;">
-                        • Cuota Regular Fija: <strong style="color: var(--dorado-mate); font-size: 13px;">PMT = $${pmt.toFixed(2)}</strong><br>
-                        • Amortización de Principal (PRN): <strong style="color: #38bdf8;">$${prn_rango.toFixed(2)}</strong><br>
-                        • Interés Pagado (INT): <strong style="color: #ec4899;">$${int_rango.toFixed(2)}</strong><br>
-                        • Saldo Deudor Remanente (BAL): <strong style="color: #22c55e;">$${bal_p2.toFixed(2)}</strong>
+            const idsPMT = ['txtOutPMTAmort', 'txtPMTAmort', 'txtRentaAmortizacion'];
+            idsPMT.forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.value = pmt_a_mostrar.toFixed(2);
+            });
+
+            if (document.getElementById('txtOutBALAmort')) {
+                document.getElementById('txtOutBALAmort').value = bal_a_mostrar.toFixed(2);
+            }
+            if (document.getElementById('txtOutPRNAmort')) {
+                document.getElementById('txtOutPRNAmort').value = prn_a_mostrar.toFixed(2);
+            }
+            if (document.getElementById('txtOutINTAmort')) {
+                document.getElementById('txtOutINTAmort').value = int_a_mostrar.toFixed(2);
+            }
+
+            // 6. Actualización de la etiqueta de estado superior
+            let etiqueta = document.getElementById('lblEstadoCalculo');
+            if (etiqueta) {
+                etiqueta.innerText = esLiquidacionFinal
+                    ? `Calculando: Cuota Final Ajustada (PMT_${N}) [Interés AMORTIZACION]`
+                    : `Calculando: Cuota Periódica Fija (PMT) [Interés AMORTIZACION]`;
+            }
+
+            // 7. Registro en el Historial de Auditoría
+            if (historialLog) {
+                if (historialLog.innerText.includes("Esperando")) historialLog.innerHTML = "";
+                let item = document.createElement('li');
+                item.className = "historial-item";
+                item.style.marginBottom = "10px";
+                item.style.padding = "10px";
+                item.style.border = esLiquidacionFinal ? "1px solid #22c55e" : "1px solid #f1b233";
+                item.style.borderRadius = "6px";
+                item.innerHTML = `
+                    <div style="color: ${esLiquidacionFinal ? '#22c55e' : 'var(--dorado-mate)'}; font-weight: bold;">
+                        [AMORTIZACIÓN] ${esLiquidacionFinal ? 'Liquidación Final de Crédito (Cuota ' + N + ')' : 'Rango [' + p1 + ' - ' + p2 + ']'}
                     </div>
-                    <div style="font-size: 11px; color: #718096; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 4px;">
-                        Total Crédito: Desembolso Total = $${(N * pmt).toFixed(2)} | Interés Total (&Sigma;I) = $${interesTotalCredito.toFixed(2)}
+                    <div style="font-size: 11px; color: #a0aec0;">VP: S/ ${vp.toFixed(2)} | I/Y: ${tasaAnual}% | Plazo: ${N} pagos</div>
+                    <div style="font-size: 12px; margin-top: 3px;">
+                        • Cuota: <strong>S/ ${pmt_a_mostrar.toFixed(2)}</strong> | PRN: S/ ${prn_a_mostrar.toFixed(2)} | INT: S/ ${int_a_mostrar.toFixed(2)} | BAL: S/ ${bal_a_mostrar.toFixed(2)}
                     </div>
                 `;
-                historialLog.insertBefore(nuevoItem, historialLog.firstChild);
-            } else if (tipo === 'rentabilidad') {
+                historialLog.insertBefore(item, historialLog.firstChild);
+            }
+
+            // DETIENE LA EJECUCIÓN para evitar que líneas posteriores sobreescriban pmt_a_mostrar
+            return;
+        } else if (tipo === 'rentabilidad') {
                 let operacion = document.getElementById('cboTipoOperacionRentabilidad').value;
                 let tasa = parseFloat(document.getElementById('txtTasaRentabilidad').value) || 0;
 
